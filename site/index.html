@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EuroTech Signal</title>
+<meta name="description" content="Live intelligence on European startup funding: every disclosed round since 2021 by country, sector, stage and investor, updated twice a day.">
+<meta property="og:title" content="EuroTech Signal">
+<meta property="og:description" content="Live intelligence on European startup funding, updated twice a day.">
+<link rel="icon" href="assets/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="intro">
+      <h1>EuroTech Signal</h1>
+      <p id="lead">European startup funding, tracked round by round.</p>
+      <p class="updated" id="updated"></p>
+    </div>
+    <div class="brand">
+      <div class="logo" role="img" aria-label="EuroTech Signal logo"><span class="w"></span><span class="m"></span></div>
+      <a class="btn btn-solid" id="subscribe" href="#" hidden>Get the weekly roundup</a>
+    </div>
+  </header>
+
+  <nav class="bar" aria-label="Filters">
+    <label>Year <select id="fYear"></select></label>
+    <label>Country <select id="fCountry"></select></label>
+    <label>Sector <select id="fSector"></select></label>
+    <button class="btn" id="reset" type="button">Reset</button>
+  </nav>
+
+  <section class="tiles" id="tiles" aria-label="Headline figures"></section>
+
+  <section class="card" id="mapCard">
+    <div class="card-head"><h2>Funding map</h2><p class="note">Disclosed funding by country for the selected year and sector. Hover a country for its key figures; click it to filter.</p></div>
+    <div class="map" id="map"></div>
+    <div class="map-legend" id="mapLegend"></div>
+  </section>
+
+  <section class="card" id="signalsCard">
+    <div class="card-head"><h2>Key signals</h2><p class="note" id="signalsNote"></p></div>
+    <ul class="signals" id="signals"></ul>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2 id="trendTitle">Funding by year and instrument</h2><p class="note">Equity, debt and grants each year since 2021 for the current country and sector. The current year is year to date. Click a year to select it.</p></div>
+    <div class="legend" id="trendLegend"></div>
+    <div class="chart" id="trend"></div>
+  </section>
+
+  <div class="grid">
+    <section class="card" id="byCountryCard">
+      <div class="card-head"><h2>By country</h2><p class="note">Top 10 for the selected year. Click to filter.</p></div>
+      <div class="rank" id="byCountry"></div>
+    </section>
+    <section class="card">
+      <div class="card-head"><h2>By sector</h2><p class="note">Top 10. A round tagged with two sectors counts toward both. Click to filter.</p></div>
+      <div class="rank" id="bySector"></div>
+    </section>
+  </div>
+
+  <div class="grid">
+    <section class="card">
+      <div class="card-head"><h2>By stage</h2><p class="note">"Not specified" means the announcement gave no round type.</p></div>
+      <div class="rank" id="byStage"></div>
+    </section>
+    <section class="card">
+      <div class="card-head"><h2>Month by month</h2><p class="note">Disclosed funding per month; hover for rounds.</p></div>
+      <div class="chart" id="months"></div>
+    </section>
+  </div>
+
+  <section class="card">
+    <div class="card-head"><h2>Most active investors</h2><p class="note">Investors named most often in this selection. The amount is the combined size of those rounds, not what the investor put in. Click to see their deals.</p></div>
+    <div class="rank" id="investors"></div>
+  </section>
+
+  <section class="card" id="annCard" hidden>
+    <div class="card-head"><h2>Latest announcements</h2><p class="note">Rounds spotted in the daily scan of funding news, founders' and VCs' announcements, newest first, cross-checked across sources. Not yet in the totals until Tech.eu records them.</p></div>
+    <div class="tbox"><table id="annTable"></table></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>Funding rounds</h2><p class="note" id="roundsNote"></p></div>
+    <div class="filters">
+      <label>Minimum size
+        <select id="fMin"><option value="0">Any</option><option value="1000000">€1M+</option><option value="5000000">€5M+</option><option value="20000000">€20M+</option><option value="100000000">€100M+</option></select>
+      </label>
+      <label>Stage <select id="fStage"></select></label>
+      <label class="grow">Search <input id="fQ" type="search" placeholder="Company or investor"></label>
+    </div>
+    <div class="tbox tall"><table id="roundsTable"></table></div>
+    <button class="btn more" id="more" type="button" hidden>Show more rounds</button>
+  </section>
+
+  <footer class="foot">
+    <p><b>Data:</b> <a href="https://funding.tech.eu" target="_blank" rel="noopener">Tech.eu Funding Explorer</a>, licensed <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>. Publicly announced rounds of startups based in Europe since 2021; amounts converted to euros at the ECB rate on each round's date; undisclosed amounts are left out of totals, not estimated. Israel is excluded. Country views cover the EU27, the UK, Switzerland, Norway and Iceland.</p>
+    <p>Not covered by the source: investor type, founder gender and business model. Coverage is announced rounds only, so databases that also count unannounced rounds report more deals.</p>
+    <p>© EuroTech Signal. No cookies, no tracking.</p>
+  </footer>
+</div>
+<div class="tip" id="tip" hidden></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="assets/europe-map.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
