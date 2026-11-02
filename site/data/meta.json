@@ -1,0 +1,17 @@
+{
+ "updated": "2026-11-02T21:06:13.896Z",
+ "years": {
+  "2021": 4831,
+  "2022": 4965,
+  "2023": 4468,
+  "2024": 3751,
+  "2025": 3758,
+  "2026": 2792
+ },
+ "api_calls": 287,
+ "source": "Tech.eu Funding Explorer (CC BY 4.0)",
+ "source_url": "https://funding.tech.eu",
+ "excluded": [
+  "Israel"
+ ]
+}
