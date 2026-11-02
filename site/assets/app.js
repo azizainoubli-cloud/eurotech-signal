@@ -1,6 +1,5 @@
 /* EuroTech Signal — public site logic. Reads the daily snapshot in /data and draws everything client-side. */
 (() => {
-  const SUBSCRIBE_URL = ''; // e.g. 'https://eurotechsignal.beehiiv.com/subscribe' — leave empty to hide the button
   const SCOPE = ['Austria','Belgium','Bulgaria','Croatia','Cyprus','Czech Republic','Denmark','Estonia','Finland','France','Germany','Greece','Hungary','Iceland','Ireland','Italy','Latvia','Lithuania','Luxembourg','Malta','Netherlands','Norway','Poland','Portugal','Romania','Slovakia','Slovenia','Spain','Sweden','Switzerland','UK'];
   const STAGES = ['Pre-Seed','Seed','Early VC','Series A','Series B','Series C','Series D+','Growth/Late','Debt','Grant','Crowdfunding','ICO','Other'];
   const $ = (id) => document.getElementById(id);
@@ -309,7 +308,7 @@
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => render());
 
   (async () => {
-    if (SUBSCRIBE_URL) { $('subscribe').href = SUBSCRIBE_URL; $('subscribe').hidden = false; }
+    $('subscribe').addEventListener('click', () => $('join').scrollIntoView({ behavior: 'smooth', block: 'start' }));
     try { meta = await loadJSON('meta.json'); } catch { meta = null; }
     try { cube = (await loadJSON('cube.json')).rows; } catch { cube = null; }
     try { ann = (await loadJSON('announcements.json')).rows || []; } catch { ann = []; }

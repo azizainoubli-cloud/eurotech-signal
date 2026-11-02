@@ -90,3 +90,8 @@ td.dim { color: var(--muted); max-width: 22rem; }
 .skel { color: transparent !important; background: var(--soft); border-radius: 6px; }
 .empty { color: var(--muted); font-size: 13px; padding: 20px 0; text-align: center; }
 @media (prefers-reduced-motion: no-preference) { .chart svg, .rank { animation: fade .3s ease-out; } @keyframes fade { from { opacity: 0; } to { opacity: 1; } } }
+.join { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 20px; align-items: start; }
+@media (max-width: 860px) { .join { grid-template-columns: minmax(0, 1fr); } }
+.join p { margin: 6px 0 0; color: var(--muted); max-width: 60ch; }
+.join-form { min-height: 200px; min-width: 0; }
+.join-form iframe { max-width: 100%; }
