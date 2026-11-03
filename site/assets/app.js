@@ -17,9 +17,9 @@
   // ---------- state ----------
   const yearCache = new Map();
   let meta = null, cube = null, ann = [];
-  const state = { year: null, country: '', sector: '', min: 0, stage: '', q: '', sort: 'date', dir: -1, shown: 150 };
-  const readHash = () => { const h = new URLSearchParams(location.hash.slice(1)); return { year: h.get('year'), country: h.get('country') || '', sector: h.get('sector') || '' }; };
-  const writeHash = () => { const p = new URLSearchParams(); p.set('year', state.year); if (state.country) p.set('country', state.country); if (state.sector) p.set('sector', state.sector); history.replaceState(null, '', '#' + p.toString()); };
+  const state = { from: '', to: '', evo: 'amount', year: null, country: '', sector: '', min: 0, stage: '', q: '', sort: 'date', dir: -1, shown: 150 };
+  const readHash = () => { const h = new URLSearchParams(location.hash.slice(1)); return { year: h.get('year'), from: h.get('from') || '', to: h.get('to') || '', country: h.get('country') || '', sector: h.get('sector') || '' }; };
+  const writeHash = () => { const p = new URLSearchParams(); p.set('year', state.year); if (state.year === 'custom') { p.set('from', state.from); p.set('to', state.to); } if (state.country) p.set('country', state.country); if (state.sector) p.set('sector', state.sector); history.replaceState(null, '', '#' + p.toString()); };
 
   const loadJSON = (f) => fetch(`data/${f}`, { cache: 'no-cache' }).then((r) => { if (!r.ok) throw new Error(f); return r.json(); });
   async function loadYear(y) {
@@ -39,6 +39,35 @@
     return { total, equity: total - debt - grant, debt, grant, rounds: rows.length, companies: new Set(rows.map((r) => r.company_id)).size,
       median: priced.length ? d3.median(priced, amt) : null, priced: priced.length };
   };
+  // ---------- period: a calendar year, or a custom range of months ----------
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const mLabel = (ym) => `${MONTHS[Number(ym.slice(5, 7)) - 1]} ${ym.slice(0, 4)}`;
+  const addMonths = (ym, k) => { const d = new Date(Date.UTC(Number(ym.slice(0, 4)), Number(ym.slice(5, 7)) - 1 + k, 1)); return d.toISOString().slice(0, 7); };
+  const monthEnd = (ym) => new Date(Date.UTC(Number(ym.slice(0, 4)), Number(ym.slice(5, 7)), 0)).toISOString().slice(0, 10);
+  const todayISO = () => new Date().toISOString().slice(0, 10);
+  function period() {
+    const today = todayISO();
+    if (state.year === 'custom') {
+      const n = (Number(state.to.slice(0, 4)) - Number(state.from.slice(0, 4))) * 12 + Number(state.to.slice(5, 7)) - Number(state.from.slice(5, 7)) + 1;
+      const from = state.from + '-01', to = monthEnd(state.to) < today ? monthEnd(state.to) : today;
+      const pTo = addMonths(state.from, -1), pFrom = addMonths(state.from, -n);
+      const partial = to === today && monthEnd(state.to) > today;
+      // previous period: same length, ending just before the range starts (trimmed the same way when the range runs to today)
+      const prevTo = partial ? (() => { const d = new Date(today + 'T00:00:00Z'); d.setUTCMonth(d.getUTCMonth() - n); return d.toISOString().slice(0, 10); })() : monthEnd(pTo);
+      return { custom: true, from, to, prevFrom: pFrom + '-01', prevTo, months: n,
+        label: state.from === state.to ? mLabel(state.from) : `${mLabel(state.from)} – ${mLabel(state.to)}`,
+        prevLabel: `previous ${n} month${n > 1 ? 's' : ''}`, inPeriod: partial ? ' so far' : '', noPrev: pFrom < `${firstYear}-01` };
+    }
+    const y = String(state.year), cut = ytdCut(y);
+    return { custom: false, from: `${y}-01-01`, to: cut ? today : `${y}-12-31`, prevFrom: `${Number(y) - 1}-01-01`, prevTo: cut ? `${Number(y) - 1}-${cut}` : `${Number(y) - 1}-12-31`,
+      months: cut ? Number(today.slice(5, 7)) : 12, label: y, prevLabel: `${Number(y) - 1}${cut ? ' same period' : ''}`, inPeriod: cut ? ' so far' : '', ytd: !!cut };
+  }
+  const yearsBetween = (a, b) => { const out = []; for (let y = Number(a.slice(0, 4)); y <= Number(b.slice(0, 4)); y++) out.push(String(y)); return out; };
+  async function loadPeriod(from, to) {
+    const ys = yearsBetween(from, to).filter((y) => !meta || !meta.years || y in meta.years);
+    const sets = await Promise.all(ys.map((y) => loadYear(y)));
+    return sets.flat().filter((r) => r.date >= from && r.date <= to);
+  }
   const ytdCut = (y) => { const now = new Date(); return Number(y) === now.getUTCFullYear() ? now.toISOString().slice(5, 10) : null; };
 
   // ---------- tooltip ----------
@@ -72,15 +101,15 @@
     box.replaceChildren();
     if (!groups.length) { box.append(el('div', 'empty', 'Nothing in this selection.')); return; }
     const W = Math.max(300, box.clientWidth), H = 280, m = { t: 20, r: 6, b: 26, l: 8 };
-    const cs = colors();
+    const cs = colors(); const F = opts.fmt || eur;
     const ymax = d3.max(groups, (g) => d3.sum(g.vals)) || 1;
     const y = d3.scaleLinear([0, ymax * 1.1], [H - m.b, m.t]).nice(); const ticks = y.ticks(4);
     const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', opts.label || 'Chart');
-    const pr = svg.append('g').attr('font-size', 11); let tw = 0; ticks.forEach((t) => { const n = pr.append('text').text(eur(t)); tw = Math.max(tw, n.node().getComputedTextLength()); n.remove(); }); pr.remove();
+    const pr = svg.append('g').attr('font-size', 11); let tw = 0; ticks.forEach((t) => { const n = pr.append('text').text(F(t)); tw = Math.max(tw, n.node().getComputedTextLength()); n.remove(); }); pr.remove();
     m.l = tw + 10;
     const x = d3.scaleBand(groups.map((g) => g.k), [m.l, W - m.r]).padding(0.28);
     svg.append('g').selectAll('line').data(ticks).join('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y).attr('y2', y).attr('stroke', css('--line'));
-    svg.append('g').attr('font-size', 11).attr('fill', css('--muted')).selectAll('text').data(ticks).join('text').attr('x', m.l - 6).attr('y', y).attr('dy', '.35em').attr('text-anchor', 'end').text(eur);
+    svg.append('g').attr('font-size', 11).attr('fill', css('--muted')).selectAll('text').data(ticks).join('text').attr('x', m.l - 6).attr('y', y).attr('dy', '.35em').attr('text-anchor', 'end').text(F);
     const showTot = x.bandwidth() > 36;
     groups.forEach((g) => {
       const gg = svg.append('g').style('cursor', opts.onClick ? 'pointer' : null)
@@ -88,7 +117,7 @@
       gg.append('rect').attr('x', x(g.k)).attr('width', x.bandwidth()).attr('y', m.t).attr('height', H - m.t - m.b).attr('fill', 'transparent');
       let base = 0;
       g.vals.forEach((v, i) => { gg.append('rect').attr('x', x(g.k)).attr('width', x.bandwidth()).attr('y', y(base + v)).attr('height', Math.max(0, y(base) - y(base + v))).attr('fill', cs[i]).attr('opacity', g.dim ? 0.45 : 1); base += v; });
-      if (showTot) gg.append('text').attr('x', x(g.k) + x.bandwidth() / 2).attr('y', y(base) - 6).attr('text-anchor', 'middle').attr('font-size', 11).attr('fill', css('--fg')).text(eur(base));
+      if (showTot) gg.append('text').attr('x', x(g.k) + x.bandwidth() / 2).attr('y', y(base) - 6).attr('text-anchor', 'middle').attr('font-size', 11).attr('fill', css('--fg')).text(F(base));
     });
     const every = Math.ceil(groups.length / Math.max(1, Math.floor((W - m.l) / 56)));
     svg.append('g').attr('font-size', 11).selectAll('text').data(groups.filter((_, i) => i % every === 0)).join('text')
@@ -121,8 +150,8 @@
       .on('mousemove', (ev, c) => {
         if (!inScope(c.n)) return showTip(ev, [c.n, 'Outside the TechCap Intelligence scope']);
         const v = by.get(c.n);
-        if (!v) return showTip(ev, [`${c.n} · ${state.year}`, 'No rounds on record']);
-        showTip(ev, [`${c.n} · ${state.year}${state.sector ? ' · ' + state.sector : ''}`, `#${rk.get(c.n)} in Europe · ${eur(v.total)} (${pct(all ? v.total / all : null)})`,
+        if (!v) return showTip(ev, [`${c.n} · ${period().label}`, 'No rounds on record']);
+        showTip(ev, [`${c.n} · ${period().label}${state.sector ? ' · ' + state.sector : ''}`, `#${rk.get(c.n)} in Europe · ${eur(v.total)} (${pct(all ? v.total / all : null)})`,
           `Rounds: ${int(v.rounds)} · companies: ${int(v.companies)}`, `Equity ${eur(v.equity)} · debt ${eur(v.debt)}`, `Median round: ${eur(v.median)}`,
           `Top sector: ${v.sec ? `${v.sec[0]} (${eur(v.sec[1])})` : '—'}`, `Largest: ${v.big ? `${v.big.company}, ${eur(v.big.amount)}` : '—'}`, 'Click to filter']);
       })
@@ -144,7 +173,7 @@
   }
 
   function renderTiles(cur, prev, yearRows, isYtd) {
-    const pl = `${Number(state.year) - 1}${isYtd ? ' same period' : ''}`;
+    const pl = period().noPrev ? '' : period().prevLabel;
     const ch = (a, b) => b ? a / b - 1 : null;
     const box = $('tiles'); box.replaceChildren(
       tile('Total disclosed funding', eur(cur.total), ch(cur.total, prev.total), pl),
@@ -161,13 +190,14 @@
     const where = [state.country, state.sector].filter(Boolean).join(' ');
     const lead = $('lead'); lead.replaceChildren();
     const chg = prev.total ? cur.total / prev.total - 1 : null;
-    lead.append(`In ${state.year}${isYtd ? ' so far' : ''}, ${where ? where + ' startups' : 'European startups'} raised `, el('b', null, eur(cur.total)), ` across `, el('b', null, int(cur.rounds)), ' disclosed rounds',
-      chg != null ? `, ${chg >= 0 ? 'up' : 'down'} ${pct0(Math.abs(chg))} on ${Number(state.year) - 1}${isYtd ? ' at the same point' : ''}.` : '.');
+    const P = period();
+    lead.append(`${P.custom ? 'From ' + P.label.replace(' – ', ' to ') : 'In ' + P.label}${P.inPeriod}, ${where ? where + ' startups' : 'European startups'} raised `, el('b', null, eur(cur.total)), ` across `, el('b', null, int(cur.rounds)), ' disclosed rounds',
+      chg != null ? `, ${chg >= 0 ? 'up' : 'down'} ${pct0(Math.abs(chg))} on ${P.custom ? 'the ' + P.prevLabel : (Number(state.year) - 1) + (P.ytd ? ' at the same point' : '')}.` : (P.noPrev ? '. No comparison: the data starts in ' + firstYear + '.' : '.'));
   }
 
   function renderSignals(rows) {
     const s = sum(rows); const ul = $('signals'); ul.replaceChildren();
-    $('signalsNote').textContent = `${state.country || 'Europe'}${state.sector ? ' · ' + state.sector : ''} · ${state.year}`;
+    $('signalsNote').textContent = `${state.country || 'Europe'}${state.sector ? ' · ' + state.sector : ''} · ${period().label}`;
     if (!rows.length) { ul.append(el('li', null, 'No rounds on record for this selection.')); return; }
     const priced = rows.filter((r) => r.amount).sort((a, b) => b.amount - a.amount);
     const named = rows.filter((r) => !['Other', 'Debt', 'Grant', 'Crowdfunding', 'ICO'].includes(r.stage));
@@ -194,7 +224,7 @@
       const get = (k) => { const r = rows.find((q) => q[0] === y && q[3] === k); return r ? r[4] : 0; };
       const cnt = d3.sum(rows.filter((q) => q[0] === y), (q) => q[5]);
       const vals = [get('equity'), get('debt'), get('grant')];
-      return { k: String(y), label: y === thisY ? `${y} YTD` : String(y), vals, dim: String(y) !== String(state.year), bold: String(y) === String(state.year),
+      return { k: String(y), label: y === thisY ? `${y} YTD` : String(y), vals, dim: !(state.year === 'custom' ? (String(y) >= state.from.slice(0, 4) && String(y) <= state.to.slice(0, 4)) : String(y) === String(state.year)), bold: state.year !== 'custom' && String(y) === String(state.year),
         tip: [`${y}${y === thisY ? ' (year to date)' : ''}`, `Equity: ${eur(vals[0])}`, `Debt: ${eur(vals[1])}`, `Grants: ${eur(vals[2])}`, `Rounds: ${int(cnt)}`, 'Click to select'] };
     });
     vbars(box, groups, ['Equity', 'Debt', 'Grant'], { label: 'Funding by year', onClick: (g) => setState({ year: g.k }) });
@@ -215,13 +245,36 @@
     const st = d3.rollups(rows, (v) => ({ e: d3.sum(v, (r) => r.amount || 0), n: v.length }), (r) => r.stage).sort((a, b) => STAGES.indexOf(a[0]) - STAGES.indexOf(b[0]));
     rank($('byStage'), st.map(([s, o]) => ({ label: stageLabel(s), value: o.e, valueText: eur(o.e), sub: `${int(o.n)} rounds`, muted: s === 'Other', tip: [stageLabel(s), `Raised: ${eur(o.e)}`, `Rounds: ${int(o.n)}`] })), css('--c2'));
     // months
-    const fm = d3.utcFormat('%b');
-    const ms = d3.rollups(rows, (v) => ({ e: d3.sum(v, (r) => r.amount || 0), n: v.length }), (r) => r.date.slice(0, 7)).sort((a, b) => a[0].localeCompare(b[0]));
-    vbars($('months'), ms.map(([m, o]) => { const d = new Date(m + '-01T00:00:00Z'); return { k: m, label: fm(d), vals: [o.e], tip: [d3.utcFormat('%B %Y')(d), `Raised: ${eur(o.e)}`, `Rounds: ${int(o.n)}`] }; }), ['Raised'], { label: 'Funding by month' });
+    renderEvolution(rows);
     // investors
     const inv = d3.rollups(rows.flatMap((r) => r.investors.filter((x) => x && !/^(undisclosed|existing (investors|shareholders)|angels?|new investors|business angels)$/i.test(x.trim())).map((x) => [x.trim(), r.amount || 0])),
       (v) => ({ n: v.length, e: d3.sum(v, (z) => z[1]) }), (z) => z[0]).sort((a, b) => b[1].n - a[1].n || b[1].e - a[1].e).slice(0, 12);
     rank($('investors'), inv.map(([i, o]) => ({ label: i, value: o.n, valueText: `${int(o.n)} deals`, sub: eur(o.e), tip: [i, `Rounds: ${int(o.n)}`, `Combined round size: ${eur(o.e)}`, 'Click to see their deals'], onClick: () => { state.q = i; $('fQ').value = i; renderRounds(); $('roundsTable').scrollIntoView({ behavior: 'smooth', block: 'start' }); } })), css('--c3'));
+  }
+
+  function renderEvolution(rows) {
+    const P = period();
+    const quarterly = P.months > 24;
+    const keyOf = (date) => quarterly ? `${date.slice(0, 4)}-Q${Math.floor((Number(date.slice(5, 7)) - 1) / 3) + 1}` : date.slice(0, 7);
+    // every bucket in the period, including empty ones, so gaps show
+    const buckets = []; for (let m = P.from.slice(0, 7); m <= P.to.slice(0, 7); m = addMonths(m, 1)) { const k = keyOf(m + '-01'); if (buckets[buckets.length - 1] !== k) buckets.push(k); }
+    const agg = new Map(d3.rollups(rows, (v) => ({ e: d3.sum(v, (r) => r.amount || 0), n: v.length, c: new Set(v.map((r) => r.company_id)).size }), (r) => keyOf(r.date)));
+    const byRounds = state.evo === 'rounds';
+    const multiYear = P.from.slice(0, 4) !== P.to.slice(0, 4);
+    const lab = (k) => quarterly ? `${k.slice(5)} ’${k.slice(2, 4)}` : `${MONTHS[Number(k.slice(5, 7)) - 1]}${multiYear ? ' ’' + k.slice(2, 4) : ''}`;
+    const full = (k) => quarterly ? `${k.slice(5)} ${k.slice(0, 4)}` : mLabel(k);
+    $('evoTitle').textContent = `How it evolves · ${quarterly ? 'by quarter' : 'by month'}`;
+    $('evoNote').textContent = `${byRounds ? 'Number of disclosed rounds' : 'Disclosed funding'} per ${quarterly ? 'quarter' : 'month'}, ${P.label}${P.inPeriod}. Hover for details. Faded bars cover only part of a period. Choose “Custom range” in the Period menu to see any timeframe.`;
+    const qStart = (k) => `${k.slice(0, 4)}-${String((Number(k.slice(6)) - 1) * 3 + 1).padStart(2, '0')}`;
+    const partOf = (k) => {
+      const today = todayISO();
+      if (!quarterly) return k === today.slice(0, 7) && P.to === today ? 'month so far' : '';
+      const s = qStart(k), e = addMonths(s, 2), a = P.from.slice(0, 7) > s ? P.from.slice(0, 7) : s, b = P.to.slice(0, 7) < e ? P.to.slice(0, 7) : e;
+      if (a === s && b === e && !(P.to === today && b === today.slice(0, 7))) return '';
+      return a === b ? `${mLabel(a)} only` : `${MONTHS[Number(a.slice(5, 7)) - 1]}–${mLabel(b)} only`;
+    };
+    vbars($('months'), buckets.map((k) => { const o = agg.get(k) || { e: 0, n: 0, c: 0 }; const part = partOf(k); return { k, label: lab(k), dim: !!part, vals: [byRounds ? o.n : o.e], tip: [full(k) + (part ? ` (${part})` : ''), `Raised: ${eur(o.e)}`, `Rounds: ${int(o.n)}`, `Companies: ${int(o.c)}`] }; }),
+      [byRounds ? 'Rounds' : 'Raised'], { label: 'Funding over time', fmt: byRounds ? int : eur });
   }
 
   let curRows = [];
@@ -349,11 +402,13 @@
   async function render() {
     writeHash();
     $('fYear').value = state.year;
-    const y = state.year;
-    const [yearRows, prevRows] = await Promise.all([loadYear(y), loadYear(String(Number(y) - 1))]);
-    const cut = ytdCut(y);
+    $('rangeBox').hidden = state.year !== 'custom';
+    if (state.year === 'custom') { $('fFrom').value = state.from; $('fTo').value = state.to; }
+    const P = period();
+    const [yearRows, prevRows] = await Promise.all([loadPeriod(P.from, P.to), P.noPrev ? Promise.resolve([]) : loadPeriod(P.prevFrom, P.prevTo)]);
+    const cut = P.ytd || P.inPeriod ? 'x' : null;
     const rows = filt(yearRows);
-    const prevSel = filt(prevRows).filter((r) => !cut || r.date.slice(5, 10) <= cut);
+    const prevSel = filt(prevRows);
     curRows = rows;
     const cur = sum(rows), prev = sum(prevSel);
     // filter options from data
@@ -523,8 +578,9 @@
     if (!all.length) { card.hidden = true; return; }
     card.hidden = false;
     if (state.sector) await loadCompanies();
-    const rows = all.filter((e) => e.date.startsWith(String(state.year)) && (!state.country || e.country === state.country) && (!state.sector || ((compById.get(e.company_id) || {}).sectors || []).includes(state.sector)));
-    $('exitsNote').textContent = `Acquisitions, IPOs and other exits of European startups in ${state.year}${state.country ? ' · ' + state.country : ''}${state.sector ? ' · ' + state.sector : ''}. Most deal values are not disclosed.${state.sector ? ' Sector comes from the company’s funding profile, so exits of companies without one are left out.' : ''}`;
+    const P = period();
+    const rows = all.filter((e) => e.date >= P.from && e.date <= P.to && (!state.country || e.country === state.country) && (!state.sector || ((compById.get(e.company_id) || {}).sectors || []).includes(state.sector)));
+    $('exitsNote').textContent = `Acquisitions, IPOs and other exits of European startups, ${P.label}${state.country ? ' · ' + state.country : ''}${state.sector ? ' · ' + state.sector : ''}. Most deal values are not disclosed.${state.sector ? ' Sector comes from the company’s funding profile, so exits of companies without one are left out.' : ''}`;
     const tiles = $('exitTiles'); tiles.replaceChildren();
     const tl = (h3, big, s) => { const d = el('div', 'tile'); d.append(el('h3', null, h3), el('div', 'big', big)); if (s) d.append(el('div', 'chg', s)); tiles.append(d); };
     const priced = rows.filter((e) => e.value);
@@ -557,10 +613,32 @@
 
   function setState(p) { Object.assign(state, p); if ('country' in p || 'sector' in p || 'year' in p) { state.stage = ''; } render(); }
 
-  $('fYear').addEventListener('change', (e) => setState({ year: e.target.value }));
+  $('fYear').addEventListener('change', (e) => {
+    const v = e.target.value;
+    if (v === 'custom') {
+      const now = todayISO().slice(0, 7);
+      if (!state.from || !state.to) { state.to = now; state.from = `${Number(now.slice(0, 4)) - 2}-01`; }
+      setState({ year: 'custom' });
+    } else setState({ year: v });
+  });
+  const clampRange = () => {
+    const lo = `${firstYear}-01`, hi = todayISO().slice(0, 7);
+    let f = $('fFrom').value || lo, t = $('fTo').value || hi;
+    if (f < lo) f = lo; if (t > hi) t = hi; if (f > hi) f = hi; if (t < lo) t = lo;
+    if (f > t) [f, t] = [t, f];
+    return [f, t];
+  };
+  ['fFrom', 'fTo'].forEach((id) => $(id).addEventListener('change', () => { const [f, t] = clampRange(); setState({ year: 'custom', from: f, to: t }); }));
+  document.querySelectorAll('[data-range]').forEach((b) => b.addEventListener('click', () => {
+    const hi = todayISO().slice(0, 7), k = Number(b.dataset.range);
+    const f = k ? addMonths(hi, -(k - 1)) : `${firstYear}-01`;
+    setState({ year: 'custom', from: f < `${firstYear}-01` ? `${firstYear}-01` : f, to: hi });
+  }));
+  $('evoMode').addEventListener('change', (e) => { state.evo = e.target.value; renderEvolution(curRows); });
+  let firstYear = '2021';
   $('fCountry').addEventListener('change', (e) => setState({ country: e.target.value }));
   $('fSector').addEventListener('change', (e) => setState({ sector: e.target.value }));
-  $('reset').addEventListener('click', () => { state.q = ''; $('fQ').value = ''; state.min = 0; $('fMin').value = '0'; setState({ country: '', sector: '', year: String(new Date().getUTCFullYear() - (new Date().getUTCMonth() < 2 ? 1 : 0)) }); });
+  $('reset').addEventListener('click', () => { state.q = ''; $('fQ').value = ''; state.min = 0; $('fMin').value = '0'; state.from = ''; state.to = ''; setState({ country: '', sector: '', year: String(new Date().getUTCFullYear() - (new Date().getUTCMonth() < 2 ? 1 : 0)) }); });
   $('fMin').addEventListener('change', (e) => { state.min = Number(e.target.value); state.shown = 150; renderRounds(); });
   $('fStage').addEventListener('change', (e) => { state.stage = e.target.value; state.shown = 150; renderRounds(); });
   $('fQ').addEventListener('input', (e) => { state.q = e.target.value; state.shown = 150; renderRounds(); });
@@ -584,9 +662,13 @@
     try { const it = await loadJSON('investors.json'); invTypes = Object.fromEntries((it.rows || []).map((r) => [String(r[0]).toLowerCase(), r[1]])); } catch { invTypes = null; }
     const years = meta && meta.years ? Object.keys(meta.years).sort().reverse() : [String(new Date().getUTCFullYear())];
     const thisY = String(new Date().getUTCFullYear());
-    fillSelect($('fYear'), years, null, null, (y) => y === thisY ? `${y} (year to date)` : y);
+    fillSelect($('fYear'), [...years, 'custom'], null, null, (y) => y === 'custom' ? 'Custom range…' : y === thisY ? `${y} (year to date)` : y);
+    firstYear = years[years.length - 1];
+    $('fFrom').min = $('fTo').min = `${firstYear}-01`; $('fFrom').max = $('fTo').max = todayISO().slice(0, 7);
     const h = readHash();
-    state.year = years.includes(h.year) ? h.year : years[0];
+    const okM = (m) => /^\d{4}-\d{2}$/.test(m) && m >= `${firstYear}-01` && m <= todayISO().slice(0, 7);
+    if (h.year === 'custom' && okM(h.from) && okM(h.to)) { state.year = 'custom'; [state.from, state.to] = h.from <= h.to ? [h.from, h.to] : [h.to, h.from]; }
+    else state.year = years.includes(h.year) ? h.year : years[0];
     state.country = SCOPE.includes(h.country) ? h.country : '';
     state.sector = h.sector || '';
     $('fYear').value = state.year;

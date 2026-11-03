@@ -144,3 +144,12 @@ dialog.profile .tiles.mini { margin: 16px 0 4px; }
 /* exits */
 .grid.three { grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); margin-bottom: 14px; }
 h3.sub { margin: 0 0 8px; font-size: 13px; font-weight: 600; color: var(--muted); }
+
+/* custom period */
+.range { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+input[type=month] { font: inherit; font-size: 15px; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 5px 10px; min-height: 38px; }
+.quick { display: flex; flex-wrap: wrap; gap: 6px; }
+.btn.sm { min-height: 32px; font-size: 13px; padding: 0 10px; }
+.card-head.row { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 640px) { .bar { position: static; } }
