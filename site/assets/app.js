@@ -390,7 +390,9 @@
     const k = normName(name); if (!k) return null;
     return unicorns.find((u) => u[1] === k) || unicorns.find((u) => k.length >= 5 && u[1].length >= 5 && (u[1] === k + 'ai' || k === u[1] + 'ai' || u[1].startsWith(k + 'group') || k.startsWith(u[1] + 'group'))) || null;
   }
-  const typeLabel = (t) => { const s = String(t || 'other').toLowerCase(); return s === 'ipo' ? 'IPO' : s === 'spac' ? 'SPAC' : s.charAt(0).toUpperCase() + s.slice(1).replace(/[-_]/g, ' '); };
+  const typeLabel = (t) => { const s = String(t || 'other').toLowerCase().trim();
+    if (/^merge/.test(s)) return 'Merger'; if (/acqui/.test(s)) return 'Acquisition'; if (/buyout|lbo|mbo/.test(s)) return 'Buyout'; if (s === 'ipo' || /listing/.test(s)) return 'IPO'; if (s === 'spac') return 'SPAC'; if (s === 'ico') return 'Token sale (ICO)';
+    return s.charAt(0).toUpperCase() + s.slice(1).replace(/[-_]/g, ' '); };
 
   // search box
   const sIn = $('coSearch'), sList = $('coResults');
@@ -444,7 +446,8 @@
     // rounds: the API has the full history (including before 2021); local adds rounds from other sources
     let rounds = [];
     if (api && Array.isArray(api.rounds)) rounds = api.rounds.map((r) => ({ date: r.date || '', stage: r.stage || 'Other', amount: Number(r.amountEur) > 0 ? Number(r.amountEur) : null, investors: (r.investors || []).map((x) => String(typeof x === 'string' ? x : x.name || '').trim()).filter(Boolean), url: r.url || r.pageUrl || '', origin: 'techeu' }));
-    local.forEach((r) => { if (r.origin === 'scan' || !rounds.length) rounds.push({ date: r.date, stage: r.stage, amount: r.amount, investors: r.investors, url: r.url, origin: r.origin, source: r.source }); });
+    const useLocal = !rounds.length;
+    local.forEach((r) => { if (r.origin === 'scan' || useLocal) rounds.push({ date: r.date, stage: r.stage, amount: r.amount, investors: r.investors, url: r.url, origin: r.origin, source: r.source }); });
     rounds.sort((a, b) => String(b.date).localeCompare(String(a.date)));
     const priced = rounds.filter((r) => r.amount);
     const total = d3.sum(priced, (r) => r.amount);
@@ -458,7 +461,7 @@
     const head = el('div', 'p-head');
     const h = el('h2', null, name); h.id = 'profileTitle'; head.append(h);
     const badges = el('div', 'badges');
-    if (uni && uni[6] === 'current') badges.append(el('span', 'pill uni', `🦄 Unicorn · valued at $${uni[2]}B${uni[3] ? ' (' + uni[3] + ')' : ''}`));
+    if (uni && uni[6] === 'current') badges.append(el('span', 'pill uni', `🦄 Unicorn · valued at $${uni[2]}B${uni[3] ? ' as of ' + uni[3] : ''} (Wikipedia)`));
     if (uni && uni[6] === 'former') badges.append(el('span', 'pill', `Former unicorn · peak $${uni[2]}B${uni[8] ? ' · exited via ' + uni[8] : ''}`));
     if (exit) badges.append(el('span', 'pill exit', `Exited · ${typeLabel(exit.type)}${exit.acquirors || exit.acquirers ? ' by ' + (exit.acquirors || exit.acquirers) : ''}${exit.date ? ' · ' + exit.date.slice(0, 7) : ''}`));
     if (badges.childNodes.length) head.append(badges);
@@ -474,10 +477,10 @@
     const kf = el('div', 'tiles mini');
     const t = (h3, big, s) => { const d = el('div', 'tile'); d.append(el('h3', null, h3), el('div', 'big', big)); if (s) d.append(el('div', 'chg', s)); kf.append(d); };
     t('Total disclosed funding', eur(total), `${int(priced.length)} of ${int(rounds.length)} rounds disclosed an amount`);
-    t('Latest stage', lastNamed ? stageLabel(lastNamed.stage) : (dated[0] ? stageLabel(dated[0].stage) : '—'), lastNamed ? lastNamed.date.slice(0, 7) : '');
+    t('Latest stage', lastNamed ? stageLabel(lastNamed.stage) : (dated[0] ? stageLabel(dated[0].stage) : '—'), lastNamed && lastNamed.date ? d3.utcFormat('%b %Y')(new Date(lastNamed.date + 'T00:00:00Z')) : '');
     t('Last round', dated[0] ? d3.utcFormat('%b %Y')(new Date(dated[0].date + 'T00:00:00Z')) : '—', dated[0] ? `${Math.round((Date.now() - Date.parse(dated[0].date)) / 2629746000)} months ago` : '');
     t('Largest round', priced.length ? eur(d3.max(priced, (r) => r.amount)) : '—', priced.length ? stageLabel(priced.slice().sort((a, b) => b.amount - a.amount)[0].stage) : '');
-    if (uni) t(uni[6] === 'current' ? 'Valuation' : 'Peak valuation', `$${uni[2]}B`, uni[3] || '');
+    if (uni) t(uni[6] === 'current' ? 'Latest known valuation' : 'Peak valuation', `$${uni[2]}B`, `${uni[3] ? uni[3] + ' · ' : ''}per Wikipedia`);
     box.append(kf);
     // history
     box.append(el('h3', 'p-sec', 'Fundraising history'));
@@ -528,8 +531,9 @@
     const foreign = rows.filter((e) => e.acq_country && !EUROPE.has(e.acq_country));
     const withC = rows.filter((e) => e.acq_country);
     tl('Exits', int(rows.length), '');
-    tl('Acquisitions', int(rows.filter((e) => /acqui|merger/i.test(e.type)).length), '');
+    tl('Acquisitions & mergers', int(rows.filter((e) => /acqui|merge/i.test(e.type)).length), '');
     tl('IPOs', int(rows.filter((e) => /ipo|spac|listing/i.test(e.type)).length), '');
+    tl('Buyouts', int(rows.filter((e) => /buyout/i.test(e.type)).length), '');
     tl('Disclosed exit value', eur(d3.sum(priced, (e) => e.value)), `${int(priced.length)} of ${int(rows.length)} disclosed`);
     tl('Bought by non-European buyers', pct0(withC.length ? foreign.length / withC.length : null), `${int(foreign.length)} of ${int(withC.length)} with a known buyer HQ`);
     const ty = d3.rollups(rows, (v) => v.length, (e) => typeLabel(e.type)).sort((a, b) => b[1] - a[1]);
@@ -545,7 +549,7 @@
       const tr = tb.insertRow(); const td = (x, cl) => { const q = tr.insertCell(); if (cl) q.className = cl; q.textContent = x; return q; };
       td(d3.utcFormat('%-d %b %Y')(new Date(e.date + 'T00:00:00Z')));
       const c = tr.insertCell(); const b = el('button', 'linkish', e.company); b.type = 'button'; b.onclick = () => openProfile(e.company_id); c.append(b);
-      td(e.country); td(typeLabel(e.type)); td(e.acquirers || (/ipo/i.test(e.type) ? '— (listed)' : '—'), 'dim'); td(e.acq_country || '—', 'hide-sm'); td(e.value ? eur(e.value) : 'Undisclosed', 'num');
+      td(e.country); td(typeLabel(e.type)); td(e.acquirers || (/ipo/i.test(e.type) ? 'Public listing' : 'Not disclosed'), 'dim'); td(e.acq_country || '—', 'hide-sm'); td(e.value ? eur(e.value) : 'Undisclosed', 'num');
     });
     $('exMore').hidden = rows.length <= (state.exShown || 100);
   }
@@ -586,7 +590,7 @@
     state.country = SCOPE.includes(h.country) ? h.country : '';
     state.sector = h.sector || '';
     $('fYear').value = state.year;
-    if (meta && meta.updated) $('updated').textContent = `Data updated ${d3.timeFormat('%-d %B %Y, %H:%M')(new Date(meta.updated))} · ${int(d3.sum(Object.values(meta.years)))} rounds since ${years[years.length - 1]}${meta.scan_added ? ` · ${int(d3.sum(Object.values(meta.scan_added)))} added from sources beyond Tech.eu` : ''}`;
+    if (meta && meta.updated) $('updated').textContent = `Data updated ${d3.timeFormat('%-d %B %Y, %H:%M')(new Date(meta.updated))} · ${int(d3.sum(Object.values(meta.years)))} rounds since ${years[years.length - 1]}${meta.scan_added && d3.sum(Object.values(meta.scan_added)) ? ` · ${int(d3.sum(Object.values(meta.scan_added)))} added from sources beyond Tech.eu` : ''}`;
     await render();
   })();
 })();
