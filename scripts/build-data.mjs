@@ -140,6 +140,7 @@ function wikiClean(s) {
   return String(s || '')
     .replace(/<ref[^>]*\/>/g, '').replace(/<ref[^>]*>[\s\S]*?<\/ref>/g, '')
     .replace(/\{\{(?:flag|flagcountry|flagicon|flagu)\|([^}|]+)[^}]*\}\}/gi, '$1')
+    .replace(/\{\{start date\|(\d{4})(?:\|(\d{1,2}))?(?:\|\d{1,2})?[^}]*\}\}/gi, (m, y, mo) => (mo ? `${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][Number(mo) - 1]} ${y}` : y))
     .replace(/\{\{[^{}]*\}\}/g, '')
     .replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, '$1').replace(/\[https?:[^\s\]]+\s?([^\]]*)\]/g, '$1')
     .replace(/<br\s*\/?>/gi, ', ').replace(/<[^>]+>/g, '').replace(/'{2,}/g, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
@@ -162,7 +163,7 @@ function parseUnicorns(text) {
       if (isHead) { head = cells.map((h) => h.toLowerCase()); continue; }
       if (!head) continue;
       const col = (re) => head.findIndex((h) => re.test(h));
-      const iC = col(/^company/), iV = col(/valuation \(|last valuation/), iD = col(/^valuation date/), iI = col(/industry/), iN = col(/countr/),
+      const iC = col(/^company/), iV = col(/^(last )?valuation(?! date)/), iD = col(/^valuation date/), iI = col(/industry/), iN = col(/countr/),
         iX = col(/exit date/), iR = col(/exit reason/);
       if (iC < 0 || iV < 0 || iN < 0) continue;
       const countries = (cells[iN] || '').split(/,| and |\//).map((x) => x.trim()).filter(Boolean).map((x) => COUNTRY_ALIASES[x] || x);
@@ -297,7 +298,7 @@ async function main() {
       const w = await fetch('https://en.wikipedia.org/w/api.php?action=parse&page=List_of_unicorn_startup_companies&prop=wikitext&format=json&formatversion=2',
         { headers: { 'user-agent': 'TechCap-Intelligence-site/1.0 (https://github.com/azizainoubli-cloud/eurotech-signal)' } }).then((r) => r.json());
       const rows = parseUnicorns(w.parse.wikitext);
-      if (!rows.some((r) => r[6] === 'current')) console.log('unicorns debug:', JSON.stringify(String(w.parse.wikitext).split(/\n\{\|/).slice(1).filter((x) => /aluation/.test(x.slice(0, 3000))).map((x) => x.slice(0, 1800))));
+      if (!rows.some((r) => r[6] === 'current')) console.log('unicorns: no current rows parsed, check the Wikipedia table format');
       if (rows.length) await fs.writeFile(path.join(OUT, 'unicorns.json'), JSON.stringify({ source: 'https://en.wikipedia.org/wiki/List_of_unicorn_startup_companies',
         columns: ['company', 'key', 'valuation_usd_b', 'valuation_date', 'industry', 'countries', 'status', 'exit_date', 'exit_reason'], rows }));
       console.log(`unicorns: ${rows.length} European (${rows.filter((r) => r[6] === 'current').length} current)`);
