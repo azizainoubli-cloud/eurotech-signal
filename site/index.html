@@ -16,18 +16,12 @@
 <body>
 <div class="wrap">
   <header class="top">
-    <div class="intro">
-      <h1>EuroTech Signals</h1>
-      <p id="lead">European startup funding, tracked round by round.</p>
-      <p class="updated" id="updated"></p>
-    </div>
-    <div class="brand">
-      <div class="lockup">
+    <h1 class="sr-only">EuroTech Signals</h1>
+    <div class="lockup">
       <div class="logo" role="img" aria-label="EuroTech Signals logo"><span class="w"></span><span class="m"></span></div>
       <p class="slogan">Making sense of European tech capital</p>
-      </div>
-      <button class="btn btn-solid" id="subscribe" type="button">Join early access</button>
     </div>
+    <button class="btn btn-solid" id="subscribe" type="button">Join early access</button>
   </header>
 
   <nav class="bar" aria-label="Filters">
@@ -36,6 +30,11 @@
     <label>Sector <select id="fSector"></select></label>
     <button class="btn" id="reset" type="button">Reset</button>
   </nav>
+
+  <div class="intro">
+    <p id="lead">European startup funding, tracked round by round.</p>
+    <p class="updated" id="updated"></p>
+  </div>
 
   <section class="tiles" id="tiles" aria-label="Headline figures"></section>
 
