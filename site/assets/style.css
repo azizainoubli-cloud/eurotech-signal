@@ -95,3 +95,9 @@ td.dim { color: var(--muted); max-width: 22rem; }
 .join p { margin: 6px 0 0; color: var(--muted); max-width: 60ch; }
 .join-form { min-height: 200px; min-width: 0; }
 .join-form iframe { max-width: 100%; }
+.tiles.mini { margin-bottom: 12px; }
+.tiles.mini .tile { padding: 12px 14px; }
+.tiles.mini .big { font-size: 22px; }
+td.focus { color: var(--muted); max-width: 16rem; }
+.pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 999px; background: var(--soft); color: var(--fg); white-space: nowrap; }
+.pill.hot { background: color-mix(in srgb, var(--c1) 22%, transparent); }

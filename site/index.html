@@ -90,6 +90,19 @@
     <div class="rank" id="investors"></div>
   </section>
 
+  <section class="card" id="activeCard">
+    <div class="card-head"><h2>Funds currently investing</h2><p class="note" id="activeNote">Investors with at least one disclosed deal in the last 12 months, for the current country and sector filters.</p></div>
+    <div class="tiles mini" id="activeTiles"></div>
+    <div class="filters">
+      <label>Investor type <select id="aType"></select></label>
+      <label>Stage <select id="aStage"></select></label>
+      <label>Active within <select id="aWin"><option value="365">Last 12 months</option><option value="180">Last 6 months</option><option value="90">Last 90 days</option></select></label>
+      <label class="grow">Search <input id="aQ" type="search" placeholder="Fund name"></label>
+    </div>
+    <div class="tbox tall"><table id="activeTable"></table></div>
+    <button class="btn more" id="aMore" type="button" hidden>Show more funds</button>
+  </section>
+
   <section class="card" id="annCard" hidden>
     <div class="card-head"><h2>Latest announcements</h2><p class="note">Rounds spotted in the daily scan of funding news, founders' and VCs' announcements, newest first, cross-checked across sources. Not yet in the totals until Tech.eu records them.</p></div>
     <div class="tbox"><table id="annTable"></table></div>

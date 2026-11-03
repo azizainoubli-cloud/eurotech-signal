@@ -264,6 +264,82 @@
     });
   }
 
+  // ---------- funds currently investing ----------
+  let invTypes = null; // { name -> type } from Tech.eu's investor directory
+  const GENERIC = /^(undisclosed|existing (investors|shareholders)|angels?|business angels|new investors|private investors|family offices?|others?|various)$/i;
+  const astate = { type: '', stage: '', win: 365, q: '', sort: 'deals', dir: -1, shown: 100 };
+  let activeAll = [];
+  async function buildActive() {
+    const thisY = new Date().getUTCFullYear();
+    const [a, b] = await Promise.all([loadYear(String(thisY)), loadYear(String(thisY - 1))]);
+    const today = new Date();
+    const cut = (days) => new Date(today.getTime() - days * 864e5).toISOString().slice(0, 10);
+    const since = cut(astate.win), hot = cut(90);
+    const rows = filt([...a, ...b]).filter((r) => r.date >= since && r.date <= today.toISOString().slice(0, 10));
+    const by = new Map();
+    for (const r of rows) for (let name of r.investors) {
+      name = name.trim(); if (!name || GENERIC.test(name)) continue;
+      let o = by.get(name); if (!o) { o = { name, deals: 0, eur: 0, sizes: [], companies: new Set(), stages: new Map(), sectors: new Map(), countries: new Map(), last: null, recent: 0 }; by.set(name, o); }
+      o.deals++; o.companies.add(r.company_id); if (r.amount) { o.eur += r.amount; o.sizes.push(r.amount); }
+      o.stages.set(r.stage, (o.stages.get(r.stage) || 0) + 1);
+      r.sectors.forEach((s) => o.sectors.set(s, (o.sectors.get(s) || 0) + 1));
+      o.countries.set(r.country, (o.countries.get(r.country) || 0) + 1);
+      if (!o.last || r.date > o.last.date) o.last = r;
+      if (r.date >= hot) o.recent++;
+    }
+    const top = (m, n) => [...m].sort((x, y) => y[1] - x[1]).slice(0, n).map((x) => x[0]);
+    activeAll = [...by.values()].map((o) => ({
+      name: o.name, type: (invTypes && invTypes[o.name.toLowerCase()]) || 'Not classified', deals: o.deals, companies: o.companies.size, eur: o.eur,
+      median: o.sizes.length ? d3.median(o.sizes) : null, stages: top([...o.stages].filter(([s]) => s !== 'Other'), 2).map(stageLabel), stageKeys: [...o.stages.keys()],
+      sectors: top(o.sectors, 2), countries: top(o.countries, 3), last: o.last, recent: o.recent
+    }));
+  }
+  function renderActive() {
+    const q = astate.q.toLowerCase();
+    let rows = activeAll.filter((o) => (!astate.type || o.type === astate.type) && (!astate.stage || o.stageKeys.includes(astate.stage)) && (!q || o.name.toLowerCase().includes(q)));
+    const k = astate.sort, d = astate.dir;
+    const val = (o) => k === 'last' ? o.last.date : k === 'name' || k === 'type' ? o[k] : o[k] ?? -1;
+    rows = rows.slice().sort((x, y) => { const a = val(x), b = val(y); return typeof a === 'string' ? d * a.localeCompare(b) : d * (a - b); });
+    const where = [state.country, state.sector].filter(Boolean).join(' · ');
+    $('activeNote').textContent = `Investors with at least one disclosed deal in the ${astate.win === 365 ? 'last 12 months' : astate.win === 180 ? 'last 6 months' : 'last 90 days'}${where ? ' in ' + where : ' in Europe'}. "Hot" means 2 or more deals in the last 90 days.`;
+    const all = activeAll, vc = all.filter((o) => /venture|investment firm/i.test(o.type)).length;
+    $('activeTiles').replaceChildren(
+      tile('Active funds and investors', int(all.length), null, ''),
+      tile('Hot in the last 90 days', int(all.filter((o) => o.recent >= 2).length), null, ''),
+      tile('Backed 5+ companies', int(all.filter((o) => o.companies >= 5).length), null, ''),
+      tile('VCs and investment firms', int(vc), null, '')
+    );
+    // filter options
+    const types = [...new Set(all.map((o) => o.type))].sort((a, b) => a.localeCompare(b));
+    fillSelect($('aType'), types, 'All types', astate.type);
+    fillSelect($('aStage'), STAGES.filter((s) => s !== 'Other' && all.some((o) => o.stageKeys.includes(s))), 'All stages', astate.stage, stageLabel);
+    const t = $('activeTable'); t.replaceChildren();
+    const cols = [['name', 'Investor'], ['type', 'Type', 'hide-sm'], ['deals', 'Deals', 'num'], ['companies', 'Companies', 'num hide-sm'], ['median', 'Typical round', 'num'], ['stages', 'Stage focus', 'hide-sm'], ['sectors', 'Sector focus', 'hide-sm'], ['countries', 'Where', 'hide-sm'], ['last', 'Latest deal']];
+    const hr = t.createTHead().insertRow();
+    cols.forEach(([key, label, cls]) => { const th = document.createElement('th'); if (cls) th.className = cls; const b = el('button', null, label); b.type = 'button';
+      const sortable = !['stages', 'sectors', 'countries'].includes(key);
+      th.setAttribute('aria-sort', astate.sort === key ? (astate.dir > 0 ? 'ascending' : 'descending') : 'none');
+      if (sortable) b.onclick = () => { astate.dir = astate.sort === key ? -astate.dir : (key === 'name' || key === 'type' ? 1 : -1); astate.sort = key; renderActive(); };
+      th.append(b); hr.append(th); });
+    const tb = t.createTBody(); const fmtD = d3.utcFormat('%-d %b %Y');
+    if (!rows.length) { const tr = tb.insertRow(); const c = tr.insertCell(); c.colSpan = cols.length; c.className = 'dim'; c.textContent = 'No investors match these filters.'; }
+    rows.slice(0, astate.shown).forEach((o) => {
+      const tr = tb.insertRow(); const td = (text, cls) => { const c = tr.insertCell(); if (cls) c.className = cls; c.textContent = text; return c; };
+      const n = tr.insertCell(); n.append(o.name); if (o.recent >= 2) { n.append(' '); n.append(el('span', 'pill hot', 'Hot')); }
+      td(o.type, 'hide-sm'); td(int(o.deals), 'num'); td(int(o.companies), 'num hide-sm'); td(eur(o.median), 'num');
+      td(o.stages.join(', ') || '—', 'focus hide-sm'); td(o.sectors.join(', ') || '—', 'focus hide-sm'); td(o.countries.join(', '), 'focus hide-sm');
+      const l = tr.insertCell(); const r = o.last;
+      if (r.url) { const a = el('a', null, r.company); a.href = r.url; a.target = '_blank'; a.rel = 'noopener'; l.append(a); } else l.append(r.company);
+      l.append(el('div', 'dim', `${fmtD(new Date(r.date + 'T00:00:00Z'))}${r.amount ? ' · ' + eur(r.amount) : ''}`));
+    });
+    $('aMore').hidden = rows.length <= astate.shown;
+  }
+  $('aType').addEventListener('change', (e) => { astate.type = e.target.value; astate.shown = 100; renderActive(); });
+  $('aStage').addEventListener('change', (e) => { astate.stage = e.target.value; astate.shown = 100; renderActive(); });
+  $('aWin').addEventListener('change', async (e) => { astate.win = Number(e.target.value); astate.shown = 100; await buildActive(); renderActive(); });
+  $('aQ').addEventListener('input', (e) => { astate.q = e.target.value; astate.shown = 100; renderActive(); });
+  $('aMore').addEventListener('click', () => { astate.shown += 200; renderActive(); });
+
   // ---------- controls ----------
   function fillSelect(sel, values, all, cur, label = (v) => v) {
     sel.replaceChildren(...(all ? [new Option(all, '')] : []), ...values.map((v) => new Option(label(v), v)));
@@ -293,6 +369,7 @@
     renderBreakdowns(rows, yearRows);
     state.shown = 150; renderRounds();
     renderAnnouncements();
+    await buildActive(); renderActive();
   }
   function setState(p) { Object.assign(state, p); if ('country' in p || 'sector' in p || 'year' in p) { state.stage = ''; } render(); }
 
@@ -312,6 +389,7 @@
     try { meta = await loadJSON('meta.json'); } catch { meta = null; }
     try { cube = (await loadJSON('cube.json')).rows; } catch { cube = null; }
     try { ann = (await loadJSON('announcements.json')).rows || []; } catch { ann = []; }
+    try { const it = await loadJSON('investors.json'); invTypes = Object.fromEntries((it.rows || []).map((r) => [String(r[0]).toLowerCase(), r[1]])); } catch { invTypes = null; }
     const years = meta && meta.years ? Object.keys(meta.years).sort().reverse() : [String(new Date().getUTCFullYear())];
     const thisY = String(new Date().getUTCFullYear());
     fillSelect($('fYear'), years, null, null, (y) => y === thisY ? `${y} (year to date)` : y);

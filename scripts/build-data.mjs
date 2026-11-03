@@ -122,6 +122,19 @@ async function main() {
   const cubeRows = [...cube].map(([k, v]) => { const [y, c, s, kind] = k.split('\t'); return [Number(y), c, s, kind, v[0], v[1]]; });
   await fs.writeFile(path.join(OUT, 'cube.json'), JSON.stringify({ columns: ['year', 'country', 'sector', 'kind', 'euros', 'rounds'], rows: cubeRows }));
 
+  // Investor types from Tech.eu's investor directory (top investors by deal count), refreshed weekly.
+  const invFile = path.join(OUT, 'investors.json');
+  if (full || !(await exists(invFile))) {
+    const rows = []; let page = 1, pages = 1;
+    do {
+      const a = await get(`${API}/investors?sort=deals_desc&page=${page}`);
+      for (const i of a.data || []) if (i && i.name) rows.push([i.name, i.type || 'Not classified', i.deals || 0]);
+      pages = Math.min(a.totalPages || 1, 100); page++;
+    } while (page <= pages);
+    if (rows.length) await fs.writeFile(invFile, JSON.stringify({ columns: ['name', 'type', 'deals'], rows }));
+    console.log(`investors: ${rows.length} typed`);
+  }
+
   const annFile = path.join(OUT, 'announcements.json');
   if (!(await exists(annFile))) await fs.writeFile(annFile, JSON.stringify({ rows: [] }));
 
