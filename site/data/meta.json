@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-02T21:29:45.588Z",
+ "updated": "2026-11-03T05:40:15.530Z",
  "years": {
   "2021": 4831,
   "2022": 4965,
@@ -8,7 +8,7 @@
   "2025": 3758,
   "2026": 2792
  },
- "api_calls": 287,
+ "api_calls": 78,
  "source": "Tech.eu Funding Explorer (CC BY 4.0)",
  "source_url": "https://funding.tech.eu",
  "excluded": [
