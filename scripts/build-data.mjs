@@ -153,7 +153,7 @@ function parseUnicorns(text) {
     for (const raw of rows) {
       const lines = raw.split('\n').filter((l) => /^[!|]/.test(l) && !/^\|\+/.test(l));
       if (!lines.length) continue;
-      const isHead = lines[0].startsWith('!');
+      const isHead = lines.every((l) => l.startsWith('!'));
       const cells = [];
       for (const l of lines) for (const c of l.replace(/^[!|]/, '').split(/!!|\|\|/)) {
         const v = /^[^\[{|]*=\s*"[^"]*"\s*\|/.test(c) || /^\s*(style|scope|class|rowspan|colspan|data-sort-value|align)=[^|]*\|/.test(c) ? c.slice(c.indexOf('|') + 1) : c;
@@ -297,6 +297,7 @@ async function main() {
       const w = await fetch('https://en.wikipedia.org/w/api.php?action=parse&page=List_of_unicorn_startup_companies&prop=wikitext&format=json&formatversion=2',
         { headers: { 'user-agent': 'TechCap-Intelligence-site/1.0 (https://github.com/azizainoubli-cloud/eurotech-signal)' } }).then((r) => r.json());
       const rows = parseUnicorns(w.parse.wikitext);
+      if (!rows.some((r) => r[6] === 'current')) console.log('unicorns debug:', JSON.stringify(String(w.parse.wikitext).split(/\n\{\|/).slice(1, 3).map((x) => x.slice(0, 700))));
       if (rows.length) await fs.writeFile(path.join(OUT, 'unicorns.json'), JSON.stringify({ source: 'https://en.wikipedia.org/wiki/List_of_unicorn_startup_companies',
         columns: ['company', 'key', 'valuation_usd_b', 'valuation_date', 'industry', 'countries', 'status', 'exit_date', 'exit_reason'], rows }));
       console.log(`unicorns: ${rows.length} European (${rows.filter((r) => r[6] === 'current').length} current)`);
