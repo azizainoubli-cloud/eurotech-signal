@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=1793726626">
+<link rel="stylesheet" href="assets/style.css?v=1793731869">
 </head>
 <body>
 <div class="wrap">
@@ -20,6 +20,11 @@
     <div class="lockup">
       <div class="logo" role="img" aria-label="TechCap Intelligence logo"><span class="w"></span><span class="m"></span></div>
       <p class="slogan">Making sense of European tech capital flow</p>
+    </div>
+    <div class="co-search" role="search">
+      <label class="sr-only" for="coSearch">Search a startup</label>
+      <input id="coSearch" type="search" placeholder="Search a startup, e.g. Mistral AI" autocomplete="off" aria-controls="coResults" aria-autocomplete="list">
+      <ul id="coResults" role="listbox" hidden></ul>
     </div>
     <button class="btn btn-solid" id="subscribe" type="button">Join early access</button>
   </header>
@@ -95,6 +100,18 @@
     <button class="btn more" id="aMore" type="button" hidden>Show more funds</button>
   </section>
 
+  <section class="card" id="exitsCard" hidden>
+    <div class="card-head"><h2>European exits</h2><p class="note" id="exitsNote"></p></div>
+    <div class="tiles mini" id="exitTiles"></div>
+    <div class="grid three">
+      <div><h3 class="sub">By type</h3><div class="rank" id="exitTypes"></div></div>
+      <div><h3 class="sub">Most active acquirers</h3><div class="rank" id="exitBuyers"></div></div>
+      <div><h3 class="sub">Where the buyers are based</h3><div class="rank" id="exitHq"></div></div>
+    </div>
+    <div class="tbox tall"><table id="exitTable"></table></div>
+    <button class="btn more" id="exMore" type="button" hidden>Show more exits</button>
+  </section>
+
   <section class="card" id="annCard" hidden>
     <div class="card-head"><h2>Latest announcements</h2><p class="note">Rounds spotted in the daily scan of funding news, founders' and VCs' announcements, newest first, cross-checked across sources. Rounds confirmed by two or more sources are also added to the totals.</p></div>
     <div class="tbox"><table id="annTable"></table></div>
@@ -115,7 +132,7 @@
 
   <footer class="foot">
     <p><b>Data:</b> <a href="https://funding.tech.eu" target="_blank" rel="noopener">Tech.eu Funding Explorer</a> (licensed <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>), combined with a daily scan of national tech media in 10+ countries, startup and investor announcements and press wires. A scanned round joins the totals only when at least two independent sources confirm it and Tech.eu does not already list it, so nothing is counted twice. Publicly announced rounds of startups based in Europe since 2021; amounts converted to euros at the ECB rate on each round's date; undisclosed amounts are left out of totals, not estimated. Israel is excluded. Country views cover the EU27, the UK, Switzerland, Norway and Iceland.</p>
-    <p>Not covered by the source: investor type, founder gender and business model. Coverage is announced rounds only, so databases that also count unannounced rounds report more deals.</p>
+    <p>Exits come from Tech.eu's exits feed; unicorn valuations from <a href="https://en.wikipedia.org/wiki/List_of_unicorn_startup_companies" target="_blank" rel="noopener">Wikipedia's list of unicorn companies</a> (CC BY-SA). Not covered: founder gender, business model and ownership percentages (cap tables of private companies are not public). Coverage is announced rounds only, so databases that also count unannounced rounds report more deals.</p>
     <p>© TechCap Intelligence. No cookies, no tracking.</p>
   </footer>
 </div>
@@ -129,9 +146,13 @@
     <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="e144240e-0ef7-48e0-849a-57f2a25f4973"></script>
   </div>
 </dialog>
+<dialog class="profile" id="profile" aria-labelledby="profileTitle">
+  <button class="close" id="profileClose" type="button" aria-label="Close">&times;</button>
+  <div id="profileBody"></div>
+</dialog>
 <div class="tip" id="tip" hidden></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<script src="assets/europe-map.js?v=1793726626"></script>
-<script src="assets/app.js?v=1793726626"></script>
+<script src="assets/europe-map.js?v=1793731869"></script>
+<script src="assets/app.js?v=1793731869"></script>
 </body>
 </html>

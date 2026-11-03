@@ -135,6 +135,71 @@ function mergeScan(y, teRows, scanRows, neighbours) {
   return { rows, added: added.length };
 }
 
+const COUNTRY_ALIASES = { 'United Kingdom': 'UK', 'England': 'UK', 'Scotland': 'UK', 'Czechia': 'Czech Republic' };
+function wikiClean(s) {
+  return String(s || '')
+    .replace(/<ref[^>]*\/>/g, '').replace(/<ref[^>]*>[\s\S]*?<\/ref>/g, '')
+    .replace(/\{\{(?:flag|flagcountry|flagicon|flagu)\|([^}|]+)[^}]*\}\}/gi, '$1')
+    .replace(/\{\{[^{}]*\}\}/g, '')
+    .replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, '$1').replace(/\[https?:[^\s\]]+\s?([^\]]*)\]/g, '$1')
+    .replace(/<br\s*\/?>/gi, ', ').replace(/<[^>]+>/g, '').replace(/'{2,}/g, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+}
+function parseUnicorns(text) {
+  const out = [];
+  const tables = String(text).split(/\n\{\|/).slice(1).map((t) => t.split(/\n\|\}/)[0]);
+  for (const tb of tables) {
+    const rows = tb.split(/\n\|-[^\n]*/);
+    let head = null;
+    for (const raw of rows) {
+      const lines = raw.split('\n').filter((l) => /^[!|]/.test(l) && !/^\|\+/.test(l));
+      if (!lines.length) continue;
+      const isHead = lines[0].startsWith('!');
+      const cells = [];
+      for (const l of lines) for (const c of l.replace(/^[!|]/, '').split(/!!|\|\|/)) {
+        const v = /^[^\[{|]*=\s*"[^"]*"\s*\|/.test(c) || /^\s*(style|scope|class|rowspan|colspan|data-sort-value|align)=[^|]*\|/.test(c) ? c.slice(c.indexOf('|') + 1) : c;
+        cells.push(wikiClean(v));
+      }
+      if (isHead) { head = cells.map((h) => h.toLowerCase()); continue; }
+      if (!head) continue;
+      const col = (re) => head.findIndex((h) => re.test(h));
+      const iC = col(/^company/), iV = col(/valuation \(|last valuation/), iD = col(/^valuation date/), iI = col(/industry/), iN = col(/countr/),
+        iX = col(/exit date/), iR = col(/exit reason/);
+      if (iC < 0 || iV < 0 || iN < 0) continue;
+      const countries = (cells[iN] || '').split(/,| and |\//).map((x) => x.trim()).filter(Boolean).map((x) => COUNTRY_ALIASES[x] || x);
+      if (!countries.some((c) => SCOPE.has(c))) continue;
+      const name = cells[iC]; const val = parseFloat(String(cells[iV]).replace(/[^0-9.]/g, ''));
+      if (!name || !(val > 0)) continue;
+      out.push([name, norm(name), val, iD >= 0 ? cells[iD] : '', iI >= 0 ? cells[iI] : '', countries.join(', '), iX >= 0 ? 'former' : 'current', iX >= 0 ? cells[iX] : '', iR >= 0 ? cells[iR] : '']);
+    }
+  }
+  return out;
+}
+
+// Search index: one row per company across all years (Tech.eu + confirmed scan rounds), plus companies that only appear in exits.
+async function buildCompanyIndex(years) {
+  const m = new Map();
+  for (const y of years) {
+    const f = path.join(OUT, `rounds-${y}.json`);
+    if (!(await exists(f))) continue;
+    for (const r of JSON.parse(await fs.readFile(f, 'utf8')).rows) {
+      if (!SCOPE.has(r[4])) continue;
+      const id = r[3] || r[0];
+      const c = m.get(id) || { id, name: r[2], country: r[4], sectors: new Set(), total: 0, n: 0, last: '', stage: '', origin: r[12] || 'techeu' };
+      (r[6] ? r[6].split('|') : []).forEach((s) => c.sectors.add(s));
+      c.total += r[8] || 0; c.n++;
+      if (r[1] > c.last) { c.last = r[1]; c.stage = r[7]; }
+      m.set(id, c);
+    }
+  }
+  let ex = [];
+  try { ex = JSON.parse(await fs.readFile(path.join(OUT, 'exits.json'), 'utf8')).rows; } catch {}
+  for (const e of ex) if (e[6] && !m.has(e[6])) m.set(e[6], { id: e[6], name: e[7], country: e[8], sectors: new Set(), total: 0, n: 0, last: '', stage: '', origin: 'techeu' });
+  const rows = [...m.values()].map((c) => [c.id, c.name, c.country, [...c.sectors].join('|'), c.total, c.n, c.last, c.stage, c.origin]);
+  rows.sort((a, b) => b[4] - a[4]);
+  await fs.writeFile(path.join(OUT, 'companies.json'), JSON.stringify({ columns: ['id', 'name', 'country', 'sectors', 'total_eur', 'rounds', 'last_date', 'last_stage', 'origin'], rows }));
+  console.log(`companies: ${rows.length} indexed`);
+}
+
 async function exists(f) { try { await fs.access(f); return true; } catch { return false; } }
 
 async function main() {
@@ -206,6 +271,39 @@ async function main() {
     if (rows.length) await fs.writeFile(invFile, JSON.stringify({ columns: ['name', 'type', 'deals'], rows }));
     console.log(`investors: ${rows.length} typed`);
   }
+
+  // Exits and M&A since 2021 for in-scope companies, refreshed every run.
+  if (!OFFLINE) {
+    const rows = []; let after = null, pages = 0;
+    do {
+      const q = new URLSearchParams({ from: `${FIRST_YEAR}-01-01`, limit: '100', ...(after ? { after } : {}) });
+      const a = await get(`${API}/exits?${q}`);
+      for (const e of a.data || []) {
+        const c = e.company || {};
+        if (!SCOPE.has(c.country)) continue;
+        rows.push([e.id, String(e.date || '').slice(0, 10), e.type || 'other', Number(e.valueEur) > 0 ? Math.round(Number(e.valueEur)) : null,
+          String(e.acquirors || '').trim(), e.acquirorHqCountry || '', c.id || '', c.name || '', c.country,
+          c.pageUrl || (c.canonicalUrl ? `https://funding.tech.eu${c.canonicalUrl}` : '')]);
+      }
+      after = a.nextCursor || null; pages++;
+    } while (after && pages < 300);
+    if (rows.length) await fs.writeFile(path.join(OUT, 'exits.json'), JSON.stringify({ columns: ['id', 'date', 'type', 'value_eur', 'acquirers', 'acquirer_country', 'company_id', 'company', 'country', 'url'], rows }));
+    console.log(`exits: ${rows.length} in scope (${pages} pages)`);
+  }
+
+  // Unicorns: Wikipedia's "List of unicorn startup companies" (CC BY-SA), current and former, European companies only.
+  if (!OFFLINE) {
+    try {
+      const w = await fetch('https://en.wikipedia.org/w/api.php?action=parse&page=List_of_unicorn_startup_companies&prop=wikitext&format=json&formatversion=2',
+        { headers: { 'user-agent': 'TechCap-Intelligence-site/1.0 (https://github.com/azizainoubli-cloud/eurotech-signal)' } }).then((r) => r.json());
+      const rows = parseUnicorns(w.parse.wikitext);
+      if (rows.length) await fs.writeFile(path.join(OUT, 'unicorns.json'), JSON.stringify({ source: 'https://en.wikipedia.org/wiki/List_of_unicorn_startup_companies',
+        columns: ['company', 'key', 'valuation_usd_b', 'valuation_date', 'industry', 'countries', 'status', 'exit_date', 'exit_reason'], rows }));
+      console.log(`unicorns: ${rows.length} European (${rows.filter((r) => r[6] === 'current').length} current)`);
+    } catch (e) { console.log('unicorns: skipped,', e.message); }
+  }
+
+  await buildCompanyIndex(years);
 
   const annFile = path.join(OUT, 'announcements.json');
   if (!(await exists(annFile))) await fs.writeFile(annFile, JSON.stringify({ rows: [] }));

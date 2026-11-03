@@ -230,7 +230,7 @@
     let rows = curRows.filter((r) => (!state.min || (r.amount || 0) >= state.min) && (!state.stage || r.stage === state.stage) && (!q || r.company.toLowerCase().includes(q) || r.investors.join(' ').toLowerCase().includes(q)));
     const k = state.sort, d = state.dir;
     rows = rows.slice().sort((a, b) => k === 'amount' ? d * ((a.amount || 0) - (b.amount || 0)) : d * String(a[k] ?? '').localeCompare(String(b[k] ?? '')));
-    $('roundsNote').textContent = `${int(rows.length)} rounds in this selection, newest first. Click a company for its source. Rounds marked “Other sources” were found by the daily multi-source scan and confirmed by at least two sources; Tech.eu does not list them.`;
+    $('roundsNote').textContent = `${int(rows.length)} rounds in this selection, newest first. Click a company for its profile. Rounds marked “Other sources” were found by the daily multi-source scan and confirmed by at least two sources; Tech.eu does not list them.`;
     const t = $('roundsTable'); t.replaceChildren();
     const cols = [['date', 'Date'], ['company', 'Company'], ['country', 'Country'], ['sectors', 'Sector', 'hide-sm'], ['stage', 'Stage'], ['amount', 'Amount', 'num'], ['investors', 'Investors', 'hide-sm'], ['source', 'Source', 'hide-sm']];
     const hr = t.createTHead().insertRow();
@@ -242,7 +242,7 @@
       const tr = tb.insertRow();
       const td = (text, cls) => { const c = tr.insertCell(); if (cls) c.className = cls; c.textContent = text; return c; };
       td(fmtD(new Date(r.date + 'T00:00:00Z')));
-      const c = tr.insertCell(); if (r.url) { const a = el('a', null, r.company); a.href = r.url; a.target = '_blank'; a.rel = 'noopener'; c.append(a); } else c.textContent = r.company;
+      const c = tr.insertCell(); { const b = el('button', 'linkish', r.company); b.type = 'button'; b.onclick = () => openProfile(r.company_id); c.append(b); }
       td(r.country); td(r.sectors.join(', '), 'hide-sm'); td(stageLabel(r.stage)); td(r.amount ? eur(r.amount) : 'Undisclosed', 'num'); td(r.investors.slice(0, 6).join(', ') || '—', 'dim hide-sm');
       const sc = td('', 'hide-sm'); if (r.origin === 'scan') { sc.append(el('span', 'pill hot', 'Other sources'), document.createTextNode(' ' + (r.source || ''))); } else sc.textContent = r.source || '—';
     });
@@ -371,7 +371,186 @@
     state.shown = 150; renderRounds();
     renderAnnouncements();
     await buildActive(); renderActive();
+    renderExits();
   }
+  // ---------- companies, unicorns, exits ----------
+  const API = 'https://funding.tech.eu/api/v1';
+  const normName = (s) => String(s || '').toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/\b(gmbh|ltd|limited|sas|sa|ag|ab|bv|nv|srl|spa|inc|oy|as|aps|sl)\b/g, '').replace(/[^a-z0-9]/g, '');
+  let companies = null, unicorns = null, exits = null, compById = null;
+  let compLoad = null;
+  function loadCompanies() {
+    if (!compLoad) compLoad = Promise.all([
+      loadJSON('companies.json').then((j) => j.rows.map((r) => ({ id: r[0], name: r[1], country: r[2], sectors: r[3] ? r[3].split('|') : [], total: r[4], n: r[5], last: r[6], stage: r[7], origin: r[8], key: normName(r[1]) }))).catch(() => []),
+      loadJSON('unicorns.json').then((j) => j.rows).catch(() => [])
+    ]).then(([c, u]) => { companies = c; unicorns = u; compById = new Map(c.map((x) => [x.id, x])); });
+    return compLoad;
+  }
+  function unicornOf(name) {
+    if (!unicorns || !unicorns.length) return null;
+    const k = normName(name); if (!k) return null;
+    return unicorns.find((u) => u[1] === k) || unicorns.find((u) => k.length >= 5 && u[1].length >= 5 && (u[1] === k + 'ai' || k === u[1] + 'ai' || u[1].startsWith(k + 'group') || k.startsWith(u[1] + 'group'))) || null;
+  }
+  const typeLabel = (t) => { const s = String(t || 'other').toLowerCase(); return s === 'ipo' ? 'IPO' : s === 'spac' ? 'SPAC' : s.charAt(0).toUpperCase() + s.slice(1).replace(/[-_]/g, ' '); };
+
+  // search box
+  const sIn = $('coSearch'), sList = $('coResults');
+  let sSel = -1, sHits = [];
+  function showHits() {
+    sList.replaceChildren(); sSel = -1;
+    const q = normName(sIn.value);
+    if (!q || q.length < 2 || !companies) { sList.hidden = true; return; }
+    const starts = [], has = [];
+    for (const c of companies) { if (c.key.startsWith(q)) starts.push(c); else if (c.key.includes(q)) has.push(c); if (starts.length >= 8) break; }
+    sHits = [...starts, ...has].slice(0, 8);
+    if (!sHits.length) { sList.append(el('li', 'none', 'No startup by that name in the data.')); sList.hidden = false; return; }
+    sHits.forEach((c, i) => {
+      const li = el('li'); li.setAttribute('role', 'option'); li.id = 'co-opt-' + i;
+      li.append(el('b', null, c.name), el('span', null, ` ${c.country}${c.total ? ' · ' + eur(c.total) + ' raised' : ''}${unicornOf(c.name) ? ' · Unicorn' : ''}`));
+      li.addEventListener('mousedown', (e) => { e.preventDefault(); pick(c); });
+      sList.append(li);
+    });
+    sList.hidden = false;
+  }
+  function pick(c) { sList.hidden = true; sIn.value = c.name; openProfile(c.id); }
+  sIn.addEventListener('focus', () => { loadCompanies().then(showHits); });
+  sIn.addEventListener('input', () => { loadCompanies().then(showHits); });
+  sIn.addEventListener('blur', () => setTimeout(() => { sList.hidden = true; }, 120));
+  sIn.addEventListener('keydown', (e) => {
+    const items = [...sList.querySelectorAll('li[role=option]')];
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); if (!items.length) return; sSel = (sSel + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length; items.forEach((x, i) => x.classList.toggle('on', i === sSel)); sIn.setAttribute('aria-activedescendant', items[sSel].id); }
+    else if (e.key === 'Enter') { e.preventDefault(); const c = sHits[sSel >= 0 ? sSel : 0]; if (c) pick(c); }
+    else if (e.key === 'Escape') sList.hidden = true;
+  });
+
+  // profile dialog
+  const pDlg = $('profile');
+  $('profileClose').addEventListener('click', () => pDlg.close());
+  pDlg.addEventListener('click', (e) => { if (e.target === pDlg) pDlg.close(); });
+  async function allRoundsOf(id) {
+    const ys = meta && meta.years ? Object.keys(meta.years) : [];
+    const sets = await Promise.all(ys.map((y) => loadYear(y)));
+    return sets.flat().filter((r) => r.company_id === id);
+  }
+  async function openProfile(id) {
+    await loadCompanies();
+    const c = compById.get(id) || { id, name: '', country: '', sectors: [], total: 0, n: 0, origin: 'techeu' };
+    const box = $('profileBody'); box.replaceChildren(el('p', 'note', 'Loading…'));
+    if (!pDlg.open) pDlg.showModal();
+    const [local, api] = await Promise.all([
+      allRoundsOf(id),
+      c.origin === 'scan' ? Promise.resolve(null) : fetch(`${API}/companies/${encodeURIComponent(id)}`).then((r) => (r.ok ? r.json() : null)).then((j) => (j && j.data && j.data.name ? j.data : j)).catch(() => null)
+    ]);
+    const name = (api && api.name) || c.name || (local[0] && local[0].company) || 'Company';
+    // rounds: the API has the full history (including before 2021); local adds rounds from other sources
+    let rounds = [];
+    if (api && Array.isArray(api.rounds)) rounds = api.rounds.map((r) => ({ date: r.date || '', stage: r.stage || 'Other', amount: Number(r.amountEur) > 0 ? Number(r.amountEur) : null, investors: (r.investors || []).map((x) => String(typeof x === 'string' ? x : x.name || '').trim()).filter(Boolean), url: r.url || r.pageUrl || '', origin: 'techeu' }));
+    local.forEach((r) => { if (r.origin === 'scan' || !rounds.length) rounds.push({ date: r.date, stage: r.stage, amount: r.amount, investors: r.investors, url: r.url, origin: r.origin, source: r.source }); });
+    rounds.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+    const priced = rounds.filter((r) => r.amount);
+    const total = d3.sum(priced, (r) => r.amount);
+    const dated = rounds.filter((r) => r.date);
+    const lastNamed = dated.find((r) => !['Other', 'Debt', 'Grant', 'Crowdfunding'].includes(r.stage));
+    const sectors = (api && api.sectors && api.sectors.length ? api.sectors : c.sectors) || [];
+    const country = (api && api.country) || c.country, city = api && api.city;
+    const uni = unicornOf(name);
+    const exit = (api && api.exit) || (exits && exits.find((e) => e.company_id === id)) || null;
+    box.replaceChildren();
+    const head = el('div', 'p-head');
+    const h = el('h2', null, name); h.id = 'profileTitle'; head.append(h);
+    const badges = el('div', 'badges');
+    if (uni && uni[6] === 'current') badges.append(el('span', 'pill uni', `🦄 Unicorn · valued at $${uni[2]}B${uni[3] ? ' (' + uni[3] + ')' : ''}`));
+    if (uni && uni[6] === 'former') badges.append(el('span', 'pill', `Former unicorn · peak $${uni[2]}B${uni[8] ? ' · exited via ' + uni[8] : ''}`));
+    if (exit) badges.append(el('span', 'pill exit', `Exited · ${typeLabel(exit.type)}${exit.acquirors || exit.acquirers ? ' by ' + (exit.acquirors || exit.acquirers) : ''}${exit.date ? ' · ' + exit.date.slice(0, 7) : ''}`));
+    if (badges.childNodes.length) head.append(badges);
+    head.append(el('p', 'p-meta', [city, country].filter(Boolean).join(', ') + (sectors.length ? ' · ' + sectors.join(', ') : '') + (api && api.founded ? ' · founded ' + api.founded : '')));
+    box.append(head);
+    if (api && api.description) box.append(el('p', 'p-desc', api.description));
+    const links = el('p', 'p-links');
+    if (api && /^https?:\/\//.test(api.website || '')) { const a = el('a', null, 'Website'); a.href = api.website; a.target = '_blank'; a.rel = 'noopener'; links.append(a); }
+    const tUrl = (api && (api.canonicalUrl || api.url)) || (c.origin !== 'scan' ? `https://funding.tech.eu/companies/${id}` : '');
+    if (tUrl) { const a = el('a', null, 'Tech.eu profile'); a.href = tUrl.startsWith('http') ? tUrl : 'https://funding.tech.eu' + tUrl; a.target = '_blank'; a.rel = 'noopener'; links.append(a); }
+    if (links.childNodes.length) box.append(links);
+    // key figures
+    const kf = el('div', 'tiles mini');
+    const t = (h3, big, s) => { const d = el('div', 'tile'); d.append(el('h3', null, h3), el('div', 'big', big)); if (s) d.append(el('div', 'chg', s)); kf.append(d); };
+    t('Total disclosed funding', eur(total), `${int(priced.length)} of ${int(rounds.length)} rounds disclosed an amount`);
+    t('Latest stage', lastNamed ? stageLabel(lastNamed.stage) : (dated[0] ? stageLabel(dated[0].stage) : '—'), lastNamed ? lastNamed.date.slice(0, 7) : '');
+    t('Last round', dated[0] ? d3.utcFormat('%b %Y')(new Date(dated[0].date + 'T00:00:00Z')) : '—', dated[0] ? `${Math.round((Date.now() - Date.parse(dated[0].date)) / 2629746000)} months ago` : '');
+    t('Largest round', priced.length ? eur(d3.max(priced, (r) => r.amount)) : '—', priced.length ? stageLabel(priced.slice().sort((a, b) => b.amount - a.amount)[0].stage) : '');
+    if (uni) t(uni[6] === 'current' ? 'Valuation' : 'Peak valuation', `$${uni[2]}B`, uni[3] || '');
+    box.append(kf);
+    // history
+    box.append(el('h3', 'p-sec', 'Fundraising history'));
+    if (!rounds.length) box.append(el('p', 'note', 'No disclosed funding rounds on record.'));
+    else {
+      const tb = el('div', 'tbox'); const tbl = document.createElement('table'); tb.append(tbl);
+      const hr = tbl.createTHead().insertRow(); [['Date'], ['Stage'], ['Amount', 'num'], ['Investors'], ['Source', 'hide-sm']].forEach(([l, cl]) => { const th = document.createElement('th'); if (cl) th.className = cl; th.append(el('span', 'thl', l)); hr.append(th); });
+      const body = tbl.createTBody();
+      rounds.forEach((r) => {
+        const tr = body.insertRow(); const td = (x, cl) => { const q = tr.insertCell(); if (cl) q.className = cl; q.textContent = x; return q; };
+        td(r.date ? d3.utcFormat('%-d %b %Y')(new Date(r.date + 'T00:00:00Z')) : 'Undated'); td(stageLabel(r.stage)); td(r.amount ? eur(r.amount) : 'Undisclosed', 'num'); td(r.investors.join(', ') || '—', 'dim');
+        const s = tr.insertCell(); s.className = 'hide-sm';
+        if (r.url) { const a = el('a', null, r.origin === 'scan' ? (r.source || 'Source').split(',')[0] : 'Tech.eu'); a.href = r.url; a.target = '_blank'; a.rel = 'noopener'; s.append(a); } else s.textContent = '—';
+      });
+      box.append(tb);
+    }
+    // investors (cap table)
+    const invCount = new Map();
+    rounds.slice().reverse().forEach((r) => r.investors.forEach((x) => { const k = x.trim(); if (!k || /^(undisclosed|existing (investors|shareholders)|private investors|angels?)$/i.test(k)) return; const o = invCount.get(k.toLowerCase()) || { name: k, n: 0, first: r.date }; o.n++; invCount.set(k.toLowerCase(), o); }));
+    box.append(el('h3', 'p-sec', 'Investors on record'));
+    box.append(el('p', 'note', 'Shareholdings (who owns what percentage) are not public for private companies, so a full cap table isn’t available. These are the investors named in its disclosed rounds, most frequent first.'));
+    if (!invCount.size) box.append(el('p', 'note', 'No investors named.'));
+    else { const ul = el('ul', 'inv-list'); [...invCount.values()].sort((a, b) => b.n - a.n || String(a.first).localeCompare(String(b.first))).forEach((o) => { const li = el('li'); li.append(el('b', null, o.name), el('span', null, ` ${o.n > 1 ? o.n + ' rounds' : '1 round'}${o.first ? ' · since ' + o.first.slice(0, 4) : ''}`)); ul.append(li); }); box.append(ul); }
+    if (api && Array.isArray(api.founders) && api.founders.length) { box.append(el('h3', 'p-sec', 'Founders')); box.append(el('p', null, api.founders.map((f) => (typeof f === 'string' ? f : f.name)).filter(Boolean).join(', '))); }
+    const src = el('p', 'note p-src');
+    src.append(`Sources: ${api ? 'Tech.eu Funding Explorer (CC BY 4.0)' : 'TechCap Intelligence data'}${rounds.some((r) => r.origin === 'scan') ? ', daily multi-source scan' : ''}${uni ? ', valuation from Wikipedia’s list of unicorn companies' : ''}.${!api && c.origin !== 'scan' ? ' The live company profile could not be loaded just now, so this shows rounds from 2021 onwards only.' : ''}`);
+    box.append(src);
+  }
+
+  // exits section
+  async function loadExits() {
+    if (exits) return exits;
+    exits = await loadJSON('exits.json').then((j) => j.rows.map((r) => ({ id: r[0], date: r[1], type: r[2], value: r[3], acquirers: r[4], acq_country: r[5], company_id: r[6], company: r[7], country: r[8], url: r[9] }))).catch(() => []);
+    return exits;
+  }
+  const EUROPE = new Set([...SCOPE, 'Türkiye', 'Ukraine', 'Serbia', 'Moldova']);
+  async function renderExits() {
+    const card = $('exitsCard');
+    const all = await loadExits();
+    if (!all.length) { card.hidden = true; return; }
+    card.hidden = false;
+    if (state.sector) await loadCompanies();
+    const rows = all.filter((e) => e.date.startsWith(String(state.year)) && (!state.country || e.country === state.country) && (!state.sector || ((compById.get(e.company_id) || {}).sectors || []).includes(state.sector)));
+    $('exitsNote').textContent = `Acquisitions, IPOs and other exits of European startups in ${state.year}${state.country ? ' · ' + state.country : ''}${state.sector ? ' · ' + state.sector : ''}. Most deal values are not disclosed.${state.sector ? ' Sector comes from the company’s funding profile, so exits of companies without one are left out.' : ''}`;
+    const tiles = $('exitTiles'); tiles.replaceChildren();
+    const tl = (h3, big, s) => { const d = el('div', 'tile'); d.append(el('h3', null, h3), el('div', 'big', big)); if (s) d.append(el('div', 'chg', s)); tiles.append(d); };
+    const priced = rows.filter((e) => e.value);
+    const foreign = rows.filter((e) => e.acq_country && !EUROPE.has(e.acq_country));
+    const withC = rows.filter((e) => e.acq_country);
+    tl('Exits', int(rows.length), '');
+    tl('Acquisitions', int(rows.filter((e) => /acqui|merger/i.test(e.type)).length), '');
+    tl('IPOs', int(rows.filter((e) => /ipo|spac|listing/i.test(e.type)).length), '');
+    tl('Disclosed exit value', eur(d3.sum(priced, (e) => e.value)), `${int(priced.length)} of ${int(rows.length)} disclosed`);
+    tl('Bought by non-European buyers', pct0(withC.length ? foreign.length / withC.length : null), `${int(foreign.length)} of ${int(withC.length)} with a known buyer HQ`);
+    const ty = d3.rollups(rows, (v) => v.length, (e) => typeLabel(e.type)).sort((a, b) => b[1] - a[1]);
+    rank($('exitTypes'), ty.map(([k, n]) => ({ label: k, value: n, valueText: int(n), sub: pct0(rows.length ? n / rows.length : null) })), css('--c3'));
+    const aq = d3.rollups(rows.filter((e) => e.acquirers), (v) => ({ n: v.length, c: v[0].acq_country }), (e) => e.acquirers).sort((a, b) => b[1].n - a[1].n).slice(0, 10);
+    rank($('exitBuyers'), aq.map(([k, o]) => ({ label: k, value: o.n, valueText: `${int(o.n)} deal${o.n > 1 ? 's' : ''}`, sub: o.c || '' })), css('--c4'));
+    const hq = d3.rollups(withC, (v) => v.length, (e) => e.acq_country).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    rank($('exitHq'), hq.map(([k, n]) => ({ label: k, value: n, valueText: int(n), sub: pct0(withC.length ? n / withC.length : null), muted: !EUROPE.has(k) ? false : false })), css('--c2'));
+    const t = $('exitTable'); t.replaceChildren();
+    const hr = t.createTHead().insertRow(); [['Date'], ['Company'], ['Country'], ['Type'], ['Acquirer'], ['Acquirer HQ', 'hide-sm'], ['Value', 'num']].forEach(([l, cl]) => { const th = document.createElement('th'); if (cl) th.className = cl; th.append(el('span', 'thl', l)); hr.append(th); });
+    const tb = t.createTBody();
+    rows.slice().sort((a, b) => b.date.localeCompare(a.date)).slice(0, state.exShown || 100).forEach((e) => {
+      const tr = tb.insertRow(); const td = (x, cl) => { const q = tr.insertCell(); if (cl) q.className = cl; q.textContent = x; return q; };
+      td(d3.utcFormat('%-d %b %Y')(new Date(e.date + 'T00:00:00Z')));
+      const c = tr.insertCell(); const b = el('button', 'linkish', e.company); b.type = 'button'; b.onclick = () => openProfile(e.company_id); c.append(b);
+      td(e.country); td(typeLabel(e.type)); td(e.acquirers || (/ipo/i.test(e.type) ? '— (listed)' : '—'), 'dim'); td(e.acq_country || '—', 'hide-sm'); td(e.value ? eur(e.value) : 'Undisclosed', 'num');
+    });
+    $('exMore').hidden = rows.length <= (state.exShown || 100);
+  }
+  $('exMore').addEventListener('click', () => { state.exShown = (state.exShown || 100) + 200; renderExits(); });
+
   function setState(p) { Object.assign(state, p); if ('country' in p || 'sector' in p || 'year' in p) { state.stage = ''; } render(); }
 
   $('fYear').addEventListener('change', (e) => setState({ year: e.target.value }));
