@@ -25,7 +25,7 @@
   async function loadYear(y) {
     if (yearCache.has(y)) return yearCache.get(y);
     const p = loadJSON(`rounds-${y}.json`).then((j) => j.rows.map((r) => ({ id: r[0], date: r[1], company: r[2], company_id: r[3] || r[0], country: r[4], city: r[5],
-      sectors: r[6] ? r[6].split('|') : [], stage: r[7] || 'Other', amount: r[8], investors: r[9] ? r[9].split('|') : [], url: r[10], source: r[11] })))
+      sectors: r[6] ? r[6].split('|') : [], stage: r[7] || 'Other', amount: r[8], investors: r[9] ? r[9].split('|') : [], url: r[10], source: r[11], origin: r[12] || 'techeu' })))
       .catch(() => []);
     yearCache.set(y, p); return p;
   }
@@ -230,7 +230,7 @@
     let rows = curRows.filter((r) => (!state.min || (r.amount || 0) >= state.min) && (!state.stage || r.stage === state.stage) && (!q || r.company.toLowerCase().includes(q) || r.investors.join(' ').toLowerCase().includes(q)));
     const k = state.sort, d = state.dir;
     rows = rows.slice().sort((a, b) => k === 'amount' ? d * ((a.amount || 0) - (b.amount || 0)) : d * String(a[k] ?? '').localeCompare(String(b[k] ?? '')));
-    $('roundsNote').textContent = `${int(rows.length)} rounds in this selection, newest first. Click a company for its Tech.eu page and source.`;
+    $('roundsNote').textContent = `${int(rows.length)} rounds in this selection, newest first. Click a company for its source. Rounds marked “Other sources” were found by the daily multi-source scan and confirmed by at least two sources; Tech.eu does not list them.`;
     const t = $('roundsTable'); t.replaceChildren();
     const cols = [['date', 'Date'], ['company', 'Company'], ['country', 'Country'], ['sectors', 'Sector', 'hide-sm'], ['stage', 'Stage'], ['amount', 'Amount', 'num'], ['investors', 'Investors', 'hide-sm'], ['source', 'Source', 'hide-sm']];
     const hr = t.createTHead().insertRow();
@@ -243,7 +243,8 @@
       const td = (text, cls) => { const c = tr.insertCell(); if (cls) c.className = cls; c.textContent = text; return c; };
       td(fmtD(new Date(r.date + 'T00:00:00Z')));
       const c = tr.insertCell(); if (r.url) { const a = el('a', null, r.company); a.href = r.url; a.target = '_blank'; a.rel = 'noopener'; c.append(a); } else c.textContent = r.company;
-      td(r.country); td(r.sectors.join(', '), 'hide-sm'); td(stageLabel(r.stage)); td(r.amount ? eur(r.amount) : 'Undisclosed', 'num'); td(r.investors.slice(0, 6).join(', ') || '—', 'dim hide-sm'); td(r.source || '—', 'hide-sm');
+      td(r.country); td(r.sectors.join(', '), 'hide-sm'); td(stageLabel(r.stage)); td(r.amount ? eur(r.amount) : 'Undisclosed', 'num'); td(r.investors.slice(0, 6).join(', ') || '—', 'dim hide-sm');
+      const sc = td('', 'hide-sm'); if (r.origin === 'scan') { sc.append(el('span', 'pill hot', 'Other sources'), document.createTextNode(' ' + (r.source || ''))); } else sc.textContent = r.source || '—';
     });
     $('more').hidden = rows.length <= state.shown;
   }
@@ -406,7 +407,7 @@
     state.country = SCOPE.includes(h.country) ? h.country : '';
     state.sector = h.sector || '';
     $('fYear').value = state.year;
-    if (meta && meta.updated) $('updated').textContent = `Data updated ${d3.timeFormat('%-d %B %Y, %H:%M')(new Date(meta.updated))} · ${int(d3.sum(Object.values(meta.years)))} rounds since ${years[years.length - 1]}`;
+    if (meta && meta.updated) $('updated').textContent = `Data updated ${d3.timeFormat('%-d %B %Y, %H:%M')(new Date(meta.updated))} · ${int(d3.sum(Object.values(meta.years)))} rounds since ${years[years.length - 1]}${meta.scan_added ? ` · ${int(d3.sum(Object.values(meta.scan_added)))} added from sources beyond Tech.eu` : ''}`;
     await render();
   })();
 })();

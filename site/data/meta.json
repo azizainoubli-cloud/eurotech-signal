@@ -1,15 +1,23 @@
 {
- "updated": "2026-11-03T17:19:35.597Z",
+ "updated": "2026-11-03T17:23:30.858Z",
  "years": {
   "2021": 4831,
   "2022": 4965,
   "2023": 4468,
   "2024": 3751,
   "2025": 3758,
-  "2026": 2795
+  "2026": 2796
  },
- "api_calls": 178,
- "source": "Tech.eu Funding Explorer (CC BY 4.0)",
+ "scan_added": {
+  "2021": 0,
+  "2022": 0,
+  "2023": 0,
+  "2024": 0,
+  "2025": 0,
+  "2026": 1
+ },
+ "api_calls": 0,
+ "source": "Tech.eu Funding Explorer (CC BY 4.0) plus the daily multi-source scan",
  "source_url": "https://funding.tech.eu",
  "excluded": [
   "Israel"
