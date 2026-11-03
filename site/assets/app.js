@@ -17,9 +17,9 @@
   // ---------- state ----------
   const yearCache = new Map();
   let meta = null, cube = null, ann = [];
-  const state = { from: '', to: '', evo: 'amount', year: null, country: '', sector: '', min: 0, stage: '', q: '', sort: 'date', dir: -1, shown: 150 };
-  const readHash = () => { const h = new URLSearchParams(location.hash.slice(1)); return { year: h.get('year'), from: h.get('from') || '', to: h.get('to') || '', country: h.get('country') || '', sector: h.get('sector') || '' }; };
-  const writeHash = () => { const p = new URLSearchParams(); p.set('year', state.year); if (state.year === 'custom') { p.set('from', state.from); p.set('to', state.to); } if (state.country) p.set('country', state.country); if (state.sector) p.set('sector', state.sector); history.replaceState(null, '', '#' + p.toString()); };
+  const state = { cmp: [], cmpMetric: 'amount', from: '', to: '', evo: 'amount', year: null, country: '', sector: '', min: 0, stage: '', q: '', sort: 'date', dir: -1, shown: 150 };
+  const readHash = () => { const h = new URLSearchParams(location.hash.slice(1)); return { cmp: (h.get('cmp') || '').split(',').filter(Boolean), year: h.get('year'), from: h.get('from') || '', to: h.get('to') || '', country: h.get('country') || '', sector: h.get('sector') || '' }; };
+  const writeHash = () => { const p = new URLSearchParams(); p.set('year', state.year); if (state.year === 'custom') { p.set('from', state.from); p.set('to', state.to); } if (state.cmp.length) p.set('cmp', state.cmp.join(',')); if (state.country) p.set('country', state.country); if (state.sector) p.set('sector', state.sector); history.replaceState(null, '', '#' + p.toString()); };
 
   const loadJSON = (f) => fetch(`data/${f}`, { cache: 'no-cache' }).then((r) => { if (!r.ok) throw new Error(f); return r.json(); });
   async function loadYear(y) {
@@ -409,6 +409,7 @@
     const cut = P.ytd || P.inPeriod ? 'x' : null;
     const rows = filt(yearRows);
     const prevSel = filt(prevRows);
+    periodAll = yearRows; periodPrev = prevRows;
     curRows = rows;
     const cur = sum(rows), prev = sum(prevSel);
     // filter options from data
@@ -426,7 +427,7 @@
     state.shown = 150; renderRounds();
     renderAnnouncements();
     await buildActive(); renderActive();
-    renderExits();
+    await Promise.all([loadExits(), loadCompanies()]); renderExits(); renderCompare();
   }
   // ---------- companies, unicorns, exits ----------
   const API = 'https://funding.tech.eu/api/v1';
@@ -611,6 +612,150 @@
   }
   $('exMore').addEventListener('click', () => { state.exShown = (state.exShown || 100) + 200; renderExits(); });
 
+  // ---------- compare countries ----------
+  const CMP_MAX = 6;
+  let periodAll = [], periodPrev = [];
+  const cmpColors = () => ['--c1', '--c2', '--c3', '--c4', '--c5', '--c6'].map(css);
+  function lines(box, series, buckets, opts) {
+    box.replaceChildren();
+    const W = Math.max(300, box.clientWidth), H = 300, m = { t: 16, r: 12, b: 26, l: 8 };
+    const F = opts.fmt || eur;
+    const ymax = d3.max(series, (s) => d3.max(s.vals)) || 1;
+    const y = d3.scaleLinear([0, ymax * 1.08], [H - m.b, m.t]).nice(); const ticks = y.ticks(4);
+    const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', opts.label);
+    const pr = svg.append('g').attr('font-size', 11); let tw = 0; ticks.forEach((t) => { const n = pr.append('text').text(F(t)); tw = Math.max(tw, n.node().getComputedTextLength()); n.remove(); }); pr.remove();
+    m.l = tw + 10;
+    const x = d3.scalePoint(buckets.map((b) => b.k), [m.l + 6, W - m.r - 6]);
+    svg.append('g').selectAll('line').data(ticks).join('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y).attr('y2', y).attr('stroke', css('--line'));
+    svg.append('g').attr('font-size', 11).attr('fill', css('--muted')).selectAll('text').data(ticks).join('text').attr('x', m.l - 6).attr('y', y).attr('dy', '.35em').attr('text-anchor', 'end').text(F);
+    const every = Math.ceil(buckets.length / Math.max(1, Math.floor((W - m.l) / 56)));
+    svg.append('g').attr('font-size', 11).attr('fill', css('--muted')).selectAll('text').data(buckets.filter((_, i) => i % every === 0)).join('text')
+      .attr('x', (b) => x(b.k)).attr('y', H - 8).attr('text-anchor', 'middle').text((b) => b.label);
+    const line = d3.line().x((_, i) => x(buckets[i].k)).y((v) => y(v));
+    series.forEach((s) => {
+      svg.append('path').attr('d', line(s.vals)).attr('fill', 'none').attr('stroke', s.color).attr('stroke-width', 2.2).attr('stroke-linejoin', 'round');
+      if (buckets.length <= 40) svg.append('g').selectAll('circle').data(s.vals).join('circle').attr('cx', (_, i) => x(buckets[i].k)).attr('cy', (v) => y(v)).attr('r', 2.6).attr('fill', s.color);
+    });
+    const guide = svg.append('line').attr('y1', m.t).attr('y2', H - m.b).attr('stroke', css('--muted')).attr('stroke-dasharray', '3 3').attr('opacity', 0);
+    svg.append('rect').attr('x', m.l).attr('y', m.t).attr('width', W - m.l - m.r).attr('height', H - m.t - m.b).attr('fill', 'transparent')
+      .on('mousemove', (ev) => {
+        const [px] = d3.pointer(ev); const step = x.step() || 1;
+        const i = Math.max(0, Math.min(buckets.length - 1, Math.round((px - x(buckets[0].k)) / step)));
+        guide.attr('x1', x(buckets[i].k)).attr('x2', x(buckets[i].k)).attr('opacity', 1);
+        showTip(ev, [buckets[i].full, ...series.slice().sort((a, b) => b.vals[i] - a.vals[i]).map((s) => `${s.name}: ${F(s.vals[i])}`)]);
+      })
+      .on('mouseleave', () => { guide.attr('opacity', 0); hideTip(); });
+  }
+  function renderCompare() {
+    const P = period(), sel = state.cmp;
+    const chips = $('cmpChips'); chips.replaceChildren();
+    const cs = cmpColors();
+    sel.forEach((c, i) => {
+      const b = el('button', 'chip'); b.type = 'button'; b.setAttribute('aria-label', `Remove ${c}`);
+      const dot = el('span', 'dot'); dot.style.background = cs[i]; b.append(dot, c, el('span', 'x', '×'));
+      b.onclick = () => { state.cmp = sel.filter((x) => x !== c); writeHash(); renderCompare(); };
+      chips.append(b);
+    });
+    const base = periodAll.filter((r) => inScope(r.country) && (!state.sector || r.sectors.includes(state.sector)));
+    const prevBase = periodPrev.filter((r) => inScope(r.country) && (!state.sector || r.sectors.includes(state.sector)));
+    const ranked = d3.rollups(base, (v) => d3.sum(v, (r) => r.amount || 0), (r) => r.country).sort((a, b) => b[1] - a[1]).map((d) => d[0]);
+    fillSelect($('cmpAdd'), SCOPE.filter((c) => !sel.includes(c)), sel.length >= CMP_MAX ? `Up to ${CMP_MAX} countries` : '+ Add a country', '');
+    $('cmpAdd').disabled = sel.length >= CMP_MAX;
+    $('cmpNote').textContent = `${P.label}${P.inPeriod}${state.sector ? ' · ' + state.sector : ''}. Uses the Period and Sector filters above.`;
+    const out = $('cmpOut');
+    if (sel.length < 2) {
+      out.replaceChildren();
+      const e = el('div', 'empty'); e.append(`Pick at least two countries to compare. `);
+      const q = el('button', 'linkish', `Compare the top 3 (${ranked.slice(0, 3).join(', ')})`); q.type = 'button'; q.onclick = () => { state.cmp = ranked.slice(0, 3); writeHash(); renderCompare(); };
+      if (ranked.length >= 3) e.append(q);
+      out.append(e); return;
+    }
+    out.replaceChildren();
+    const all = d3.sum(base, (r) => r.amount || 0);
+    const stats = sel.map((c, i) => {
+      const v = base.filter((r) => r.country === c), pv = prevBase.filter((r) => r.country === c);
+      const s = sum(v), ps = sum(pv);
+      const named = v.filter((r) => !['Other', 'Debt', 'Grant', 'Crowdfunding', 'ICO'].includes(r.stage));
+      const early = named.filter((r) => ['Pre-Seed', 'Seed'].includes(r.stage)).length;
+      const late = named.filter((r) => ['Series B', 'Series C', 'Series D+', 'Growth/Late'].includes(r.stage)).length;
+      const big = v.filter((r) => r.amount).sort((a, b) => b.amount - a.amount)[0];
+      const top10 = d3.sum(v.filter((r) => r.amount).sort((a, b) => b.amount - a.amount).slice(0, 10), (r) => r.amount);
+      const secs = d3.rollups(v.flatMap((r) => r.sectors.map((x) => [x, r.amount || 0])), (a) => d3.sum(a, (z) => z[1]), (z) => z[0]).sort((a, b) => b[1] - a[1]).slice(0, 3);
+      const ex = (exits || []).filter((e) => e.country === c && e.date >= P.from && e.date <= P.to && (!state.sector || ((compById && compById.get(e.company_id)) || {}).sectors?.includes(state.sector)));
+      const unis = (unicorns || []).filter((u) => u[6] === 'current' && u[5].split(', ').includes(c) && (!state.sector || (companies || []).some((co) => co.key === u[1] && co.sectors.includes(state.sector)))).length;
+      const invs = new Set(v.flatMap((r) => r.investors.map((x) => x.trim().toLowerCase()))).size;
+      return { c, color: cs[i], s, ps, early: named.length ? early / named.length : null, late: named.length ? late / named.length : null, big, conc: s.total ? top10 / s.total : null, secs,
+        share: all ? s.total / all : null, exits: ex.length, unis, invs, growth: ps.total && !P.noPrev ? s.total / ps.total - 1 : null, rgrowth: ps.rounds && !P.noPrev ? s.rounds / ps.rounds - 1 : null };
+    });
+    // table: metrics as rows, countries as columns, best value highlighted
+    const T = [
+      ['Total disclosed funding', (x) => x.s.total, eur, 'max'],
+      ['Share of European funding', (x) => x.share, pct, 'max'],
+      [P.noPrev ? null : `Funding growth vs ${P.prevLabel}`, (x) => x.growth, (v) => v == null ? '—' : `${v >= 0 ? '+' : '−'}${d3.format('.1%')(Math.abs(v))}`, 'max'],
+      ['Funding rounds', (x) => x.s.rounds, int, 'max'],
+      [P.noPrev ? null : `Rounds growth vs ${P.prevLabel}`, (x) => x.rgrowth, (v) => v == null ? '—' : `${v >= 0 ? '+' : '−'}${d3.format('.1%')(Math.abs(v))}`, 'max'],
+      ['Companies funded', (x) => x.s.companies, int, 'max'],
+      ['Median disclosed round', (x) => x.s.median, eur, 'max'],
+      ['Equity raised', (x) => x.s.equity, eur, 'max'],
+      ['Debt share of funding', (x) => (x.s.total ? x.s.debt / x.s.total : null), pct0, null],
+      ['Pre-seed and seed share of rounds', (x) => x.early, pct0, null],
+      ['Series B+ share of rounds', (x) => x.late, pct0, null],
+      ['Top 10 rounds’ share of funding', (x) => x.conc, pct0, null],
+      ['Active investors (named in rounds)', (x) => x.invs, int, 'max'],
+      ['Exits', (x) => x.exits, int, 'max'],
+      ['Current unicorns', (x) => x.unis, int, 'max']
+    ].filter((r) => r[0]);
+    const tb = el('div', 'tbox cmp'); const t = document.createElement('table'); tb.append(t);
+    const hr = t.createTHead().insertRow(); const th0 = document.createElement('th'); th0.append(el('span', 'thl', 'Metric')); hr.append(th0);
+    stats.forEach((x) => { const th = document.createElement('th'); th.className = 'num'; const s = el('span', 'thl'); const d = el('span', 'dot'); d.style.background = x.color; s.append(d, x.c); th.append(s); hr.append(th); });
+    const body = t.createTBody();
+    T.forEach(([label, get, fmt, best]) => {
+      const tr = body.insertRow(); tr.insertCell().textContent = label;
+      const vals = stats.map(get); const top = best ? d3.max(vals.filter((v) => v != null && isFinite(v))) : null;
+      vals.forEach((v) => { const td = tr.insertCell(); td.className = 'num' + (best && v != null && v === top && stats.length > 1 ? ' best' : ''); td.textContent = v == null || (typeof v === 'number' && !isFinite(v)) ? '—' : fmt(v); });
+    });
+    const tr2 = body.insertRow(); tr2.insertCell().textContent = 'Largest round';
+    stats.forEach((x) => { const td = tr2.insertCell(); td.className = 'num dim'; td.textContent = x.big ? `${x.big.company}, ${eur(x.big.amount)}` : '—'; });
+    const tr3 = body.insertRow(); tr3.insertCell().textContent = 'Top sectors';
+    stats.forEach((x) => { const td = tr3.insertCell(); td.className = 'num dim'; td.textContent = x.secs.map((s) => s[0]).join(', ') || '—'; });
+    out.append(tb);
+    out.append(el('p', 'note', 'Bold marks the highest value in each row. Shares are of disclosed funding; rounds with no amount count in round numbers only. Unicorn counts come from Wikipedia’s list of unicorn companies, which is not exhaustive, and count a company under each country it is listed for. With a sector selected, only unicorns we can match to that sector are counted.'));
+    // evolution lines
+    const quarterly = P.months > 24;
+    const keyOf = (date) => quarterly ? `${date.slice(0, 4)}-Q${Math.floor((Number(date.slice(5, 7)) - 1) / 3) + 1}` : date.slice(0, 7);
+    const ks = []; for (let mth = P.from.slice(0, 7); mth <= P.to.slice(0, 7); mth = addMonths(mth, 1)) { const k = keyOf(mth + '-01'); if (ks[ks.length - 1] !== k) ks.push(k); }
+    const multiYear = P.from.slice(0, 4) !== P.to.slice(0, 4);
+    const buckets = ks.map((k) => ({ k, label: quarterly ? `${k.slice(5)} ’${k.slice(2, 4)}` : `${MONTHS[Number(k.slice(5, 7)) - 1]}${multiYear ? ' ’' + k.slice(2, 4) : ''}`, full: quarterly ? `${k.slice(5)} ${k.slice(0, 4)}` : mLabel(k) }));
+    const byRounds = state.cmpMetric === 'rounds';
+    const head = el('div', 'card-head row'); head.append(el('h3', 'sub', `${byRounds ? 'Rounds' : 'Funding'} ${quarterly ? 'per quarter' : 'per month'}`));
+    const sw = document.createElement('select'); sw.id = 'cmpMetric'; [['amount', 'Funding raised'], ['rounds', 'Number of rounds']].forEach(([v, l]) => sw.append(new Option(l, v))); sw.value = state.cmpMetric;
+    sw.onchange = () => { state.cmpMetric = sw.value; renderCompare(); };
+    const lab = el('label', null, 'Show '); lab.append(sw); head.append(lab); out.append(head);
+    const series = stats.map((x) => {
+      const g = new Map(d3.rollups(base.filter((r) => r.country === x.c), (v) => byRounds ? v.length : d3.sum(v, (r) => r.amount || 0), (r) => keyOf(r.date)));
+      return { name: x.c, color: x.color, vals: ks.map((k) => g.get(k) || 0) };
+    });
+    const leg = el('div', 'legend'); stats.forEach((x) => { const s = el('span', null, x.c); s.style.setProperty('--sw', x.color); leg.append(s); }); out.append(leg);
+    const ch = el('div', 'chart'); out.append(ch);
+    lines(ch, series, buckets, { label: 'Country comparison over time', fmt: byRounds ? int : eur });
+    // stage mix bars
+    out.append(el('h3', 'sub mix-h', 'Stage mix (share of rounds with a named stage)'));
+    const ST = ['Pre-Seed', 'Seed', 'Series A', 'Series B', 'Series C', 'Series D+', 'Growth/Late'];
+    const stc = (i) => css(['--c5', '--c1', '--c2', '--c3', '--c4', '--c6', '--fg'][i]);
+    const mix = el('div', 'mix');
+    stats.forEach((x) => {
+      const v = base.filter((r) => r.country === x.c && ST.includes(r.stage));
+      const row = el('div', 'mix-row'); row.append(el('span', 'mix-l', x.c));
+      const bar = el('div', 'mix-bar');
+      ST.forEach((s, i) => { const n = v.filter((r) => r.stage === s).length; if (!n) return; const seg = el('span'); seg.style.width = (100 * n / v.length) + '%'; seg.style.background = stc(i);
+        seg.addEventListener('mousemove', (ev) => showTip(ev, [`${x.c} · ${s}`, `${int(n)} rounds (${pct0(n / v.length)})`])); seg.addEventListener('mouseleave', hideTip); bar.append(seg); });
+      row.append(bar); mix.append(row);
+    });
+    const ml = el('div', 'legend'); ST.forEach((s, i) => { const sp = el('span', null, s); sp.style.setProperty('--sw', stc(i)); ml.append(sp); });
+    out.append(mix, ml);
+  }
+  $('cmpAdd').addEventListener('change', (e) => { const c = e.target.value; if (c && !state.cmp.includes(c) && state.cmp.length < CMP_MAX) { state.cmp = [...state.cmp, c]; writeHash(); renderCompare(); } });
+
   function setState(p) { Object.assign(state, p); if ('country' in p || 'sector' in p || 'year' in p) { state.stage = ''; } render(); }
 
   $('fYear').addEventListener('change', (e) => {
@@ -671,6 +816,7 @@
     else state.year = years.includes(h.year) ? h.year : years[0];
     state.country = SCOPE.includes(h.country) ? h.country : '';
     state.sector = h.sector || '';
+    state.cmp = h.cmp.filter((c) => SCOPE.includes(c)).slice(0, CMP_MAX);
     $('fYear').value = state.year;
     if (meta && meta.updated) $('updated').textContent = `Data updated ${d3.timeFormat('%-d %B %Y, %H:%M')(new Date(meta.updated))} · ${int(d3.sum(Object.values(meta.years)))} rounds since ${years[years.length - 1]}${meta.scan_added && d3.sum(Object.values(meta.scan_added)) ? ` · ${int(d3.sum(Object.values(meta.scan_added)))} added from sources beyond Tech.eu` : ''}`;
     await render();

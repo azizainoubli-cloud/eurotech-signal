@@ -153,3 +153,22 @@ input[type=month] { font: inherit; font-size: 15px; color: var(--fg); background
 .card-head.row { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
 
 @media (max-width: 640px) { .bar { position: static; } }
+
+/* compare countries */
+.cmp-pick { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font: inherit; font-size: 14px; font-weight: 600; color: var(--fg); background: var(--soft); border: 1px solid var(--line); border-radius: 999px; padding: 4px 8px 4px 10px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; min-height: 32px; }
+.chip .x { color: var(--muted); font-size: 16px; line-height: 1; }
+.chip:hover .x { color: var(--fg); }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+.chip .dot { margin-right: 0; }
+.tbox.cmp { margin-bottom: 6px; }
+.tbox.cmp td:first-child { color: var(--muted); }
+.tbox.cmp td.best { font-weight: 700; }
+.tbox.cmp th.num .thl { text-align: right; }
+.mix-h { margin-top: 18px; }
+.mix { display: grid; gap: 8px; margin-bottom: 6px; }
+.mix-row { display: grid; grid-template-columns: 8rem minmax(0, 1fr); gap: 10px; align-items: center; font-size: 14px; }
+.mix-l { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mix-bar { display: flex; height: 16px; border-radius: 4px; overflow: hidden; background: var(--soft); }
+.mix-bar span { height: 100%; }
