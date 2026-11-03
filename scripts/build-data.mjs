@@ -297,7 +297,7 @@ async function main() {
       const w = await fetch('https://en.wikipedia.org/w/api.php?action=parse&page=List_of_unicorn_startup_companies&prop=wikitext&format=json&formatversion=2',
         { headers: { 'user-agent': 'TechCap-Intelligence-site/1.0 (https://github.com/azizainoubli-cloud/eurotech-signal)' } }).then((r) => r.json());
       const rows = parseUnicorns(w.parse.wikitext);
-      if (!rows.some((r) => r[6] === 'current')) console.log('unicorns debug:', JSON.stringify(String(w.parse.wikitext).split(/\n\{\|/).slice(1, 3).map((x) => x.slice(0, 700))));
+      if (!rows.some((r) => r[6] === 'current')) console.log('unicorns debug:', JSON.stringify(String(w.parse.wikitext).split(/\n\{\|/).slice(1).filter((x) => /aluation/.test(x.slice(0, 3000))).map((x) => x.slice(0, 1800))));
       if (rows.length) await fs.writeFile(path.join(OUT, 'unicorns.json'), JSON.stringify({ source: 'https://en.wikipedia.org/wiki/List_of_unicorn_startup_companies',
         columns: ['company', 'key', 'valuation_usd_b', 'valuation_date', 'industry', 'countries', 'status', 'exit_date', 'exit_reason'], rows }));
       console.log(`unicorns: ${rows.length} European (${rows.filter((r) => r[6] === 'current').length} current)`);
