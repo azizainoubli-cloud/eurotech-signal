@@ -1,4 +1,4 @@
-/* EuroTech Signal — public site. Tokens follow the brand note: Midnight, Teal, Amber, Purple; dark theme in neutral grey. */
+/* EuroTech Signals — public site. Tokens follow the brand note: Midnight, Teal, Amber, Purple; dark theme in neutral grey. */
 :root {
   --bg: #F4F6F9; --panel: #FFFFFF; --fg: #101827; --muted: #5B6577; --line: #E3E8EF; --soft: #EEF2F6;
   --c1: #14B8A6; --c2: #3B82F6; --c3: #988AFB; --c4: #F4B860; --c5: #65D6C2; --c6: #94A3B8;
@@ -24,7 +24,7 @@ h1 { margin: 0 0 6px; font-size: 32px; font-weight: 700; letter-spacing: -0.01em
 #lead b { color: var(--fg); font-weight: 700; }
 .updated { margin: 6px 0 0; font-size: 12px; color: var(--muted); }
 .brand { display: grid; justify-items: end; gap: 10px; }
-.logo { width: 230px; aspect-ratio: 256.5 / 76; position: relative; }
+.logo { width: 230px; aspect-ratio: 264 / 76; position: relative; }
 .logo span { position: absolute; inset: 0; }
 .logo .w { background: var(--fg); -webkit-mask: url(logo-word.png) no-repeat 0 0 / 100% 100%; mask: url(logo-word.png) no-repeat 0 0 / 100% 100%; }
 .logo .m { background: url(logo-mark.png) no-repeat 0 0 / 100% 100%; }

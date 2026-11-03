@@ -1,4 +1,4 @@
-// Builds the data snapshot for the EuroTech Signal public site from the free
+// Builds the data snapshot for the EuroTech Signals public site from the free
 // Tech.eu Funding Explorer API (CC BY 4.0, https://funding.tech.eu/api-docs).
 //
 // Output (site/data/):
@@ -26,7 +26,7 @@ async function get(url, tries = 4) {
   const wait = last + MIN_GAP_MS - Date.now();
   if (wait > 0) await new Promise((r) => setTimeout(r, wait));
   last = Date.now(); calls++;
-  const res = await fetch(url, { headers: { 'user-agent': 'EuroTech-Signal-site (+https://github.com)' } });
+  const res = await fetch(url, { headers: { 'user-agent': 'EuroTech-Signals-site (+https://github.com)' } });
   if (res.status === 429 && tries > 0) {
     const s = Number(res.headers.get('retry-after')) || 30;
     console.log(`  rate limited, waiting ${s}s`);

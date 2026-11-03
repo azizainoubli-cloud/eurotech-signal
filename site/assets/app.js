@@ -1,4 +1,4 @@
-/* EuroTech Signal — public site logic. Reads the daily snapshot in /data and draws everything client-side. */
+/* EuroTech Signals — public site logic. Reads the daily snapshot in /data and draws everything client-side. */
 (() => {
   const SCOPE = ['Austria','Belgium','Bulgaria','Croatia','Cyprus','Czech Republic','Denmark','Estonia','Finland','France','Germany','Greece','Hungary','Iceland','Ireland','Italy','Latvia','Lithuania','Luxembourg','Malta','Netherlands','Norway','Poland','Portugal','Romania','Slovakia','Slovenia','Spain','Sweden','Switzerland','UK'];
   const STAGES = ['Pre-Seed','Seed','Early VC','Series A','Series B','Series C','Series D+','Growth/Late','Debt','Grant','Crowdfunding','ICO','Other'];
@@ -119,7 +119,7 @@
     mapPaths.attr('class', (c) => (inScope(c.n) ? 'in' : '') + (c.n === state.country ? ' sel' : ''))
       .attr('fill', (c) => !inScope(c.n) ? css('--line') : (by.get(c.n) && by.get(c.n).total > 0 ? ramp(t(by.get(c.n).total)) : css('--bg')))
       .on('mousemove', (ev, c) => {
-        if (!inScope(c.n)) return showTip(ev, [c.n, 'Outside the EuroTech Signal scope']);
+        if (!inScope(c.n)) return showTip(ev, [c.n, 'Outside the EuroTech Signals scope']);
         const v = by.get(c.n);
         if (!v) return showTip(ev, [`${c.n} · ${state.year}`, 'No rounds on record']);
         showTip(ev, [`${c.n} · ${state.year}${state.sector ? ' · ' + state.sector : ''}`, `#${rk.get(c.n)} in Europe · ${eur(v.total)} (${pct(all ? v.total / all : null)})`,
