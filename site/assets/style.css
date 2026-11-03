@@ -90,9 +90,13 @@ td.dim { color: var(--muted); max-width: 22rem; }
 .skel { color: transparent !important; background: var(--soft); border-radius: 6px; }
 .empty { color: var(--muted); font-size: 13px; padding: 20px 0; text-align: center; }
 @media (prefers-reduced-motion: no-preference) { .chart svg, .rank { animation: fade .3s ease-out; } @keyframes fade { from { opacity: 0; } to { opacity: 1; } } }
-.join { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 20px; align-items: start; }
-@media (max-width: 860px) { .join { grid-template-columns: minmax(0, 1fr); } }
-.join p { margin: 6px 0 0; color: var(--muted); max-width: 60ch; }
+dialog.join { border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); color: var(--fg); padding: 28px 24px 20px;
+  width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); overflow: auto; box-shadow: 0 24px 64px rgba(16, 24, 39, .28); }
+dialog.join::backdrop { background: rgba(16, 24, 39, .55); }
+dialog.join h2 { margin: 0; font-size: 20px; font-weight: 700; padding-right: 32px; }
+dialog.join p { margin: 6px 0 16px; color: var(--muted); font-size: 14px; }
+dialog.join .close { position: absolute; top: 10px; right: 10px; width: 36px; height: 36px; border: 0; border-radius: 8px; background: transparent; color: var(--muted); font: inherit; font-size: 24px; line-height: 1; cursor: pointer; }
+dialog.join .close:hover { background: var(--soft); color: var(--fg); }
 .join-form { min-height: 200px; min-width: 0; }
 .join-form iframe { max-width: 100%; }
 .tiles.mini { margin-bottom: 12px; }

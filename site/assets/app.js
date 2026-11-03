@@ -385,7 +385,11 @@
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => render());
 
   (async () => {
-    $('subscribe').addEventListener('click', () => $('join').scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    const joinDlg = $('join');
+    $('subscribe').addEventListener('click', () => { if (joinDlg.showModal) joinDlg.showModal(); else joinDlg.setAttribute('open', ''); });
+    $('joinClose').addEventListener('click', () => joinDlg.close ? joinDlg.close() : joinDlg.removeAttribute('open'));
+    joinDlg.addEventListener('click', (e) => { if (e.target === joinDlg) joinDlg.close(); });
+    if (location.hash.includes('join')) $('subscribe').click();
     try { meta = await loadJSON('meta.json'); } catch { meta = null; }
     try { cube = (await loadJSON('cube.json')).rows; } catch { cube = null; }
     try { ann = (await loadJSON('announcements.json')).rows || []; } catch { ann = []; }
