@@ -754,6 +754,12 @@
     const ml = el('div', 'legend'); ST.forEach((s, i) => { const sp = el('span', null, s); sp.style.setProperty('--sw', stc(i)); ml.append(sp); });
     out.append(mix, ml);
   }
+  $('goCmp').addEventListener('click', () => {
+    if (!state.cmp.length && state.country) { state.cmp = [state.country]; writeHash(); renderCompare(); }
+    const top = $('cmpCard').getBoundingClientRect().top + scrollY - ($('cmpCard').closest('.wrap') ? document.querySelector('.bar').offsetHeight + 12 : 0);
+    scrollTo({ top, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    setTimeout(() => $('cmpAdd').focus({ preventScroll: true }), 400);
+  });
   $('cmpAdd').addEventListener('change', (e) => { const c = e.target.value; if (c && !state.cmp.includes(c) && state.cmp.length < CMP_MAX) { state.cmp = [...state.cmp, c]; writeHash(); renderCompare(); } });
 
   function setState(p) { Object.assign(state, p); if ('country' in p || 'sector' in p || 'year' in p) { state.stage = ''; } render(); }

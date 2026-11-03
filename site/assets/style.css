@@ -172,3 +172,6 @@ input[type=month] { font: inherit; font-size: 15px; color: var(--fg); background
 .mix-l { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .mix-bar { display: flex; height: 16px; border-radius: 4px; overflow: hidden; background: var(--soft); }
 .mix-bar span { height: 100%; }
+
+.btn-accent { border-color: var(--c1); color: var(--fg); background: color-mix(in srgb, var(--c1) 14%, transparent); }
+.btn-accent:hover { background: color-mix(in srgb, var(--c1) 24%, transparent); }

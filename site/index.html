@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=1793738971">
+<link rel="stylesheet" href="assets/style.css?v=1793739346">
 </head>
 <body>
 <div class="wrap">
@@ -44,6 +44,7 @@
     <label>Country <select id="fCountry"></select></label>
     <label>Sector <select id="fSector"></select></label>
     <button class="btn" id="reset" type="button">Reset</button>
+    <button class="btn btn-accent" id="goCmp" type="button">Compare countries</button>
   </nav>
 
   <div class="intro">
@@ -53,18 +54,18 @@
 
   <section class="tiles" id="tiles" aria-label="Headline figures"></section>
 
-  <section class="card" id="mapCard">
-    <div class="card-head"><h2>Funding map</h2><p class="note">Disclosed funding by country for the selected period and sector. Hover a country for its key figures; click it to filter.</p></div>
-    <div class="map" id="map"></div>
-    <div class="map-legend" id="mapLegend"></div>
-  </section>
-
   <section class="card" id="cmpCard">
     <div class="card-head row">
       <div><h2>Compare countries</h2><p class="note" id="cmpNote"></p></div>
     </div>
     <div class="cmp-pick"><div class="chips" id="cmpChips"></div><select id="cmpAdd" aria-label="Add a country to compare"></select></div>
     <div id="cmpOut"></div>
+  </section>
+
+  <section class="card" id="mapCard">
+    <div class="card-head"><h2>Funding map</h2><p class="note">Disclosed funding by country for the selected period and sector. Hover a country for its key figures; click it to filter.</p></div>
+    <div class="map" id="map"></div>
+    <div class="map-legend" id="mapLegend"></div>
   </section>
 
   <section class="card" id="signalsCard">
@@ -174,7 +175,7 @@
 </dialog>
 <div class="tip" id="tip" hidden></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<script src="assets/europe-map.js?v=1793738971"></script>
-<script src="assets/app.js?v=1793738971"></script>
+<script src="assets/europe-map.js?v=1793739346"></script>
+<script src="assets/app.js?v=1793739346"></script>
 </body>
 </html>
