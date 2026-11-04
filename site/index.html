@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=1793739346">
+<link rel="stylesheet" href="assets/style.css?v=1793809126">
 </head>
 <body>
 <div class="wrap">
@@ -54,6 +54,15 @@
 
   <section class="tiles" id="tiles" aria-label="Headline figures"></section>
 
+  <section class="card analysis" id="signalsCard">
+    <div class="card-head"><h2>What the data says</h2><p class="note" id="signalsNote"></p></div>
+    <div class="an-body" id="analysis"></div>
+    <div class="audience" id="audience">
+      <div><h3 class="sub">For founders</h3><ul class="signals" id="forFounders"></ul></div>
+      <div><h3 class="sub">For investors</h3><ul class="signals" id="forInvestors"></ul></div>
+    </div>
+  </section>
+
   <section class="card" id="cmpCard">
     <div class="card-head row">
       <div><h2>Compare countries</h2><p class="note" id="cmpNote"></p></div>
@@ -66,12 +75,9 @@
     <div class="card-head"><h2>Funding map</h2><p class="note">Disclosed funding by country for the selected period and sector. Hover a country for its key figures; click it to filter.</p></div>
     <div class="map" id="map"></div>
     <div class="map-legend" id="mapLegend"></div>
+    <p class="takeaway" id="mapTake" hidden></p>
   </section>
 
-  <section class="card" id="signalsCard">
-    <div class="card-head"><h2>Key signals</h2><p class="note" id="signalsNote"></p></div>
-    <ul class="signals" id="signals"></ul>
-  </section>
 
   <section class="card">
     <div class="card-head"><h2 id="trendTitle">Funding by year and instrument</h2><p class="note">Equity, debt and grants each year since 2021 for the current country and sector. The current year is year to date. Click a year to select it; years inside a custom range stay highlighted.</p></div>
@@ -85,6 +91,7 @@
       <label>Show <select id="evoMode"><option value="amount">Funding raised</option><option value="rounds">Number of rounds</option></select></label>
     </div>
     <div class="chart" id="months"></div>
+    <p class="takeaway" id="evoTake" hidden></p>
   </section>
 
   <div class="grid">
@@ -95,6 +102,7 @@
     <section class="card">
       <div class="card-head"><h2>By sector</h2><p class="note">Top 10. A round tagged with two sectors counts toward both. Click to filter.</p></div>
       <div class="rank" id="bySector"></div>
+    <p class="takeaway" id="sectorTake" hidden></p>
     </section>
   </div>
 
@@ -102,12 +110,14 @@
     <section class="card">
       <div class="card-head"><h2>By stage</h2><p class="note">"Not specified" means the announcement gave no round type.</p></div>
       <div class="rank" id="byStage"></div>
+    <p class="takeaway" id="stageTake" hidden></p>
     </section>
   </div>
 
   <section class="card">
     <div class="card-head"><h2>Most active investors</h2><p class="note">Investors named most often in this selection. The amount is the combined size of those rounds, not what the investor put in. Click to see their deals.</p></div>
     <div class="rank" id="investors"></div>
+    <p class="takeaway" id="invTake" hidden></p>
   </section>
 
   <section class="card" id="activeCard">
@@ -126,6 +136,7 @@
   <section class="card" id="exitsCard" hidden>
     <div class="card-head"><h2>European exits</h2><p class="note" id="exitsNote"></p></div>
     <div class="tiles mini" id="exitTiles"></div>
+    <p class="takeaway" id="exitTake" hidden></p>
     <div class="grid three">
       <div><h3 class="sub">By type</h3><div class="rank" id="exitTypes"></div></div>
       <div><h3 class="sub">Most active acquirers</h3><div class="rank" id="exitBuyers"></div></div>
@@ -175,7 +186,7 @@
 </dialog>
 <div class="tip" id="tip" hidden></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<script src="assets/europe-map.js?v=1793739346"></script>
-<script src="assets/app.js?v=1793739346"></script>
+<script src="assets/europe-map.js?v=1793809126"></script>
+<script src="assets/app.js?v=1793809126"></script>
 </body>
 </html>

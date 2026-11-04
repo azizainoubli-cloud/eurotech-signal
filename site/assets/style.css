@@ -175,3 +175,15 @@ input[type=month] { font: inherit; font-size: 15px; color: var(--fg); background
 
 .btn-accent { border-color: var(--c1); color: var(--fg); background: color-mix(in srgb, var(--c1) 14%, transparent); }
 .btn-accent:hover { background: color-mix(in srgb, var(--c1) 24%, transparent); }
+
+/* analysis */
+.analysis .an-body { display: grid; gap: 8px; font-size: 15px; line-height: 1.6; max-width: 92ch; }
+.analysis .an-body p { margin: 0; }
+.analysis .an-body b, .takeaway b, .audience b { font-weight: 700; }
+.audience { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 12px 28px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+.audience ul { font-size: 14px; }
+.warn { color: var(--bad); font-weight: 600; }
+.muted { color: var(--muted); }
+.takeaway { margin: 12px 0 0; font-size: 13.5px; line-height: 1.55; padding: 8px 12px; border-left: 3px solid var(--c1); background: color-mix(in srgb, var(--c1) 8%, transparent); border-radius: 0 8px 8px 0; }
+.takeaway .tk-l { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-right: 8px; }
+#cmpOut > .takeaway { margin: 0 0 14px; }
