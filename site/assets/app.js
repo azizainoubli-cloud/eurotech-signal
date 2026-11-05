@@ -1014,11 +1014,18 @@
   (async () => {
     try {
       const joinDlg = $('join'), sub = $('subscribe'), cls = $('joinClose');
+      // Load the Beehiiv form only once the pop-up is open, so it renders at its real size.
+      const loadForm = () => {
+        const box = $('joinForm'); if (!box || box.dataset.loaded) return; box.dataset.loaded = '1';
+        const s = document.createElement('script'); s.async = true; s.src = 'https://subscribe-forms.beehiiv.com/v3/loader.js';
+        s.setAttribute('data-beehiiv-form', 'e144240e-0ef7-48e0-849a-57f2a25f4973'); box.append(s);
+      };
+      const openJoin = () => { joinDlg.showModal(); requestAnimationFrame(loadForm); };
       if (joinDlg && sub && joinDlg.showModal) {
-        sub.addEventListener('click', () => joinDlg.showModal());
+        sub.addEventListener('click', openJoin);
         if (cls) cls.addEventListener('click', () => joinDlg.close());
         joinDlg.addEventListener('click', (e) => { if (e.target === joinDlg) joinDlg.close(); });
-        if (location.hash.includes('join')) joinDlg.showModal();
+        if (location.hash.includes('join')) openJoin();
       }
     } catch (e) { /* the form pop-up must never stop the data from loading */ }
     try { meta = await loadJSON('meta.json'); } catch { meta = null; }

@@ -199,3 +199,6 @@ thead tr th:first-child { border-top-left-radius: 6px; } thead tr th:last-child 
 .tbox { border-top: 0; }
 #lead b, .analysis .an-body b, .audience b, .takeaway b, .signals b { color: var(--label); }
 .takeaway .tk-l { color: var(--label); }
+
+.join-alt { margin: 10px 0 0; }
+#joinForm { min-height: 380px; }
