@@ -187,3 +187,15 @@ input[type=month] { font: inherit; font-size: 15px; color: var(--fg); background
 .takeaway { margin: 12px 0 0; font-size: 13.5px; line-height: 1.55; padding: 8px 12px; border-left: 3px solid var(--c1); background: color-mix(in srgb, var(--c1) 8%, transparent); border-radius: 0 8px 8px 0; }
 .takeaway .tk-l { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-right: 8px; }
 #cmpOut > .takeaway { margin: 0 0 14px; }
+
+/* palette: dark purple table headers, magenta bold labels */
+:root { --head: #431550; --head-fg: #FFFFFF; --label: #FD0A71; }
+th { background: var(--head); border-bottom-color: var(--head); }
+th button, .thl { color: var(--head-fg); font-weight: 700; }
+th button:hover { text-decoration: underline; text-underline-offset: 3px; }
+th button:focus-visible { outline-color: var(--head-fg); outline-offset: -3px; }
+th .dot { box-shadow: 0 0 0 1.5px var(--head-fg); }
+thead tr th:first-child { border-top-left-radius: 6px; } thead tr th:last-child { border-top-right-radius: 6px; }
+.tbox { border-top: 0; }
+#lead b, .analysis .an-body b, .audience b, .takeaway b, .signals b { color: var(--label); }
+.takeaway .tk-l { color: var(--label); }
