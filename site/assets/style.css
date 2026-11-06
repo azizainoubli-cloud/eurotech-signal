@@ -200,5 +200,40 @@ thead tr th:first-child { border-top-left-radius: 6px; } thead tr th:last-child 
 #lead b, .analysis .an-body b, .audience b, .takeaway b, .signals b { color: var(--label); }
 .takeaway .tk-l { color: var(--label); }
 
+/* market outlook */
+.ol-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: end; }
+.btn.xs { min-height: 28px; font-size: 12px; padding: 0 9px; font-weight: 600; }
+.ch-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 4px; }
+.ch-head h3.sub { margin: 0; }
+.verdict { display: grid; gap: 6px; padding: 14px 16px; border-radius: 10px; background: color-mix(in srgb, var(--head) 7%, transparent); border: 1px solid color-mix(in srgb, var(--head) 22%, transparent); margin-bottom: 14px; }
+.verdict .stance { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; }
+.verdict .stance .pill { font-size: 12px; }
+.verdict p { margin: 0; font-size: 15px; line-height: 1.6; max-width: 100ch; }
+.verdict b, .outlook .signals b, .outlook .takeaway b, .sig .why b { color: var(--label); font-weight: 700; }
+.lvl { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 999px; letter-spacing: .02em; }
+.lvl.pos { background: color-mix(in srgb, var(--good) 18%, transparent); color: var(--good); }
+.lvl.neg { background: color-mix(in srgb, var(--bad) 16%, transparent); color: var(--bad); }
+.lvl.mid { background: var(--soft); color: var(--muted); }
+.lvl.big { font-size: 13px; padding: 3px 12px; }
+.tiles.sig { grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); margin-bottom: 16px; }
+.sig .tile { padding: 12px 14px; gap: 4px; }
+.sig .tile h3 { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.sig .val { font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.sig .why { font-size: 12px; color: var(--muted); line-height: 1.45; }
+.ol-guide { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 14px 28px; padding: 14px 0 18px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: 18px; }
+.ol-guide ul { font-size: 14px; }
+.ol-charts { margin-bottom: 18px; }
+.ol-chart { min-width: 0; }
+.chart.short { min-height: 150px; }
+.ol-tab-h { margin-top: 4px; }
+.tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 0 7px; border-radius: 999px; margin: 1px 3px 1px 0; background: color-mix(in srgb, var(--c3) 22%, transparent); white-space: nowrap; }
+.tag.hub { background: color-mix(in srgb, var(--head) 20%, transparent); }
+.tag.rise { background: color-mix(in srgb, var(--good) 20%, transparent); }
+.tag.pipe { background: color-mix(in srgb, var(--c5) 30%, transparent); }
+.tag.cheap { background: color-mix(in srgb, var(--c4) 32%, transparent); }
+td.pos { color: var(--good); } td.neg { color: var(--bad); }
+.ol-disc { margin-top: 10px; }
+
 .join-alt { margin: 10px 0 0; }
 #joinForm { min-height: 380px; }
+.legend span.dash::before { height: 0; width: 16px; border-top: 2px dashed var(--sw); border-radius: 0; background: none; vertical-align: 3px; }

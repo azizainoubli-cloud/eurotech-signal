@@ -285,7 +285,7 @@
       else if (tChg > 0 && rChg >= 0) shape = 'growth in both money and deal count, a broad-based upswing';
       else if (tChg < 0 && rChg > 0) shape = 'more deals but less money, so rounds are getting smaller';
       else shape = 'a slowdown in both money and deal count';
-      sentence(box, [`${subj.charAt(0).toUpperCase() + subj.slice(1)} raised `, B(eur(s.total)), ` across `, B(nR(s.rounds)), `, funding ${upDown(tChg)} and deal count ${upDown(rChg)} on ${vs}. That points to `, B(shape), '.']);
+      sentence(box, [`${subj.charAt(0).toUpperCase() + subj.slice(1)} raised `, B(eur(s.total)), ` across `, B(nR(s.rounds)), `, funding ${upDown(tChg)}${ps.total < 0.15 * s.total ? ` (from a small base of ${eur(ps.total)})` : ''} and deal count ${upDown(rChg)} on ${vs}. That points to `, B(shape), '.']);
     } else sentence(box, [`${subj.charAt(0).toUpperCase() + subj.slice(1)} raised `, B(eur(s.total)), ` across `, B(nR(s.rounds)), ` with a disclosed stage or amount${P.noPrev ? ' (no earlier data to compare with)' : ''}.`]);
 
     // 2. one deal driving the headline?
@@ -599,6 +599,407 @@
   $('aQ').addEventListener('input', (e) => { astate.q = e.target.value; astate.shown = 100; renderActive(); });
   $('aMore').addEventListener('click', () => { astate.shown += 200; renderActive(); });
 
+  // ---------- market outlook: an investor-grade reading of the selection ----------
+  const SIZE_BANDS = [[0, 1e6, '< €1M'], [1e6, 5e6, '€1–5M'], [5e6, 20e6, '€5–20M'], [20e6, 50e6, '€20–50M'], [50e6, 100e6, '€50–100M'], [100e6, Infinity, '€100M+']];
+  const STAGE_GROUPS = [['Pre-seed', ['Pre-Seed']], ['Seed', ['Seed']], ['Series A', ['Series A']], ['Series B', ['Series B']], ['Series C+', ['Series C', 'Series D+', 'Growth/Late']]];
+  const PUBLIC_RX = /(\bNATO\b|\bDIANA\b|\bEIC\b|\bEIF\b|European Innovation Council|European Investment|Bpifrance|British Business Bank|National Wealth Fund|NSSIF|\bKfW\b|\bENISA\b|\bCDTI\b|Business Finland|Innovate UK|Vinnova|Innovation Norway|\bEIFO\b|\bSFPIM?\b|\bPFR\b|Ministry|Minist[eè]re|Government|Agency|Agence|Sovereign|Public Investment|Scottish Enterprise|Invest NI|Defence Fund|Defense Fund|Tech Fund of Ukraine)/i;
+  const CORP_RX = /\b(Rheinmetall|Saab|Dassault|Airbus|Thales|Leonardo|BAE Systems|KNDS|Hensoldt|Safran|Kongsberg|Lockheed|Raytheon|Northrop|MBDA|Indra|Naval Group|Babcock|QinetiQ|Patria|Nammo|Diehl|John Cockerill|Renk|Siemens|Bosch|Ericsson|Nokia|Orange|Deutsche Telekom|Vodafone|Shell|BP|TotalEnergies|Volkswagen|BMW|Mercedes)\b/i;
+  const KINDS = ['VC & investment firms', 'Corporate & strategic', 'Public & institutional', 'Angels & other'];
+  function investorKind(name) {
+    const t = invTypes && invTypes[name.toLowerCase()];
+    if (PUBLIC_RX.test(name) || t === 'Government / public' || t === 'Bank') return KINDS[2];
+    if (t === 'Corporate' || t === 'Corporate VC' || CORP_RX.test(name)) return KINDS[1];
+    if (t === 'Venture capital' || t === 'Investment firm' || t === 'Private equity' || t === 'Accelerator') return KINDS[0];
+    if (t === 'Angel' || t === 'Crowdfunding') return KINDS[3];
+    return /ventures?|capital|partners|\bvc\b|fund|invest|holding|equity/i.test(name) ? KINDS[0] : KINDS[3];
+  }
+  const cleanInv = (r) => [...new Set(r.investors.map((x) => x.trim()).filter((x) => x && !GENERIC.test(x)))];
+  const nameKey = (x) => x.toLowerCase().replace(/\s*\(.*?\)\s*/g, ' ').replace(/[^a-z0-9]+/g, ' ').trim();
+  const growthText = (c, p) => {
+    if (!p && !c) return 'no activity in either period';
+    if (!p) return `new (${eur(c)}, none before)`;
+    const x = c / p - 1;
+    if (p < 0.15 * c) return `${(c / p).toFixed(c / p >= 10 ? 0 : 1)}× from a small base (${eur(p)})`;
+    return upDown(x);
+  };
+  const growthN = (c, p) => !p ? (c ? 'new' : 'flat') : p < 0.15 * c ? `${(c / p).toFixed(c / p >= 10 ? 0 : 1)}× (from ${int(p)})` : upDown(c / p - 1);
+  const pp1 = (x) => Math.abs(x) >= 0.1 ? pp(x) : (Math.abs(x) < 0.0005 ? 'unchanged' : `${x >= 0 ? '+' : '−'}${(Math.abs(x) * 100).toFixed(1)} pts`);
+  const lvlPill = (l) => el('span', 'lvl ' + (l > 0 ? 'pos' : l < 0 ? 'neg' : 'mid'), l > 0 ? 'Positive' : l < 0 ? 'Negative' : 'Neutral');
+  const li = (ul, parts) => { const n = el('li'); parts.flat().forEach((p) => n.append(p && p.nodeType ? p.cloneNode(true) : p)); ul.append(n); };
+
+  function periodBuckets(P) {
+    const quarterly = P.months > 18;
+    const keyOf = (d) => quarterly ? `${d.slice(0, 4)}-Q${Math.floor((Number(d.slice(5, 7)) - 1) / 3) + 1}` : d.slice(0, 7);
+    const ks = []; for (let m = P.from.slice(0, 7); m <= P.to.slice(0, 7); m = addMonths(m, 1)) { const k = keyOf(m + '-01'); if (ks[ks.length - 1] !== k) ks.push(k); }
+    const multiYear = P.from.slice(0, 4) !== P.to.slice(0, 4), today = todayISO();
+    const qStart = (k) => `${k.slice(0, 4)}-${String((Number(k.slice(6)) - 1) * 3 + 1).padStart(2, '0')}`;
+    const partial = (k) => {
+      if (!quarterly) return k === today.slice(0, 7) && P.to === today;
+      const s = qStart(k), e = addMonths(s, 2);
+      return P.from.slice(0, 7) > s || P.to.slice(0, 7) < e || (P.to === today && e >= today.slice(0, 7));
+    };
+    return { quarterly, keyOf, unit: quarterly ? 'quarter' : 'month', buckets: ks.map((k) => ({ k, part: partial(k),
+      label: quarterly ? `${k.slice(5)} ’${k.slice(2, 4)}` : `${MONTHS[Number(k.slice(5, 7)) - 1]}${multiYear ? ' ’' + k.slice(2, 4) : ''}`,
+      full: quarterly ? `${k.slice(5)} ${k.slice(0, 4)}` : mLabel(k) })) };
+  }
+  function legend(id, items) { const lg = $(id); if (!lg) return; lg.replaceChildren(); items.forEach(([n, c, dash]) => { const s = el('span', dash ? 'dash' : null, n); s.style.setProperty('--sw', c); lg.append(s); }); }
+  function svgBase(box, H, label) {
+    box.replaceChildren();
+    const W = Math.max(300, box.clientWidth);
+    const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', label).attr('font-family', css('--font'));
+    return { W, svg };
+  }
+  const textW = (svg, labels) => { const g = svg.append('g').attr('font-size', 11); let w = 0; labels.forEach((t) => { const n = g.append('text').text(t); w = Math.max(w, n.node().getComputedTextLength()); }); g.remove(); return w; };
+
+  // bars (left axis) + line (right axis) + dashed trailing average of the bars
+  function combo(box, buckets, bars, line, opts) {
+    const H = 300; const { W, svg } = svgBase(box, H, opts.label); const m = { t: 22, b: 26 };
+    const y = d3.scaleLinear([0, (d3.max(bars) || 1) * 1.12], [H - m.b, m.t]).nice(), y2 = d3.scaleLinear([0, (d3.max(line) || 1) * 1.12], [H - m.b, m.t]).nice();
+    const t1 = y.ticks(4), t2 = y2.ticks(4).filter((t) => Number.isInteger(t));
+    m.l = textW(svg, t1.map(eur)) + 10; m.r = textW(svg, t2.map(int)) + 12;
+    const x = d3.scaleBand(buckets.map((b) => b.k), [m.l, W - m.r]).padding(0.25);
+    svg.append('g').selectAll('line').data(t1).join('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y).attr('y2', y).attr('stroke', css('--line'));
+    svg.append('g').attr('font-size', 11).attr('fill', css('--muted')).selectAll('text').data(t1).join('text').attr('x', m.l - 6).attr('y', y).attr('dy', '.35em').attr('text-anchor', 'end').text(eur);
+    svg.append('g').attr('font-size', 11).attr('fill', css('--c3')).selectAll('text').data(t2).join('text').attr('x', W - m.r + 6).attr('y', y2).attr('dy', '.35em').text(int);
+    buckets.forEach((b, i) => svg.append('rect').attr('x', x(b.k)).attr('width', x.bandwidth()).attr('y', y(bars[i])).attr('height', Math.max(0, y(0) - y(bars[i]))).attr('fill', css('--c1')).attr('rx', 2).attr('opacity', b.part ? 0.45 : 1));
+    const cx = (i) => x(buckets[i].k) + x.bandwidth() / 2;
+    if (opts.avg) {
+      const avg = opts.avg; const pts = avg.map((v, i) => [i, v]).filter((d) => d[1] != null);
+      svg.append('path').attr('d', d3.line().x((d) => cx(d[0])).y((d) => y(d[1]))(pts)).attr('fill', 'none').attr('stroke', css('--fg')).attr('stroke-width', 1.6).attr('stroke-dasharray', '5 4').attr('opacity', 0.7);
+    }
+    svg.append('path').attr('d', d3.line().x((_, i) => cx(i)).y((v) => y2(v))(line)).attr('fill', 'none').attr('stroke', css('--c3')).attr('stroke-width', 2.4).attr('stroke-linejoin', 'round');
+    svg.append('g').selectAll('circle').data(line).join('circle').attr('cx', (_, i) => cx(i)).attr('cy', (v) => y2(v)).attr('r', 3).attr('fill', (_, i) => buckets[i].part ? css('--panel') : css('--c3')).attr('stroke', css('--c3')).attr('stroke-width', 1.5);
+    const every = Math.ceil(buckets.length / Math.max(1, Math.floor((W - m.l - m.r) / 56)));
+    svg.append('g').attr('font-size', 11).attr('fill', css('--muted')).selectAll('text').data(buckets.map((b, i) => [b, i]).filter((d) => d[1] % every === 0)).join('text')
+      .attr('x', (d) => cx(d[1])).attr('y', H - 8).attr('text-anchor', 'middle').text((d) => d[0].label);
+    buckets.forEach((b, i) => svg.append('rect').attr('x', x(b.k) - x.step() * x.paddingInner() / 2).attr('width', x.step()).attr('y', m.t).attr('height', H - m.t - m.b).attr('fill', 'transparent')
+      .on('mousemove', (ev) => showTip(ev, opts.tip(i))).on('mouseleave', hideTip));
+  }
+  // grouped vertical bars: categories × series
+  function grouped(box, cats, series, opts) {
+    const H = 280; const { W, svg } = svgBase(box, H, opts.label); const m = { t: 20, r: 6, b: 26 };
+    const vmax = d3.max(series.flatMap((s) => s.vals.filter((v) => v != null))) || 1;
+    const y = d3.scaleLinear([0, vmax * 1.15], [H - m.b, m.t]).nice(); const ticks = y.ticks(4);
+    m.l = textW(svg, ticks.map(eur)) + 10;
+    const x0 = d3.scaleBand(cats, [m.l, W - m.r]).padding(0.22), x1 = d3.scaleBand(series.map((s) => s.name), [0, x0.bandwidth()]).padding(0.08);
+    svg.append('g').selectAll('line').data(ticks).join('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y).attr('y2', y).attr('stroke', css('--line'));
+    svg.append('g').attr('font-size', 11).attr('fill', css('--muted')).selectAll('text').data(ticks).join('text').attr('x', m.l - 6).attr('y', y).attr('dy', '.35em').attr('text-anchor', 'end').text(eur);
+    cats.forEach((c, ci) => {
+      const g = svg.append('g').on('mousemove', (ev) => showTip(ev, opts.tip(ci))).on('mouseleave', hideTip);
+      g.append('rect').attr('x', x0(c)).attr('width', x0.bandwidth()).attr('y', m.t).attr('height', H - m.t - m.b).attr('fill', 'transparent');
+      series.forEach((s) => { const v = s.vals[ci]; if (v == null) return;
+        g.append('rect').attr('x', x0(c) + x1(s.name)).attr('width', x1.bandwidth()).attr('y', y(v)).attr('height', Math.max(0, y(0) - y(v))).attr('fill', s.color).attr('rx', 2);
+        if (x1.bandwidth() > 30) g.append('text').attr('x', x0(c) + x1(s.name) + x1.bandwidth() / 2).attr('y', y(v) - 5).attr('text-anchor', 'middle').attr('font-size', 10.5).attr('fill', css('--fg')).text(eur(v)); });
+    });
+    svg.append('g').attr('font-size', 11).attr('fill', css('--fg')).selectAll('text').data(cats).join('text').attr('x', (c) => x0(c) + x0.bandwidth() / 2).attr('y', H - 8).attr('text-anchor', 'middle').text((c) => c);
+  }
+  // 100% horizontal stacked bars (one row per period)
+  function stack100(box, rowsIn, names, colorsIn, opts) {
+    const rh = 34, H = rowsIn.length * (rh + 14) + 10; const { W, svg } = svgBase(box, H, opts.label);
+    const lw = textW(svg, rowsIn.map((r) => r.label)) + 14, x = d3.scaleLinear([0, 1], [lw, W - 4]);
+    rowsIn.forEach((r, ri) => {
+      const yy = 6 + ri * (rh + 14); const tot = d3.sum(r.vals) || 1; let acc = 0;
+      svg.append('text').attr('x', 0).attr('y', yy + rh / 2).attr('dy', '.35em').attr('font-size', 12).attr('fill', css('--fg')).text(r.label);
+      r.vals.forEach((v, i) => { if (!v) return; const w = x(acc + v / tot) - x(acc);
+        const g = svg.append('g').on('mousemove', (ev) => showTip(ev, [`${r.label} · ${names[i]}`, `${int(v)} rounds (${pct0(v / tot)})`])).on('mouseleave', hideTip);
+        g.append('rect').attr('x', x(acc)).attr('y', yy).attr('width', Math.max(0, w - 1)).attr('height', rh).attr('fill', colorsIn[i]);
+        if (w > 34) g.append('text').attr('x', x(acc) + w / 2).attr('y', yy + rh / 2).attr('dy', '.35em').attr('text-anchor', 'middle').attr('font-size', 11).attr('font-weight', 700).attr('fill', i >= 3 ? '#FFFFFF' : '#101827').text(pct0(v / tot));
+        acc += v / tot; });
+    });
+  }
+
+  let histCache = { key: '', rows: [] };
+  async function renderOutlook(rows, prev, periodRows, periodPrev) {
+    const P = period(); const card = $('outlookCard');
+    const subjShort = state.sector || (state.country ? 'Tech' : 'European tech');
+    const whereTxt = state.country ? `in ${state.country}` : state.sector ? 'in Europe' : '';
+    $('olTitle').textContent = `Market outlook · ${subjShort}${whereTxt ? ' ' + whereTxt : ''}`;
+    $('olNote').textContent = `${P.label}${P.inPeriod} compared with ${P.custom ? 'the ' + P.prevLabel : P.ytd ? 'the same period of ' + (Number(state.year) - 1) : Number(state.year) - 1}. Every line below is computed from the rounds in this selection and changes with the filters; use it as the evidence base for a market note or report.`;
+    const V = $('olVerdict'), S = $('olSignals'), W1 = $('olWhere'), H1 = $('olHow'), X1 = $('olWatch');
+    [V, S, W1, H1, X1].forEach((n) => n.replaceChildren());
+    if (rows.length < 5) {
+      V.append(el('p', null, `Only ${nR(rows.length)} in this selection, too few for a market outlook. Widen the period (for example “Since 2021”) or remove a filter.`));
+      card.querySelectorAll('.ol-guide, .ol-charts, .tiles.sig, #olPlaces, #olPlacesT').forEach((n) => { n.hidden = true; }); return;
+    }
+    card.querySelectorAll('.ol-guide, .ol-charts, .tiles.sig, #olPlaces, #olPlacesT').forEach((n) => { n.hidden = false; });
+    const hasPrev = !P.noPrev && prev.length > 0;
+    const s = sum(rows), ps = sum(prev);
+    const vs = P.custom ? `the ${P.prevLabel}` : `${Number(state.year) - 1}${P.ytd ? ' at the same point' : ''}`;
+    const priced = rows.filter((r) => r.amount > 0).sort((a, b) => b.amount - a.amount), pPriced = prev.filter((r) => r.amount > 0);
+    const top3 = s.total ? d3.sum(priced.slice(0, 3), (r) => r.amount) / s.total : null;
+    const big = priced[0];
+    const annual = P.months >= 12 ? s.total / P.months * 12 : null;
+
+    // full history of this selection (for investor entry and year-by-year)
+    const hk = `${state.country}|${state.sector}|${P.to}`;
+    if (histCache.key !== hk) { histCache = { key: hk, rows: filt(await loadPeriod(`${firstYear}-01-01`, P.to)) }; }
+    const hist = histCache.rows;
+    const firstSeen = new Map();
+    hist.slice().sort((a, b) => a.date.localeCompare(b.date)).forEach((r) => cleanInv(r).forEach((x) => { const k = nameKey(x); if (!firstSeen.has(k)) firstSeen.set(k, r.date); }));
+    const invNow = new Map(); rows.forEach((r) => cleanInv(r).forEach((x) => { const k = nameKey(x); const o = invNow.get(k) || { name: x, n: 0, kind: investorKind(x) }; o.n++; invNow.set(k, o); }));
+    const invPrev = new Set(prev.flatMap((r) => cleanInv(r).map(nameKey)));
+    const canNew = P.from.slice(0, 4) > firstYear;
+    const newInv = canNew ? [...invNow.keys()].filter((k) => firstSeen.get(k) >= P.from) : [];
+    const newShare = canNew && invNow.size ? newInv.length / invNow.size : null;
+
+    // European context for "weight"
+    const ctx = (set) => set.filter((r) => state.sector ? (!state.country || r.country === state.country) : inScope(r.country));
+    const ctxTot = d3.sum(ctx(periodRows), (r) => r.amount || 0), ctxPrevTot = d3.sum(ctx(periodPrev), (r) => r.amount || 0);
+    const selTotForShare = state.sector ? s.total : d3.sum(rows.filter((r) => inScope(r.country)), (r) => r.amount || 0);
+    const selPrevForShare = state.sector ? ps.total : d3.sum(prev.filter((r) => inScope(r.country)), (r) => r.amount || 0);
+    const share = ctxTot ? selTotForShare / ctxTot : null, pShare = ctxPrevTot ? selPrevForShare / ctxPrevTot : null;
+
+    // halves inside the period
+    const half = addMonths(P.from.slice(0, 7), Math.floor(P.months / 2));
+    const h1 = d3.sum(rows.filter((r) => r.date.slice(0, 7) < half), (r) => r.amount || 0), h2 = d3.sum(rows.filter((r) => r.date.slice(0, 7) >= half), (r) => r.amount || 0);
+    const hChg = P.months >= 6 && h1 ? h2 / h1 - 1 : null;
+    const big50 = priced.filter((r) => r.amount >= 50e6).length, pBig50 = pPriced.filter((r) => r.amount >= 50e6).length;
+    const exSel = (f, t) => (exits || []).filter((e) => e.date >= f && e.date <= t && (!state.country || e.country === state.country) && (!state.sector || ((compById && compById.get(e.company_id)) || {}).sectors?.includes(state.sector)));
+    const ex = exSel(P.from, P.to), pex = hasPrev ? exSel(P.prevFrom, P.prevTo) : [];
+    const tChg = hasPrev && ps.total ? chgOf(s.total, ps.total) : null, cChg = hasPrev && ps.companies ? chgOf(s.companies, ps.companies) : null, iChg = hasPrev && invPrev.size ? chgOf(invNow.size, invPrev.size) : null;
+    const lvl = (x, hi, lo) => x == null ? null : x >= hi ? 1 : x <= lo ? -1 : 0;
+
+    // ----- signals -----
+    const sigs = [];
+    { let l = lvl(tChg, 0.2, -0.2); if (l == null && hChg != null) l = lvl(hChg, 0.2, -0.2); if (l === 1 && hChg != null && hChg < -0.3) l = 0;
+      sigs.push({ name: 'Capital momentum', l, val: hasPrev ? growthText(s.total, ps.total) : eur(s.total), why: [`${eur(s.total)} raised vs ${hasPrev ? eur(ps.total) : '—'} in ${vs}`, hChg != null ? `; second half of the period ${growthText(h2, h1)} on the first` : '', '.'] }); }
+    sigs.push({ name: 'Deal flow', l: lvl(cChg, 0.15, -0.15), val: `${int(s.companies)} companies`, why: [hasPrev ? `${growthN(s.companies, ps.companies)} on ${vs}, across ${nR(s.rounds)}.` : `${nR(s.rounds)} in the period.`] });
+    sigs.push({ name: 'Breadth of capital', l: top3 == null ? null : top3 < 0.4 ? 1 : top3 > 0.65 ? -1 : 0, val: `Top 3 rounds: ${pct0(top3)}`, why: [top3 > 0.65 ? 'Most money sits in a handful of deals.' : top3 < 0.4 ? 'Money is spread across many companies.' : 'A normal level of concentration.', big ? [' Largest: ', B(big.company), ` (${eur(big.amount)}).`] : ''] });
+    sigs.push({ name: 'Investor appetite', l: lvl(iChg, 0.15, -0.15), val: `${int(invNow.size)} investors`, why: [iChg != null ? `${growthN(invNow.size, invPrev.size)} on ${vs}` : 'Named in this period', newShare != null ? [', ', B(pct0(newShare)), ' backing this market for the first time since ' + firstYear] : '', '.'] });
+    sigs.push({ name: 'Scale-up capital', l: big50 >= 3 && big50 >= pBig50 ? 1 : big50 === 0 && s.rounds >= 15 ? -1 : 0, val: `${int(big50)} rounds of €50M+`, why: [hasPrev ? `${int(pBig50)} in ${vs}. ` : '', big50 ? 'Growth-stage money is available.' : 'Little growth-stage money so far.'] });
+    if (state.sector || state.country) {
+      const rel = share != null && pShare ? share / pShare - 1 : null;
+      sigs.push({ name: state.sector && state.country ? `Weight in ${state.country} tech` : 'Weight in European tech', l: lvl(rel, 0.2, -0.2), val: d3.format('.1%')(share), why: [state.sector ? `Share of ${state.country ? state.country + "'s" : 'all European'} tech funding` : 'Share of European funding', pShare != null ? `, ${pp1(share - pShare)} on ${vs}.` : '.'] });
+    }
+    { const slow = pex.length >= 5 && ex.length < 0.6 * pex.length;
+      sigs.push({ name: 'Exit route', l: ex.length >= 5 && ex.length >= 0.8 * pex.length ? 1 : slow || (ex.length === 0 && s.rounds >= 20) ? -1 : 0, val: `${int(ex.length)} exit${ex.length === 1 ? '' : 's'}`, why: [hasPrev ? `${int(pex.length)} in ${vs}. ` : '', slow ? `Exit activity is slowing (${upDown(ex.length / pex.length - 1)}).` : ex.length >= 5 ? 'Acquirers and markets are buying.' : 'Exits are still rare; expect long holding periods.'] }); }
+    S.replaceChildren(...sigs.map((g) => { const t = el('div', 'tile'); const h = el('h3', null, g.name); h.append(g.l == null ? el('span', 'lvl mid', 'No baseline') : lvlPill(g.l)); t.append(h, el('div', 'val', g.val)); const w = el('div', 'why'); g.why.flat().forEach((p) => w.append(p && p.nodeType ? p.cloneNode(true) : p)); t.append(w); return t; }));
+
+    // ----- stage structure -----
+    const stg = (set, names) => set.filter((r) => names.includes(r.stage));
+    const mix = stageMix(rows), pmix = stageMix(prev);
+    const earlyN = stg(rows, EARLY).length, followN = stg(rows, ['Series A', ...LATE]).length, pEarlyN = stg(prev, EARLY).length, pFollowN = stg(prev, ['Series A', ...LATE]).length;
+    const medOf = (set, names) => { const v = stg(set, names).filter((r) => r.amount > 0); return v.length >= 2 ? { m: d3.median(v, (r) => r.amount), n: v.length } : null; };
+    const tickets = STAGE_GROUPS.map(([lab, names]) => ({ lab, cur: medOf(rows, names), prev: medOf(prev, names) }));
+    const unspec = rows.filter((r) => r.stage === 'Other').length / rows.length;
+
+    // ----- places -----
+    const dim = state.country ? 'city' : 'country';
+    const placeBase = (set) => state.country ? set.filter((r) => r.city) : set.filter((r) => inScope(r.country));
+    const pl = placeBase(rows), ppl = placeBase(prev);
+    const plTot = d3.sum(pl, (r) => r.amount || 0), pplTot = d3.sum(ppl, (r) => r.amount || 0);
+    const overallMed = s.median;
+    const prevBy = new Map(d3.rollups(ppl, (v) => d3.sum(v, (r) => r.amount || 0), (r) => r[dim]));
+    let places = d3.rollups(pl, (v) => { const pr = v.filter((r) => r.amount > 0); const st = stageMix(v); return { e: d3.sum(v, (r) => r.amount || 0), n: v.length, co: new Set(v.map((r) => r.company_id)).size, med: pr.length ? d3.median(pr, (r) => r.amount) : null, early: stg(v, EARLY).length, earlyShare: st.early, big: pr.sort((a, b) => b.amount - a.amount)[0] }; }, (r) => r[dim])
+      .map(([k, o]) => ({ k, ...o, share: plTot ? o.e / plTot : 0, pShare: pplTot ? (prevBy.get(k) || 0) / pplTot : null, pe: prevBy.get(k) || 0, tags: [] }))
+      .filter((o) => o.n >= 2).sort((a, b) => b.e - a.e);
+    if (places[0]) places[0].tags.push(['hub', 'Hub']); if (places[1] && places[1].share >= 0.15) places[1].tags.push(['hub', 'Hub']);
+    const risers = hasPrev ? places.filter((o) => o.n >= 3 && o.pShare != null && o.share - o.pShare >= 0.03).sort((a, b) => (b.share - b.pShare) - (a.share - a.pShare)).slice(0, 2) : [];
+    risers.forEach((o) => o.tags.push(['rise', o.pe ? 'Rising' : 'Emerging']));
+    const pipe = places.slice().sort((a, b) => b.early - a.early)[0]; if (pipe && pipe.early >= 3) pipe.tags.push(['pipe', 'Early deal flow']);
+    const cheap = places.filter((o) => o.n >= 5 && o.med && overallMed && o.med <= 0.6 * overallMed).sort((a, b) => b.n - a.n).slice(0, 2); cheap.forEach((o) => o.tags.push(['cheap', 'Lower entry ticket']));
+
+    // ----- sub-segments (co-tags) or sectors -----
+    const segOf = (set) => bySum(set.map((r) => ({ ...r, sectors: state.sector ? r.sectors.filter((x) => x !== state.sector) : r.sectors })), 'sectors');
+    const segCur = segOf(rows), segPrev = segOf(prev);
+    const segs = [...segCur].map(([k, o]) => ({ k, e: o.e, n: o.n, pe: (segPrev.get(k) || { e: 0 }).e, pn: (segPrev.get(k) || { n: 0 }).n })).filter((o) => o.n >= 2);
+    const segGain = segs.filter((o) => o.n >= 3).sort((a, b) => (b.e - b.pe) - (a.e - a.pe))[0];
+
+    // ----- verdict -----
+    const scored = sigs.filter((g) => g.l != null), score = d3.sum(scored, (g) => g.l), posN = scored.filter((g) => g.l > 0).length, negN = scored.filter((g) => g.l < 0).length;
+    let stance, tone;
+    if (!hasPrev) { stance = 'No earlier baseline'; tone = 0; }
+    else if (score >= 3) { stance = 'Expanding market'; tone = 1; }
+    else if (score >= 1) { stance = 'Growing selectively'; tone = 1; }
+    else if (score >= -1) { stance = 'Mixed signals'; tone = 0; }
+    else { stance = 'Contracting market'; tone = -1; }
+    const earlyMarket = mix.n >= 8 && mix.early >= 0.55, concentrated = top3 != null && top3 > 0.55;
+    const head = el('div', 'stance'); head.append(stance, el('span', 'lvl big ' + (tone > 0 ? 'pos' : tone < 0 ? 'neg' : 'mid'), `${posN} positive · ${negN} negative of ${scored.length} signals`));
+    V.append(head);
+    const yrs = d3.rollups(rows, (v) => d3.sum(v, (r) => r.amount || 0), (r) => r.date.slice(0, 4)).sort((a, b) => a[0].localeCompare(b[0]));
+    const p1 = [`${subjShort} ${whereTxt} raised `, B(eur(s.total)), ` across `, B(nR(s.rounds)), ` (${int(s.companies)} companies) ${P.custom ? 'from ' + P.label.replace(' – ', ' to ') : 'in ' + P.label}${P.inPeriod}`,
+      hasPrev ? [`, `, B(growthText(s.total, ps.total)), ` on ${vs}`] : '', annual && yrs.length > 1 ? `, an average pace of ${eur(annual)} a year` : '', '.'];
+    if (yrs.length >= 2) p1.push(' Year by year: ', ...yrs.flatMap(([y, v], i) => [i ? ' → ' : '', B(`${y} ${eur(v)}`), y === todayISO().slice(0, 4) && P.to === todayISO() ? ` (to date)` : '']), '.');
+    sentence(V, p1.flat());
+    let read;
+    if (!hasPrev) read = ['There is no earlier period of the same length to compare with, so read the structure (stages, tickets, investors) rather than the trend.'];
+    else if (tone > 0 && earlyMarket) read = ['An ', B('early-stage market in expansion'), `: ${pct0(mix.early)} of named rounds are pre-seed or seed${newShare != null && newShare >= 0.4 && iChg > 0 ? ' and new investors keep arriving' : ''}. The data favours building positions early, before round sizes reset higher, and reserving capital for follow-ons${concentrated ? '; headline totals are driven by a few large rounds, so competition for the leaders is intense' : ''}.`];
+    else if (tone > 0 && concentrated) read = ['Growth is real but ', B('concentrated in a few large rounds'), ` (top 3: ${pct0(top3)}). Access to the leaders is competitive and priced up; the wider field of smaller companies is less crowded.`];
+    else if (tone > 0) read = ['Capital, companies and investors are ', B('growing together'), ', a broad-based upswing. Entry prices tend to rise in this phase, so speed and selectivity matter.'];
+    else if (tone < 0) read = ['Capital is ', B('pulling back'), '. Fewer investors are competing for deals, which usually means better entry terms but longer gaps between rounds; companies with runway or revenue are better placed.'];
+    else read = ['The signals point in different directions: returns here depend on ', B('picking the right companies'), ' rather than riding a market-wide tailwind.'];
+    sentence(V, read);
+
+    // ----- where -----
+    if (places[0]) li(W1, [B(places[0].k), ` is the main hub with ${pct0(places[0].share)} of funding (${eur(places[0].e)}, ${nR(places[0].n)})${places[1] ? `, ahead of ${places[1].k} (${pct0(places[1].share)})` : ''}: the deepest pool of companies and co-investors.`]);
+    risers.forEach((o, i) => li(W1, [B(o.k), ` ${i ? 'also gained ground' : 'gained the most ground'}: ${pct0(o.share)} of funding vs ${pct0(o.pShare)} in ${vs} (${pp(o.share - o.pShare)}).`]));
+    if (pipe && pipe.early >= 3) li(W1, [B(pipe.k), ` has the most pre-seed and seed rounds (${int(pipe.early)}), the main source of early deal flow.`]);
+    cheap.forEach((o) => li(W1, [B(o.k), `: median round ${eur(o.med)} vs ${eur(overallMed)} overall, so entry tickets are lower.`]));
+    if (segGain && segGain.e > segGain.pe) li(W1, [state.sector ? `Fastest-growing sub-segment: ${state.sector} combined with ` : 'Fastest-growing sector: ', B(segGain.k), ` (${growthText(segGain.e, segGain.pe)}).`]);
+    if (!state.country) { const out = rows.filter((r) => !inScope(r.country)); const oe = d3.sum(out, (r) => r.amount || 0);
+      if (out.length >= 3) { const topOut = d3.rollups(out, (v) => v.length, (r) => r.country).sort((a, b) => b[1] - a[1]).slice(0, 2).map((d) => d[0]); li(W1, [`Beyond the EU, UK and EFTA: `, B(nR(out.length)), ` (${eur(oe)}) came from ${topOut.join(' and ')}.`]); } }
+
+    // ----- how -----
+    const tk = tickets.filter((t) => t.cur && t.cur.n >= 3);
+    if (tk.length) li(H1, ['Typical tickets (median round): ', ...tk.flatMap((t, i) => [i ? ', ' : '', `${t.lab} `, B(eur(t.cur.m))]), '.']);
+    if (earlyN >= 6 && followN >= 0) {
+      const ratio = followN ? earlyN / followN : null, pRatio = pFollowN ? pEarlyN / pFollowN : null;
+      if (ratio == null || ratio >= 2.5) li(H1, [`The pipeline outruns follow-on capital: `, B(`${int(earlyN)} pre-seed/seed rounds vs ${int(followN)} Series A or later`), '. Series A and growth investors face less competition; early investors should reserve for follow-ons.']);
+      else if (pRatio && ratio < pRatio * 0.7) li(H1, ['The market is maturing: later rounds are a growing share (', B(`${int(followN)} Series A+ vs ${int(earlyN)} early`), `, up from ${int(pFollowN)} vs ${int(pEarlyN)}).`]);
+    }
+    if (hasPrev && ps.median && s.median) { const mc = s.median / ps.median - 1; if (Math.abs(mc) >= 0.15) li(H1, ['Median round ', B(`${mc > 0 ? 'up' : 'down'} ${pct0(Math.abs(mc))}`), ` to ${eur(s.median)}: `, mc > 0 ? 'entry prices are likely rising, so earlier entry or structure (tranches, pro-rata rights) matters more.' : 'rounds are getting smaller, which can mean better entry terms.']); }
+    const withKind = (k) => rows.filter((r) => cleanInv(r).some((x) => investorKind(x) === k));
+    const nCorp = withKind(KINDS[1]).length, nPub = withKind(KINDS[2]).length, withAny = rows.filter((r) => cleanInv(r).length).length;
+    if (withAny >= 5 && (nCorp + nPub) / withAny >= 0.1) {
+      const ex2 = [...invNow.values()].filter((o) => o.kind !== KINDS[0] && o.kind !== KINDS[3]).sort((a, b) => b.n - a.n).slice(0, 3).map((o) => o.name);
+      const kp = [nCorp ? [B(pct0(nCorp / withAny)), ' include a corporate or strategic backer'] : null, nPub ? [B(pct0(nPub / withAny)), nCorp ? ' a public or institutional one' : ' include a public or institutional backer'] : null].filter(Boolean);
+      li(H1, ['Of rounds with named investors, ', ...kp.flatMap((k, i) => [i ? ' and ' : '', ...k]), `${ex2.length ? ` (e.g. ${ex2.join(', ')})` : ''}: ${nCorp && nPub ? 'strategic and public' : nCorp ? 'strategic' : 'public'} co-investors are part of the playbook here.`]);
+    }
+    const leaders = [...invNow.values()].sort((a, b) => b.n - a.n).slice(0, 4).filter((o) => o.n >= 2);
+    if (leaders.length) li(H1, ['Most active backers to co-invest with: ', B(leaders.map((o) => `${o.name} (${o.n})`).join(', ')), '.']);
+    if (s.total && s.debt / s.total >= 0.1) li(H1, ['Debt is ', B(pct0(s.debt / s.total)), ' of the money: venture and project debt is an established instrument here.']);
+
+    // ----- watch -----
+    if (big && s.total && big.amount / s.total >= 0.2) li(X1, [B(big.company), ` alone is ${pct0(big.amount / s.total)} of the total. Leaving out the largest round of each period, funding was ${eur(s.total - big.amount)}${hasPrev ? ', ' + growthText(s.total - big.amount, ps.total - (pPriced.slice().sort((a, b) => b.amount - a.amount)[0] || { amount: 0 }).amount) + ' on ' + vs : ''}.`]);
+    if (hasPrev && ps.total && ps.total < 0.15 * s.total) li(X1, ['Base effect: the previous period had only ', B(eur(ps.total)), ', so growth multiples look extreme; follow the absolute figures and the quarterly trend.']);
+    const mom = lastMonthsMomentum(rows, P);
+    if (mom && mom.chg <= -0.2) li(X1, ['Recent slowdown: the last three full months (', B(mom.label), `) were ${upDown(mom.chg)} on the three before.`]);
+    else if (mom && mom.chg >= 0.2) li(X1, ['Momentum is still building: the last three full months (', B(mom.label), `) were ${upDown(mom.chg)} on the three before${mom.before < 0.25 * mom.last ? ' (from a low base)' : ''}.`]);
+    if (ex.length < 3 && s.rounds >= 20) li(X1, ex.length ? ['Only ', B(int(ex.length)), ` exit${ex.length === 1 ? '' : 's'} on record in this selection: exit routes are still unproven.`] : [B('No exits'), ' on record in this selection: exit routes are still unproven, so plan for long holding periods.']);
+    if (unspec >= 0.4) li(X1, [B(pct0(unspec)), ' of rounds do not state a stage, so stage-level figures rest on a partial sample.']);
+    const und = s.rounds ? (s.rounds - s.priced) / s.rounds : 0; if (und >= 0.2) li(X1, [B(pct0(und)), ' of rounds did not disclose an amount; real totals are higher.']);
+    if (rows.length < 20) li(X1, [`Small sample (${nR(rows.length)}): a few deals can swing every percentage.`]);
+    [W1, H1, X1].forEach((u) => { if (!u.childNodes.length) u.append(el('li', 'muted', 'No clear signal for this selection.')); });
+
+    // ----- charts -----
+    const PB = periodBuckets(P);
+    const agg = new Map(d3.rollups(rows, (v) => ({ e: d3.sum(v, (r) => r.amount || 0), n: v.length, c: new Set(v.map((r) => r.company_id)).size, big: v.filter((r) => r.amount).sort((a, b) => b.amount - a.amount)[0] }), (r) => PB.keyOf(r.date)));
+    const bars = PB.buckets.map((b) => (agg.get(b.k) || { e: 0 }).e), cnt = PB.buckets.map((b) => (agg.get(b.k) || { n: 0 }).n);
+    const win = PB.quarterly ? 4 : 3; const avg = bars.map((_, i) => i >= win - 1 ? d3.mean(bars.slice(i - win + 1, i + 1)) : null);
+    $('olMomT').textContent = `Momentum: funding and deals per ${PB.unit}`;
+    $('olMomT').title = 'Faded bars and open circles mark a period that is not complete yet.';
+    legend('olMomLeg', [['Funding raised (left)', css('--c1')], ['Number of rounds (right)', css('--c3')], [`${win}-${PB.unit} average`, css('--fg'), true]]);
+    combo($('olMom'), PB.buckets, bars, cnt, { label: 'Funding and rounds over time', avg, tip: (i) => { const b = PB.buckets[i], o = agg.get(b.k) || { e: 0, n: 0, c: 0 }; return [b.full + (b.part ? ' (partial)' : ''), `Raised: ${eur(o.e)}`, `Rounds: ${int(o.n)} · companies: ${int(o.c)}`, o.big ? `Largest: ${o.big.company}, ${eur(o.big.amount)}` : '', avg[i] != null ? `${win}-${PB.unit} average: ${eur(avg[i])}` : ''].filter(Boolean); } });
+    { const full = PB.buckets.map((b, i) => [b, bars[i]]).filter((d) => !d[0].part); const pk = full.slice().sort((a, b) => b[1] - a[1])[0];
+      const lastFull = full.slice(-win), firstFull = full.slice(0, win);
+      const parts = pk ? ['Peak ', PB.unit, ': ', B(pk[0].full), ` (${eur(pk[1])}).`] : [];
+      if (full.length >= win * 2) { const a = d3.sum(firstFull, (d) => d[1]), b = d3.sum(lastFull, (d) => d[1]); if (a) parts.push(` The last ${win} full ${PB.unit}s raised `, B(eur(b)), `, ${growthText(b, a)} vs the first ${win}.`); }
+      const cntUp = cnt.length >= 4 ? d3.sum(cnt.slice(-Math.ceil(cnt.length / 2))) / Math.max(1, d3.sum(cnt.slice(0, Math.floor(cnt.length / 2)))) - 1 : null;
+      if (cntUp != null && isFinite(cntUp)) parts.push(` Deal count in the second half was ${upDown(cntUp)} on the first, so the trend is ${cntUp > 0.1 ? 'backed by more deals, not only bigger ones' : cntUp < -0.1 ? 'driven by bigger rounds rather than more deals' : 'driven mostly by round size'}.`);
+      takeaway('olMomTake', parts); }
+
+    // weight in European tech (share) — or median round when nothing is filtered
+    if (state.sector || state.country) {
+      const cAgg = new Map(d3.rollups(ctx(periodRows), (v) => ({ e: d3.sum(v, (r) => r.amount || 0), n: v.length }), (r) => PB.keyOf(r.date)));
+      const selRows = state.sector ? rows : rows.filter((r) => inScope(r.country));
+      const sAgg = new Map(d3.rollups(selRows, (v) => ({ e: d3.sum(v, (r) => r.amount || 0), n: v.length }), (r) => PB.keyOf(r.date)));
+      const sh = PB.buckets.map((b) => { const c = cAgg.get(b.k), x = sAgg.get(b.k); return c && c.e ? (x ? x.e : 0) / c.e : 0; });
+      const shN = PB.buckets.map((b) => { const c = cAgg.get(b.k), x = sAgg.get(b.k); return c && c.n ? (x ? x.n : 0) / c.n : 0; });
+      const denom = state.sector ? (state.country ? `${state.country} tech` : 'European tech') : 'European tech';
+      $('olShareT').textContent = `Weight in ${denom}: share per ${PB.unit}`;
+      legend('olShareLeg', [['Share of funding', css('--c1')], ['Share of rounds', css('--c3')]]);
+      lines($('olShare'), [{ name: 'Share of funding', color: css('--c1'), vals: sh }, { name: 'Share of rounds', color: css('--c3'), vals: shN }], PB.buckets, { label: 'Share of European funding', fmt: (v) => d3.format('.1%')(v) });
+      const n = sh.length, a = d3.mean(sh.slice(0, Math.max(1, Math.floor(n / 3)))), b = d3.mean(sh.slice(-Math.max(1, Math.floor(n / 3))));
+      takeaway('olShareTake', [`${subjShort}${state.sector && state.country ? ' in ' + state.country : ''} went from `, B(d3.format('.1%')(a)), ' of funding early in the period to ', B(d3.format('.1%')(b)), ` at the end: ${b > a * 1.2 ? 'it is taking a growing slice of the market, not just riding a general upswing' : b < a * 0.8 ? 'it is losing weight relative to the rest of the market' : 'its weight is broadly stable'}. Its share of rounds is ${d3.format('.1%')(d3.mean(shN.slice(-Math.max(1, Math.floor(n / 3)))))}${b > d3.mean(shN.slice(-Math.max(1, Math.floor(n / 3)))) ? ', lower than its share of money, so its rounds are larger than average' : ''}.`]);
+    } else {
+      const mAgg = new Map(d3.rollups(rows.filter((r) => r.amount > 0), (v) => d3.median(v, (r) => r.amount), (r) => PB.keyOf(r.date)));
+      const med = PB.buckets.map((b) => mAgg.get(b.k) || 0);
+      $('olShareT').textContent = `Median round per ${PB.unit}`;
+      legend('olShareLeg', [['Median disclosed round', css('--c1')]]);
+      lines($('olShare'), [{ name: 'Median round', color: css('--c1'), vals: med }], PB.buckets, { label: 'Median round over time', fmt: eur });
+      takeaway('olShareTake', ['The median round moved from ', B(eur(med[0])), ' to ', B(eur(med[med.length - 1])), ` over the period.`]);
+    }
+
+    // round size mix
+    const band = (set) => SIZE_BANDS.map(([lo, hi]) => set.filter((r) => r.amount >= lo && r.amount < hi && r.amount > 0).length);
+    const sizeColors = d3.quantize(d3.interpolateRgb(css('--c5'), '#431550'), SIZE_BANDS.length);
+    const sizeRows = [{ label: 'This period', vals: band(rows) }]; if (hasPrev && pPriced.length >= 5) sizeRows.push({ label: 'Previous period', vals: band(prev) });
+    legend('olSizeLeg', SIZE_BANDS.map((b, i) => [b[2], sizeColors[i]]));
+    stack100($('olSize'), sizeRows, SIZE_BANDS.map((b) => b[2]), sizeColors, { label: 'Share of disclosed rounds by size' });
+    { const c = band(rows), pc = band(prev), ct = d3.sum(c) || 1, pt = d3.sum(pc) || 1; const big20 = (c[3] + c[4] + c[5]) / ct, pBig20 = (pc[3] + pc[4] + pc[5]) / pt;
+      takeaway('olSizeTake', [B(pct0(big20)), ' of disclosed rounds were €20M or more', sizeRows.length > 1 ? [` vs ${pct0(pBig20)} in ${vs}`, big20 > pBig20 + 0.05 ? ': the market is moving up to larger, later rounds.' : big20 < pBig20 - 0.05 ? ': rounds are getting smaller on average.' : ': a similar size mix.'] : '.'].flat()); }
+
+    // tickets by stage
+    const tcats = tickets.filter((t) => t.cur || t.prev);
+    legend('olTicketLeg', [['This period', css('--c1')], ...(hasPrev ? [['Previous period', css('--c6')]] : [])]);
+    if (tcats.length) grouped($('olTicket'), tcats.map((t) => t.lab), [{ name: 'This period', color: css('--c1'), vals: tcats.map((t) => t.cur ? t.cur.m : null) }, ...(hasPrev ? [{ name: 'Previous period', color: css('--c6'), vals: tcats.map((t) => t.prev ? t.prev.m : null) }] : [])],
+      { label: 'Median round by stage', tip: (i) => { const t = tcats[i]; return [t.lab, `This period: ${t.cur ? eur(t.cur.m) + ' (' + nR(t.cur.n) + ' with an amount)' : '—'}`, hasPrev ? `Previous: ${t.prev ? eur(t.prev.m) + ' (' + nR(t.prev.n) + ')' : '—'}` : ''].filter(Boolean); } });
+    else $('olTicket').replaceChildren(el('div', 'empty', 'Too few rounds with a named stage and an amount.'));
+    { const up = tcats.filter((t) => t.cur && t.prev).map((t) => ({ ...t, c: t.cur.m / t.prev.m - 1 })).sort((a, b) => b.c - a.c);
+      takeaway('olTicketTake', up.length ? ['Biggest change in ticket size: ', B(up[0].lab), ` (${upDown(up[0].c)}, now ${eur(up[0].cur.m)}).`, unspec >= 0.4 ? ` Based on the ${pct0(1 - unspec)} of rounds that state a stage.` : ''] : tcats.length ? ['Stage medians need at least two rounds with an amount; earlier comparison not available for every stage.'] : null); }
+
+    // investors entering vs returning, by year
+    const yearsAll = [...new Set(hist.map((r) => r.date.slice(0, 4)))].sort();
+    const invYear = yearsAll.map((y) => { const ks = new Set(hist.filter((r) => r.date.slice(0, 4) === y).flatMap((r) => cleanInv(r).map(nameKey))); let nw = 0; ks.forEach((k) => { if ((firstSeen.get(k) || '').slice(0, 4) === y) nw++; }); return { y, ret: ks.size - nw, nw }; }).filter((o) => o.y > firstYear || yearsAll.length === 1);
+    legend('olInvLeg', [['Returning investors', css('--c1')], ['First deal in this market', css('--c2')]]);
+    const inRange = (y) => y >= P.from.slice(0, 4) && y <= P.to.slice(0, 4);
+    vbars($('olInv'), invYear.map((o) => ({ k: o.y, label: o.y === todayISO().slice(0, 4) ? `${o.y} YTD` : o.y, vals: [o.ret, o.nw], dim: !inRange(o.y), bold: inRange(o.y), tip: [o.y, `New to this market: ${int(o.nw)}`, `Returning: ${int(o.ret)}`, `Total named: ${int(o.ret + o.nw)}`] })), ['Returning', 'New'], { label: 'Investors by year', fmt: int });
+    { const last = invYear.filter((o) => inRange(o.y)).slice(-1)[0];
+      takeaway('olInvTake', last ? [B(int(last.nw)), ` investors made their first ${state.sector || ''} deal${state.country ? ' in ' + state.country : ''} in ${last.y} (${pct0((last.nw) / Math.max(1, last.nw + last.ret))} of those active). `, last.nw > last.ret ? 'Newcomers outnumber incumbents: capital is still discovering this market, which supports future rounds but raises competition for deals.' : 'Most active investors are repeat backers: an established investor base.', ` 2021 is the first year in the data, so it is not shown.`] : null); }
+
+    // sub-segments
+    $('olSegT').textContent = state.sector ? `Sub-segments: what ${state.sector} is combined with` : 'Sectors gaining the most money';
+    $('olSegNote').textContent = state.sector ? `Other sectors tagged on the same rounds, by funding in this period. The change compares with ${vs}.` : `Sectors ranked by the extra money raised compared with ${vs}.`;
+    const segList = state.sector ? segs.sort((a, b) => b.e - a.e).slice(0, 8) : segs.filter((o) => o.n >= 5).sort((a, b) => (b.e - b.pe) - (a.e - a.pe)).slice(0, 8);
+    rank($('olSeg'), segList.map((o) => ({ label: o.k, value: state.sector ? o.e : Math.max(0, o.e - o.pe), valueText: state.sector ? eur(o.e) : `${o.e >= o.pe ? '+' : '−'}${eur(Math.abs(o.e - o.pe))}`, sub: hasPrev ? (o.pe ? upDown(o.e / o.pe - 1) : 'new') : nR(o.n),
+      tip: [o.k, `This period: ${eur(o.e)} · ${nR(o.n)}`, hasPrev ? `Previous: ${eur(o.pe)} · ${nR(o.pn)}` : '', 'Click to filter'].filter(Boolean), onClick: state.sector ? null : () => setState({ sector: o.k }) })), css('--c4'));
+    takeaway('olSegTake', segGain && segGain.e > segGain.pe ? ['Biggest gain: ', B(segGain.k), ` (${growthText(segGain.e, segGain.pe)}).`] : null);
+
+    // places table
+    $('olPlacesT').textContent = state.country ? `Where: cities in ${state.country}` : 'Where: country opportunity table';
+    const T = $('olPlaces'); T.replaceChildren();
+    const hr = T.createTHead().insertRow();
+    [[state.country ? 'City' : 'Country'], ['Funding', 'num'], ['Share', 'num'], [hasPrev ? 'Change in share' : '', 'num hide-sm'], ['Rounds', 'num'], ['Companies', 'num hide-sm'], ['Median round', 'num'], ['Pre-seed & seed', 'num hide-sm'], ['Largest round', 'hide-sm'], ['Signal']].forEach(([l, c]) => { if (!l) return; const th = document.createElement('th'); if (c) th.className = c; th.append(el('span', 'thl', l)); hr.append(th); });
+    const tb = T.createTBody();
+    places.slice(0, 12).forEach((o) => { const tr = tb.insertRow(); const td = (x, c) => { const q = tr.insertCell(); if (c) q.className = c; q.textContent = x; return q; };
+      td(o.k); td(eur(o.e), 'num'); td(pct0(o.share), 'num'); if (hasPrev) { const d = o.pShare == null ? null : o.share - o.pShare; td(d == null ? '—' : o.pe ? pp(d) : 'new', 'num hide-sm' + (d > 0.005 ? ' pos' : d < -0.005 ? ' neg' : '')); }
+      td(int(o.n), 'num'); td(int(o.co), 'num hide-sm'); td(eur(o.med), 'num'); td(o.earlyShare == null ? '—' : pct0(o.earlyShare), 'num hide-sm'); td(o.big ? `${o.big.company}, ${eur(o.big.amount)}` : '—', 'dim hide-sm');
+      const c = tr.insertCell(); o.tags.forEach(([cl, t]) => c.append(el('span', 'tag ' + cl, t))); });
+    if (!places.length) { const tr = tb.insertRow(); const c = tr.insertCell(); c.colSpan = 10; c.className = 'dim'; c.textContent = 'Not enough rounds per place to compare.'; }
+  }
+
+  // ---------- exports: summary text, CSV, chart PNG ----------
+  const dl = (blob, name) => { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500); };
+  const slug = () => [state.sector || 'all-sectors', state.country || 'europe', period().from.slice(0, 7), period().to.slice(0, 7)].join('_').toLowerCase().replace(/[^a-z0-9_-]+/g, '-');
+  const txt = (n) => (n ? n.innerText.trim() : '');
+  $('olCopy').addEventListener('click', async () => {
+    const lines2 = [$('olTitle').textContent, txt($('olNote')), '', txt($('olVerdict')), '', 'SIGNALS'];
+    $('olSignals').querySelectorAll('.tile').forEach((t) => lines2.push(`- ${t.querySelector('h3').innerText.replace(/\n/g, ': ')} — ${t.querySelector('.val').innerText}. ${t.querySelector('.why').innerText}`));
+    [['WHERE THE OPPORTUNITY IS', 'olWhere'], ['HOW TO APPROACH IT', 'olHow'], ['WHAT TO WATCH', 'olWatch']].forEach(([h, id]) => { lines2.push('', h); $(id).querySelectorAll('li').forEach((l) => lines2.push('- ' + l.innerText)); });
+    lines2.push('', 'CHART NOTES'); ['olMomTake', 'olShareTake', 'olSizeTake', 'olTicketTake', 'olInvTake', 'olSegTake'].forEach((id) => { const n = $(id); if (n && !n.hidden) lines2.push('- ' + n.innerText.replace(/^Insight\s*/i, '')); });
+    lines2.push('', `Source: TechCap Intelligence, ${location.href.split('#')[0]}#${location.hash.slice(1)} · data: Tech.eu Funding Explorer (CC BY 4.0) and the daily multi-source scan. Not investment advice.`);
+    const out = lines2.join('\n');
+    try { await navigator.clipboard.writeText(out); $('olCopy').textContent = 'Copied ✓'; } catch { dl(new Blob([out], { type: 'text/plain' }), `techcap-outlook_${slug()}.txt`); $('olCopy').textContent = 'Saved as text'; }
+    setTimeout(() => { $('olCopy').textContent = 'Copy summary'; }, 1800);
+  });
+  $('olCsv').addEventListener('click', () => {
+    const q = (v) => { const s2 = v == null ? '' : String(v); return /[",\n;]/.test(s2) ? `"${s2.replace(/"/g, '""')}"` : s2; };
+    const head = ['date', 'company', 'country', 'city', 'sectors', 'stage', 'amount_eur', 'investors', 'source', 'url'];
+    const body = curRows.slice().sort((a, b) => b.date.localeCompare(a.date)).map((r) => [r.date, r.company, r.country, r.city, r.sectors.join('|'), stageLabel(r.stage), r.amount ?? '', r.investors.join('|'), r.origin === 'scan' ? 'Other sources: ' + (r.source || '') : 'Tech.eu', r.url].map(q).join(','));
+    dl(new Blob(['﻿' + [head.join(','), ...body].join('\n')], { type: 'text/csv;charset=utf-8' }), `techcap-rounds_${slug()}.csv`);
+  });
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-png]'); if (!b) return;
+    const box = $(b.dataset.png); const svg = box && box.querySelector('svg'); if (!svg) return;
+    const card = b.closest('.ol-chart, .card'); const title = ((card && card.querySelector('h3, h2')) || {}).textContent || 'TechCap Intelligence';
+    const leg = card && card.querySelector('.legend'); const items = leg ? [...leg.children].map((s2) => [s2.textContent, s2.style.getPropertyValue('--sw')]) : [];
+    const [, , w, h] = svg.getAttribute('viewBox').split(' ').map(Number);
+    const pad = 24, top = 58 + (items.length ? 22 : 0), foot = 34, Wt = w + pad * 2, Ht = h + top + foot;
+    const ns = 'http://www.w3.org/2000/svg', font = 'Urbanist, Segoe UI, Arial, sans-serif';
+    const root = document.createElementNS(ns, 'svg'); root.setAttribute('xmlns', ns); root.setAttribute('width', Wt); root.setAttribute('height', Ht); root.setAttribute('font-family', font);
+    const add = (tag, attrs, text) => { const n = document.createElementNS(ns, tag); Object.entries(attrs).forEach(([k, v]) => n.setAttribute(k, v)); if (text != null) n.textContent = text; root.append(n); return n; };
+    add('rect', { width: Wt, height: Ht, fill: css('--panel') });
+    add('text', { x: pad, y: 30, 'font-size': 17, 'font-weight': 700, fill: css('--fg') }, title);
+    add('text', { x: pad, y: 50, 'font-size': 12, fill: css('--muted') }, `${state.sector || 'All sectors'} · ${state.country || 'Europe'} · ${period().label}${period().inPeriod}`);
+    let lx = pad; items.forEach(([t, c]) => { add('rect', { x: lx, y: 62, width: 10, height: 10, rx: 2, fill: c || css('--c1') }); add('text', { x: lx + 15, y: 71, 'font-size': 11.5, fill: css('--muted') }, t); lx += 30 + t.length * 6.2; });
+    const inner = svg.cloneNode(true); inner.setAttribute('x', pad); inner.setAttribute('y', top); inner.setAttribute('width', w); inner.setAttribute('height', h); inner.setAttribute('font-family', font); root.append(inner);
+    add('text', { x: pad, y: Ht - 12, 'font-size': 11, fill: css('--muted') }, 'Source: TechCap Intelligence · data: Tech.eu Funding Explorer (CC BY 4.0) + multi-source scan');
+    add('text', { x: Wt - pad, y: 30, 'font-size': 13, 'font-weight': 700, fill: '#FD0A71', 'text-anchor': 'end' }, 'techcap intelligence');
+    const url = URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(root)], { type: 'image/svg+xml' }));
+    const img = new Image(); img.onload = () => { const k = 2, c = document.createElement('canvas'); c.width = Wt * k; c.height = Ht * k; const g = c.getContext('2d'); g.scale(k, k); g.drawImage(img, 0, 0); URL.revokeObjectURL(url); c.toBlob((bl) => dl(bl, `techcap_${b.dataset.png}_${slug()}.png`), 'image/png'); };
+    img.src = url;
+  });
+
   // ---------- controls ----------
   function fillSelect(sel, values, all, cur, label = (v) => v) {
     sel.replaceChildren(...(all ? [new Option(all, '')] : []), ...values.map((v) => new Option(label(v), v)));
@@ -632,6 +1033,7 @@
     renderAnnouncements();
     await buildActive(); renderActive();
     await Promise.all([loadExits(), loadCompanies()]); renderAnalysis(rows, prevSel, yearRows, prevRows); renderExits(); renderCompare();
+    try { await renderOutlook(rows, prevSel, yearRows, prevRows); } catch (e) { console.error('outlook', e); }
   }
   // ---------- companies, unicorns, exits ----------
   const API = 'https://funding.tech.eu/api/v1';

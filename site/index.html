@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=1793896445">
+<link rel="stylesheet" href="assets/style.css?v=1793987638">
 </head>
 <body>
 <div class="wrap">
@@ -63,6 +63,40 @@
     </div>
   </section>
 
+  <section class="card outlook" id="outlookCard">
+    <div class="card-head row">
+      <div><h2 id="olTitle">Market outlook</h2><p class="note" id="olNote"></p></div>
+      <div class="ol-actions">
+        <button class="btn sm" id="olCopy" type="button">Copy summary</button>
+        <button class="btn sm" id="olCsv" type="button">Download data (CSV)</button>
+      </div>
+    </div>
+    <div class="verdict" id="olVerdict"></div>
+    <div class="tiles sig" id="olSignals" aria-label="Market signals"></div>
+    <div class="ol-guide">
+      <div><h3 class="sub">Where the opportunity is</h3><ul class="signals" id="olWhere"></ul></div>
+      <div><h3 class="sub">How to approach it</h3><ul class="signals" id="olHow"></ul></div>
+      <div><h3 class="sub">What to watch</h3><ul class="signals" id="olWatch"></ul></div>
+    </div>
+    <div class="grid ol-charts">
+      <div class="ol-chart"><div class="ch-head"><h3 class="sub" id="olMomT">Momentum</h3><button class="btn xs" type="button" data-png="olMom">Save PNG</button></div>
+        <div class="legend" id="olMomLeg"></div><div class="chart" id="olMom"></div><p class="takeaway" id="olMomTake" hidden></p></div>
+      <div class="ol-chart"><div class="ch-head"><h3 class="sub" id="olShareT">Weight in European tech</h3><button class="btn xs" type="button" data-png="olShare">Save PNG</button></div>
+        <div class="legend" id="olShareLeg"></div><div class="chart" id="olShare"></div><p class="takeaway" id="olShareTake" hidden></p></div>
+      <div class="ol-chart"><div class="ch-head"><h3 class="sub">Round sizes: how the market is maturing</h3><button class="btn xs" type="button" data-png="olSize">Save PNG</button></div>
+        <div class="legend" id="olSizeLeg"></div><div class="chart short" id="olSize"></div><p class="takeaway" id="olSizeTake" hidden></p></div>
+      <div class="ol-chart"><div class="ch-head"><h3 class="sub">Typical ticket by stage (median round)</h3><button class="btn xs" type="button" data-png="olTicket">Save PNG</button></div>
+        <div class="legend" id="olTicketLeg"></div><div class="chart" id="olTicket"></div><p class="takeaway" id="olTicketTake" hidden></p></div>
+      <div class="ol-chart"><div class="ch-head"><h3 class="sub">Investors entering vs returning, by year</h3><button class="btn xs" type="button" data-png="olInv">Save PNG</button></div>
+        <div class="legend" id="olInvLeg"></div><div class="chart" id="olInv"></div><p class="takeaway" id="olInvTake" hidden></p></div>
+      <div class="ol-chart"><div class="ch-head"><h3 class="sub" id="olSegT">Sub-segments</h3></div>
+        <p class="note" id="olSegNote"></p><div class="rank" id="olSeg"></div><p class="takeaway" id="olSegTake" hidden></p></div>
+    </div>
+    <h3 class="sub ol-tab-h" id="olPlacesT">Where: country opportunity table</h3>
+    <div class="tbox"><table id="olPlaces"></table></div>
+    <p class="note ol-disc">Signals are computed from disclosed rounds only and compare the selected period with the period of the same length just before it. They describe what the funding data shows; they are not investment advice.</p>
+  </section>
+
   <section class="card" id="cmpCard">
     <div class="card-head row">
       <div><h2>Compare countries</h2><p class="note" id="cmpNote"></p></div>
@@ -81,14 +115,14 @@
 
   <section class="card">
     <div class="card-head"><h2 id="trendTitle">Funding by year and instrument</h2><p class="note">Equity, debt and grants each year since 2021 for the current country and sector. The current year is year to date. Click a year to select it; years inside a custom range stay highlighted.</p></div>
-    <div class="legend" id="trendLegend"></div>
+    <div class="ch-head"><div class="legend" id="trendLegend"></div><button class="btn xs" type="button" data-png="trend">Save PNG</button></div>
     <div class="chart" id="trend"></div>
   </section>
 
   <section class="card">
     <div class="card-head row">
       <div><h2 id="evoTitle">How it evolves</h2><p class="note" id="evoNote"></p></div>
-      <label>Show <select id="evoMode"><option value="amount">Funding raised</option><option value="rounds">Number of rounds</option></select></label>
+      <div class="ol-actions"><label>Show <select id="evoMode"><option value="amount">Funding raised</option><option value="rounds">Number of rounds</option></select></label><button class="btn xs" type="button" data-png="months">Save PNG</button></div>
     </div>
     <div class="chart" id="months"></div>
     <p class="takeaway" id="evoTake" hidden></p>
@@ -187,7 +221,7 @@
 </dialog>
 <div class="tip" id="tip" hidden></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<script src="assets/europe-map.js?v=1793896445"></script>
-<script src="assets/app.js?v=1793896445"></script>
+<script src="assets/europe-map.js?v=1793987638"></script>
+<script src="assets/app.js?v=1793987638"></script>
 </body>
 </html>
