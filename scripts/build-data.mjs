@@ -5,7 +5,8 @@
 //   rounds-YYYY.json   every round of that year, compact rows, Israel excluded
 //   cube.json          yearly totals by country x sector x instrument, for the trend chart
 //   meta.json          when the data was built and what it holds
-//   scan-archive.json  every round ever found by the daily multi-source scan (never pruned)
+//   scan-archive.json  every round ever found by the daily multi-source scan or the historical
+//                      backfill (backfill.json), never pruned
 //
 // Aggregation: rounds from the daily multi-source scan (news, startup and VC announcements,
 // press wires) that at least two independent sources confirm and that Tech.eu does not list
@@ -99,8 +100,11 @@ async function updateScanArchive() {
   let ann = [], arc = [];
   try { ann = JSON.parse(await fs.readFile(annFile, 'utf8')).rows || []; } catch {}
   try { arc = JSON.parse(await fs.readFile(arcFile, 'utf8')).rows || []; } catch {}
+  // backfill.json: rounds announced before the daily scan started, found by the historical backfill task.
+  let bf = [];
+  try { bf = JSON.parse(await fs.readFile(path.join(OUT, 'backfill.json'), 'utf8')).rows || []; } catch {}
   const byId = new Map(arc.map((r) => [r.id, r]));
-  for (const r of ann) if (r && r.id && r.company && /^\d{4}-\d{2}-\d{2}$/.test(String(r.date))) byId.set(r.id, { ...byId.get(r.id), ...r });
+  for (const r of [...bf, ...ann]) if (r && r.id && r.company && /^\d{4}-\d{2}-\d{2}$/.test(String(r.date))) byId.set(r.id, { ...byId.get(r.id), ...r });
   const rows = [...byId.values()].sort((a, b) => (a.date < b.date ? 1 : -1));
   await fs.writeFile(arcFile, JSON.stringify({ rows }));
   return rows;
