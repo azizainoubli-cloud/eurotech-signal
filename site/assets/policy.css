@@ -9,7 +9,7 @@ body.policy .lockup { text-decoration: none; color: inherit; }
 .ptabs .count:not(:empty) { display: inline-block; min-width: 18px; padding: 0 5px; margin-left: 2px; border-radius: 999px; background: var(--soft); font-size: 11px; text-align: center; color: var(--fg); }
 .pbar { top: env(safe-area-inset-top, 0px); }
 .pbar label.off { opacity: .45; }
-#view { display: grid; gap: 18px; min-width: 0; }
+#view { display: grid; gap: 18px; min-width: 0; grid-template-columns: minmax(0, 1fr); }
 .crumbs { font-size: 13px; color: var(--muted); display: flex; gap: 6px; flex-wrap: wrap; }
 .crumbs a { color: var(--muted); }
 
@@ -34,7 +34,7 @@ body.policy .lockup { text-decoration: none; color: inherit; }
 .ev.calc { background: color-mix(in srgb, var(--c2) 18%, transparent); }
 .ev.interp { background: color-mix(in srgb, var(--c3) 26%, transparent); }
 .ev.hyp { background: color-mix(in srgb, var(--c4) 30%, transparent); }
-.lv { font-size: 11px; color: var(--muted); white-space: nowrap; }
+.lv { font-size: 11px; color: var(--muted); }
 
 /* lists and cards */
 .plist { display: grid; gap: 10px; }
@@ -89,3 +89,4 @@ a.tag:hover { text-decoration: underline; }
 .pitem .tag { white-space: normal; }
 .chart svg { max-height: 320px; }
 .pitem p, .pitem h3 { overflow-wrap: anywhere; }
+.src .lv, .meta .lv, .claim .lv { white-space: normal; }
