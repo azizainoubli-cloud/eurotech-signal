@@ -105,9 +105,9 @@ function fillFilters() {
   for (const [k, id] of Object.entries(FILTER_IDS)) $(id).addEventListener('change', () => { F[k] = $(id).value; go(currentView, currentArg); });
   $('pReset').addEventListener('click', () => { for (const k of Object.keys(F)) F[k] = ''; go(currentView, currentArg); });
   $('pSaveSearch').addEventListener('click', () => {
-    const name = prompt('Name this search', describeFilters() || viewTitle(currentView));
-    if (!name) return;
+    const name = [viewTitle(currentView), describeFilters()].filter(Boolean).join(': ');
     SAVED = readSaved(); SAVED.searches = [...SAVED.searches.filter((s) => s.hash !== location.hash), { name, hash: location.hash, at: TODAY }]; writeSaved(SAVED);
+    const btn = $('pSaveSearch'); btn.textContent = 'Search saved ✓'; setTimeout(() => { btn.textContent = 'Save this search'; }, 2000);
   });
 }
 function setStatusOptions(view) {
