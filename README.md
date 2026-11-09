@@ -13,3 +13,19 @@ Public website tracking European startup funding: every disclosed round since 20
 1. Settings → Pages → Build and deployment → Source: **GitHub Actions**.
 2. Actions → "Update data and publish" → **Run workflow** with *full* = 1 for the first build (takes about 5 minutes).
 3. Optional custom domain: Settings → Pages → Custom domain, plus a CNAME record at your registrar pointing `www` to `<username>.github.io`.
+
+## Policy & Capital Intelligence (add-on)
+
+`site/policy.html` connects EU policy and public funding to the startup funding data. It is self-contained, so removing it means deleting `site/policy.html`, `site/assets/policy*`, `site/data/policy/` and `scripts/policy/`, then reverting the header link in `site/index.html` and the "Policy & Capital pipeline" step in the workflow.
+
+- **Data** (`site/data/policy/`): curated frameworks, programmes and public-capital indicators. Every record carries its source URL, institution, publication date, retrieval date and last-verified date, plus the source's level in the hierarchy (1 = EU legislation and institutions … 5 = news). The folder also holds:
+  - `developments.json`: the developments feed;
+  - `calls.json`: open and forthcoming EU Funding & Tenders calls;
+  - `changes.json`: append-only history of every changed field;
+  - `ingest-log.json`: one entry per run, with per-source status;
+  - `discrepancies.json`: places where sources disagree;
+  - `insights.json`: insights that separate facts, calculations, interpretation and hypotheses;
+  - `analytics.json`: the Europe-wide snapshot.
+- **Pipeline** (`scripts/policy/run.mjs`): runs after the funding build as a separate workflow step that is allowed to fail. Sources and their check frequency are listed in `scripts/policy/sources.json`; ingestion is incremental, with retries, deduplication and update detection. Run `node scripts/policy/test.mjs` for the offline tests.
+- **Analytics**: computed from the existing `rounds-YYYY.json` files by `site/assets/policy-analytics.js`. The page and the build share this module, so they produce the same numbers. Results are labelled with evidence levels: direct attribution, documented participation, statistical association or potential influence.
+- **Analyst layer**: a scheduled Claude task reviews newly captured items and writes cited summaries and insights. Its instructions are in `scripts/policy/ANALYST_TASK.md`.

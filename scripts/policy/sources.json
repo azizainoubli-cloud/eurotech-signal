@@ -1,0 +1,23 @@
+{
+  "note": "Policy & Capital Intelligence ingestion sources. Each source has an adapter, a check frequency and a place in the source hierarchy (1 = EU legislation and institutional documents, 2 = official EU funding and programme databases, 3 = public financial institutions and national agencies, 4 = industry research, 5 = news). Feed URLs were checked on 2026-11-09 from a research environment; the ingestion log shows whether each one answers from GitHub Actions.",
+  "sources": [
+    { "id": "ft-calls", "name": "EU Funding & Tenders Portal: open and forthcoming calls", "institution": "European Commission", "adapter": "sedia", "level": 2,
+      "url": "https://api.tech.ec.europa.eu/search-api/prod/rest/search", "every_hours": 20, "enabled": true,
+      "terms": "EU Funding & Tenders Portal public search API (apiKey=SEDIA, the key the portal itself uses publicly). Reused under the Commission's reuse policy (Decision 2011/833/EU)." },
+    { "id": "eic-news", "name": "EIC news", "institution": "European Innovation Council", "adapter": "rss", "level": 2,
+      "url": "https://eic.ec.europa.eu/node/2/rss_en", "every_hours": 20, "enabled": true },
+    { "id": "ec-press", "name": "European Commission press corner", "institution": "European Commission", "adapter": "rss", "level": 1,
+      "url": "https://ec.europa.eu/commission/presscorner/api/rss?language=EN", "every_hours": 20, "enabled": true, "strict": true },
+    { "id": "digital-strategy", "name": "Shaping Europe's digital future", "institution": "European Commission (DG CNECT)", "adapter": "rss", "level": 1,
+      "url": "https://digital-strategy.ec.europa.eu/en/rss.xml", "every_hours": 20, "enabled": true },
+    { "id": "eif-press", "name": "EIF press releases", "institution": "European Investment Fund", "adapter": "rss", "level": 3,
+      "url": "https://www.eif.org/press/release/index.rss", "every_hours": 20, "enabled": true },
+    { "id": "eurlex-oj-l", "name": "EUR-Lex: acts of the Official Journal L", "institution": "Publications Office of the EU", "adapter": "rss", "level": 1,
+      "url": "https://eur-lex.europa.eu/EN/display-feed.rss?rssId=222", "every_hours": 20, "enabled": true, "strict": true },
+    { "id": "cordis", "name": "CORDIS project results", "institution": "Publications Office of the EU", "adapter": "none", "level": 2,
+      "url": "https://cordis.europa.eu/datalab/sparql-endpoint", "every_hours": 168, "enabled": false,
+      "note": "No CORDIS news RSS found. Planned: weekly SPARQL query for EIC/Horizon awards to startups, to link awards to funding rounds." },
+    { "id": "link-check", "name": "Reconciliation: re-check every stored source link", "institution": "TechCap Intelligence", "adapter": "linkcheck", "level": 0,
+      "url": "", "every_hours": 160, "enabled": true }
+  ]
+}
