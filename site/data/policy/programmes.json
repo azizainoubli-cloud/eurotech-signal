@@ -1,0 +1,1173 @@
+{
+"records":[
+{
+"id":"eic-accelerator",
+"name":"EIC Accelerator",
+"framework":"horizon-europe",
+"institution":"European Innovation Council and SMEs Executive Agency (EISMEA); investment component via the EIC Fund",
+"mechanism":[
+"grant",
+"equity",
+"blended"
+],
+"amount":{
+"min_eur":null,
+"max_eur":2500000,
+"label":"Grant component below €2.5M (TRL 6-8); investment (equity) component €1M-€10M (TRL 6-9); higher amounts via STEP Scale Up"
+},
+"budget":{
+"amount_eur":634000000,
+"label":"2026 indicative: €414M Accelerator Open + €220M Accelerator Challenges (WP2026). 2027: €428M Open + €150M Challenges = €578M (WP2027, adopted 5 Nov 2026)",
+"period":"2026",
+"source_url":"https://eic.ec.europa.eu/system/files/2025-11/EIC-Work-Programme-2026.pdf"
+},
+"beneficiaries":[
+"Startups",
+"SMEs",
+"Scaleups"
+],
+"countries":"EU27 + Horizon Europe associated countries",
+"sectors":[
+"All"
+],
+"stages":[
+"Seed",
+"Series A"
+],
+"eligibility":[
+"SMEs established in an EU Member State or Horizon Europe associated country",
+"Small mid-caps (up to 499 employees) in a Member State or associated country: investment-only support (blended finance only in exceptional cases for rapid scale-up)",
+"Natural persons or legal entities intending to establish an SME/small mid-cap in a Member State or associated country, or to invest in one; non-associated third-country applicants may apply if they will establish or relocate the SME to a Member State/associated country",
+"Short proposals can be submitted at any time; full proposals are batched at cut-off dates (5pm Brussels time)",
+"Since 17 June 2026 the EIC also invests in defence and dual-use technologies"
+],
+"opening":null,
+"deadlines":[
+{
+"date":"2026-01-07",
+"label":"Full proposal cut-off 2026 (passed)",
+"confirmed":true
+},
+{
+"date":"2026-03-04",
+"label":"Full proposal cut-off 2026 (passed)",
+"confirmed":true
+},
+{
+"date":"2026-05-06",
+"label":"Full proposal cut-off 2026 (passed)",
+"confirmed":true
+},
+{
+"date":"2026-07-08",
+"label":"Full proposal cut-off 2026 (passed)",
+"confirmed":true
+},
+{
+"date":"2026-09-02",
+"label":"Full proposal cut-off 2026 (passed)",
+"confirmed":true
+},
+{
+"date":"2026-11-04",
+"label":"Full proposal cut-off 2026 (passed)",
+"confirmed":true
+},
+{
+"date":"2027-01-20",
+"label":"Full proposal cut-off 2027 (Open and Challenges)",
+"confirmed":true
+},
+{
+"date":"2027-03-17",
+"label":"Full proposal cut-off 2027 (Open and Challenges)",
+"confirmed":true
+},
+{
+"date":"2027-09-01",
+"label":"Full proposal cut-off 2027 (Open and Challenges)",
+"confirmed":true
+},
+{
+"date":"2027-11-04",
+"label":"Full proposal cut-off 2027 (Open and Challenges)",
+"confirmed":true
+}
+],
+"status":"open",
+"apply_url":"https://eic.ec.europa.eu/eic-funding-opportunities/eic-accelerator_en",
+"sources":[
+{
+"title":"EIC Accelerator",
+"url":"https://eic.ec.europa.eu/eic-funding-opportunities/eic-accelerator_en",
+"institution":"EISMEA / European Commission",
+"type":"official",
+"published":null,
+"level":2,
+"retrieved":"2026-11-09"
+},
+{
+"title":"European Innovation Council (EIC) Work Programme 2026 (Annex C(2026) 4080)",
+"url":"https://eic.ec.europa.eu/system/files/2025-11/EIC-Work-Programme-2026.pdf",
+"institution":"European Commission",
+"type":"official",
+"published":null,
+"level":2,
+"retrieved":"2026-11-09"
+},
+{
+"title":"European Innovation Council (EIC) Work Programme 2027 C(2026)7629",
+"url":"https://eic.ec.europa.eu/document/download/ed9ab103-1ffb-4d5f-a6ad-168ac3b36900_en?filename=EIC-2027-Work-Programme.pdf",
+"institution":"European Commission",
+"type":"official",
+"published":"2026-11-05",
+"level":2,
+"retrieved":"2026-11-09"
+},
+{
+"title":"European Innovation Council launches €1.8 billion in funding for 2027",
+"url":"https://eic.ec.europa.eu/news/european-innovation-council-launches-eur18-billion-funding-2027-2026-11-05_en",
+"institution":"EISMEA",
+"type":"official",
+"published":"2026-11-05",
+"level":2,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[
+"opening",
+"amount.min_eur"
+],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"partial",
+"version":1
+},
+{
+"id":"eic-transition",
+"name":"EIC Transition",
+"framework":"horizon-europe",
+"institution":"European Innovation Council and SMEs Executive Agency (EISMEA)",
+"mechanism":[
+"grant"
+],
+"amount":{
+"min_eur":null,
+"max_eur":2500000,
+"label":"Grants up to €2.5M; booster grants up to €50,000"
+},
+"budget":{
+"amount_eur":100000000,
+"label":"2026 indicative €100M (WP2026); 2027 €92M (WP2027)",
+"period":"2026",
+"source_url":"https://eic.ec.europa.eu/system/files/2025-11/EIC-Work-Programme-2026.pdf"
+},
+"beneficiaries":[
+"Startups",
+"SMEs",
+"Research organisations"
+],
+"countries":"EU27 + Horizon Europe associated countries",
+"sectors":[
+"Deeptech"
+],
+"stages":[
+"Research",
+"Pre-Seed"
+],
+"eligibility":[
+"Single legal entities (start-ups, SMEs or research performing organisations) established in a Member State or associated country; affiliated entities and subcontracting allowed",
+"Larger companies (non-SMEs) are not eligible as single applicants",
+"Proposal must build on results of an eligible project: EIC Pathfinder (incl. H2020 EIC pilot Pathfinder, FET-Open, FET-Proactive, FET Flagships), Horizon Europe ERC Proof of Concept, H2020 Societal Challenges / Horizon Europe Pillar II RIAs, European Defence Fund actions, or Horizon Europe Research Infrastructures RIAs",
+"Technology maturation starting from completed TRL 3 with the aim of reaching TRL 5 or beyond"
+],
+"opening":null,
+"deadlines":[
+{
+"date":"2026-09-16",
+"label":"2026 call deadline (passed)",
+"confirmed":true
+},
+{
+"date":"2027-09-14",
+"label":"2027 call deadline, 17:00 Brussels time",
+"confirmed":true
+}
+],
+"status":"forthcoming",
+"apply_url":"https://eic.ec.europa.eu/eic-funding-opportunities/eic-transition_en",
+"sources":[
+{
+"title":"EIC Transition",
+"url":"https://eic.ec.europa.eu/eic-funding-opportunities/eic-transition_en",
+"institution":"EISMEA / European Commission",
+"type":"official",
+"published":null,
+"level":2,
+"retrieved":"2026-11-09"
+},
+{
+"title":"European Innovation Council (EIC) Work Programme 2026",
+"url":"https://eic.ec.europa.eu/system/files/2025-11/EIC-Work-Programme-2026.pdf",
+"institution":"European Commission",
+"type":"official",
+"published":null,
+"level":2,
+"retrieved":"2026-11-09"
+},
+{
+"title":"European Innovation Council (EIC) Work Programme 2027",
+"url":"https://eic.ec.europa.eu/document/download/ed9ab103-1ffb-4d5f-a6ad-168ac3b36900_en?filename=EIC-2027-Work-Programme.pdf",
+"institution":"European Commission",
+"type":"official",
+"published":"2026-11-05",
+"level":2,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[
+"opening"
+],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"partial",
+"version":1
+},
+{
+"id":"eic-pathfinder",
+"name":"EIC Pathfinder (Open and Challenges)",
+"framework":"horizon-europe",
+"institution":"European Innovation Council and SMEs Executive Agency (EISMEA)",
+"mechanism":[
+"grant"
+],
+"amount":{
+"min_eur":null,
+"max_eur":4000000,
+"label":"Grants up to €4M (or more if duly justified); booster grants up to €50,000"
+},
+"budget":{
+"amount_eur":262000000,
+"label":"2026 indicative: €166M Pathfinder Open + €96M Pathfinder Challenges (WP2026). 2027: €166M Open + €82M Challenges = €248M (WP2027)",
+"period":"2026",
+"source_url":"https://eic.ec.europa.eu/system/files/2025-11/EIC-Work-Programme-2026.pdf"
+},
+"beneficiaries":[
+"Research organisations",
+"Startups",
+"SMEs"
+],
+"countries":"EU27 + Horizon Europe associated countries",
+"sectors":[
+"Deeptech"
+],
+"stages":[
+"Research"
+],
+"eligibility":[
+"Standard: consortia of at least three independent legal entities established in different countries; at least one in an EU Member State and at least two others in different Member States or associated countries",
+"Pathfinder Challenges only: single applicants and two-partner consortia also allowed"
+],
+"opening":"2026-11-25",
+"deadlines":[
+{
+"date":"2026-05-12",
+"label":"Pathfinder Open 2026 (passed)",
+"confirmed":true
+},
+{
+"date":"2026-10-28",
+"label":"Pathfinder Challenges 2026 (passed)",
+"confirmed":true
+},
+{
+"date":"2027-02-25",
+"label":"Pathfinder Open 2027 - stage 1",
+"confirmed":true
+},
+{
+"date":"2027-09-16",
+"label":"Pathfinder Open 2027 - stage 2",
+"confirmed":true
+},
+{
+"date":"2027-09-29",
+"label":"Pathfinder Challenges 2027",
+"confirmed":true
+}
+],
+"status":"forthcoming",
+"apply_url":"https://eic.ec.europa.eu/eic-funding-opportunities/eic-pathfinder_en",
+"sources":[
+{
+"title":"EIC Pathfinder",
+"url":"https://eic.ec.europa.eu/eic-funding-opportunities/eic-pathfinder_en",
+"institution":"EISMEA / European Commission",
+"type":"official",
+"published":null,
+"level":2,
+"retrieved":"2026-11-09"
+},
+{
+"title":"European Innovation Council (EIC) Work Programme 2026",
+"url":"https://eic.ec.europa.eu/system/files/2025-11/EIC-Work-Programme-2026.pdf",
+"institution":"European Commission",
+"type":"official",
+"published":null,
+"level":2,
+"retrieved":"2026-11-09"
+},
+{
+"title":"European Innovation Council (EIC) Work Programme 2027 (opening 25/11/2026 for Pathfinder Open per call footnote; may shift by up to one month)",
+"url":"https://eic.ec.europa.eu/document/download/ed9ab103-1ffb-4d5f-a6ad-168ac3b36900_en?filename=EIC-2027-Work-Programme.pdf",
+"institution":"European Commission",
+"type":"official",
+"published":"2026-11-05",
+"level":2,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"verified",
+"version":1
+},
+{
+"id":"eic-step-scaleup",
+"name":"EIC STEP Scale Up",
+"framework":"step",
+"institution":"European Innovation Council and SMEs Executive Agency (EISMEA); investments by the EIC Fund",
+"mechanism":[
+"equity",
+"co-investment"
+],
+"amount":{
+"min_eur":10000000,
+"max_eur":30000000,
+"label":"Equity-only investment of €10M-€30M (EIC Fund) in rounds of €50M-€150M"
+},
+"budget":{
+"amount_eur":300000000,
+"label":"2026 budget €300M (plus separate STEP Scale Up Defence €100M); 2027: €290M (plus STEP Scale Up Defence €100M)",
+"period":"2026",
+"source_url":"https://eic.ec.europa.eu/eic-funding-opportunities/step-scale_en"
+},
+"beneficiaries":[
+"Scaleups",
+"SMEs",
+"Investors"
+],
+"countries":"EU27 + eligible Horizon Europe associated countries (excluding the UK)",
+"sectors":[
+"Deeptech",
+"Cleantech",
+"Healthtech",
+"Semiconductors"
+],
+"stages":[
+"Series B",
+"Growth/Late"
+],
+"eligibility":[
+"A single SME or small mid-cap (fewer than 500 employees) established in an EU Member State or eligible associated country (excluding the UK)",
+"Investors may submit on behalf of an eligible company",
+"Pre-commitment from a single qualified investor covering at least 20% of a total target funding round of €50M-€150M",
+"Technology areas: digital and deep tech, clean technologies, biotechnologies (quantum and semiconductors named as priorities)",
+"Applications accepted any time; evaluated in batches at cut-off dates"
+],
+"opening":null,
+"deadlines":[
+{
+"date":"2026-02-11",
+"label":"Investment batch cut-off 2026 (passed)",
+"confirmed":true
+},
+{
+"date":"2026-05-06",
+"label":"Investment batch cut-off 2026 (passed)",
+"confirmed":true
+},
+{
+"date":"2026-09-09",
+"label":"Investment batch cut-off 2026 (passed)",
+"confirmed":true
+},
+{
+"date":"2026-11-25",
+"label":"Investment batch cut-off 2026",
+"confirmed":true
+},
+{
+"date":"2027-01-28",
+"label":"Investment batch cut-off 2027",
+"confirmed":true
+},
+{
+"date":"2027-04-29",
+"label":"Investment batch cut-off 2027",
+"confirmed":true
+},
+{
+"date":"2027-09-06",
+"label":"Investment batch cut-off 2027",
+"confirmed":true
+},
+{
+"date":"2027-11-24",
+"label":"Investment batch cut-off 2027",
+"confirmed":true
+}
+],
+"status":"open",
+"apply_url":"https://eic.ec.europa.eu/eic-funding-opportunities/step-scale_en",
+"sources":[
+{
+"title":"STEP Scale Up",
+"url":"https://eic.ec.europa.eu/eic-funding-opportunities/step-scale_en",
+"institution":"EISMEA / European Commission",
+"type":"official",
+"published":null,
+"level":2,
+"retrieved":"2026-11-09"
+},
+{
+"title":"European Innovation Council (EIC) Work Programme 2026",
+"url":"https://eic.ec.europa.eu/system/files/2025-11/EIC-Work-Programme-2026.pdf",
+"institution":"European Commission",
+"type":"official",
+"published":null,
+"level":2,
+"retrieved":"2026-11-09"
+},
+{
+"title":"European Innovation Council (EIC) Work Programme 2027",
+"url":"https://eic.ec.europa.eu/document/download/ed9ab103-1ffb-4d5f-a6ad-168ac3b36900_en?filename=EIC-2027-Work-Programme.pdf",
+"institution":"European Commission",
+"type":"official",
+"published":"2026-11-05",
+"level":2,
+"retrieved":"2026-11-09"
+},
+{
+"title":"The EIC selects new European scale-ups for STEP Scale Up investments",
+"url":"https://eic.ec.europa.eu/news/eic-selects-new-european-scale-ups-step-scale-investments-2026-07-28_en",
+"institution":"EISMEA",
+"type":"official",
+"published":"2026-07-28",
+"level":2,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[
+"opening"
+],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"partial",
+"version":1
+},
+{
+"id":"horizon-europe-cluster",
+"name":"Horizon Europe collaborative calls (Pillar II clusters)",
+"framework":"horizon-europe",
+"institution":"European Commission (DG RTD and other DGs) with executive agencies (e.g. HaDEA, CINEA)",
+"mechanism":[
+"grant"
+],
+"amount":null,
+"budget":{
+"amount_eur":14000000000,
+"label":"€14bn total for the main Horizon Europe Work Programme 2026-2027 (adopted 11 Dec 2025; covers more than Pillar II clusters)",
+"period":"2026-2027",
+"source_url":"https://intellectual-property-helpdesk.ec.europa.eu/news-events/news/horizon-europe-work-programme-2026-2027-adopted-european-commission-2026-01-13_en"
+},
+"beneficiaries":[
+"Research organisations",
+"SMEs",
+"Startups",
+"Large companies",
+"Public authorities"
+],
+"countries":"EU27 + Horizon Europe associated countries",
+"sectors":[
+"All"
+],
+"stages":[
+"Research"
+],
+"eligibility":[],
+"opening":"2026-10-20",
+"deadlines":[
+{
+"date":"2027-02-16",
+"label":"HORIZON-BRIDGING-2027-01 (AI/digital bridging actions, Annex XIV; €55M, 4 topics; opened 20 Oct 2026)",
+"confirmed":true
+},
+{
+"date":"2027-03-18",
+"label":"HORIZON-CL4-2027-05 (Cluster 4 digital, photonics topic, €25M; opens 17 Nov 2026)",
+"confirmed":true
+}
+],
+"status":"open",
+"apply_url":"https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/calls-for-proposals",
+"sources":[
+{
+"title":"Horizon Europe Work Programme 2026-2027 adopted by European Commission",
+"url":"https://intellectual-property-helpdesk.ec.europa.eu/news-events/news/horizon-europe-work-programme-2026-2027-adopted-european-commission-2026-01-13_en",
+"institution":"European Commission (IP Helpdesk / EISMEA)",
+"type":"official",
+"published":"2026-01-13",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Commission press release IP/25/3022 (main Horizon Europe WP 2026-2027)",
+"url":"https://ec.europa.eu/commission/presscorner/detail/en/ip_25_3022",
+"institution":"European Commission",
+"type":"official",
+"published":"2025-12-11",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Horizon Europe Cluster 4: Digital 2027 calls now published",
+"url":"https://hadea.ec.europa.eu/news/horizon-europe-cluster-4-digital-2027-calls-now-published-2026-10-05_en",
+"institution":"HaDEA",
+"type":"official",
+"published":"2026-10-05",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Horizon Europe Cluster 4: Industry 2027 calls now published",
+"url":"https://hadea.ec.europa.eu/news/horizon-europe-cluster-4-industry-2027-calls-now-published-2026-10-05_en",
+"institution":"HaDEA",
+"type":"official",
+"published":"2026-10-05",
+"level":1,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[
+"amount",
+"eligibility",
+"budget.per_cluster"
+],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"partial",
+"version":1
+},
+{
+"id":"investeu-equity",
+"name":"InvestEU Equity products (EIF)",
+"framework":"investeu",
+"institution":"European Investment Fund (EIF), under the InvestEU Fund EU guarantee",
+"mechanism":[
+"fund-of-funds",
+"equity"
+],
+"amount":null,
+"budget":{
+"amount_eur":26200000000,
+"label":"InvestEU Fund EU budgetary guarantee of €26.2bn (all InvestEU, not equity only); EIF deploys close to €35bn combining >€18bn InvestEU resources with own resources",
+"period":"2021-2027",
+"source_url":"https://www.eif.org/flagship-initiatives/investeu/overview"
+},
+"beneficiaries":[
+"Investors",
+"Startups",
+"SMEs",
+"Scaleups"
+],
+"countries":"EU27 (plus Overseas Countries and Territories and other participating countries per call documents)",
+"sectors":[
+"All"
+],
+"stages":[
+"Pre-Seed",
+"Seed",
+"Series A",
+"Series B",
+"Growth/Late"
+],
+"eligibility":[
+"Applicants are financial intermediaries / fund managers (venture capital incl. business angels, private equity, private credit, incl. fund-of-funds and cross-over funds); startups do not apply directly",
+"Funds must target one or more thematic strategies (Capital Markets Union, enabling sectors, climate and environmental solutions, digital and cultural & creative sectors, social impact) and/or horizontal priorities",
+"Funds must be based in and invest in EU Member States, OCTs or other participating countries as set in the call documents",
+"Selection via call for expression of interest, first come first served, followed by due diligence"
+],
+"opening":null,
+"deadlines":[
+{
+"date":"2027-06-30",
+"label":"Deadline for applications to the InvestEU equity call for expression of interest (ongoing selection)",
+"confirmed":true
+}
+],
+"status":"rolling",
+"apply_url":"https://www.eif.org/equity-products/all/investeu-equity-products",
+"sources":[
+{
+"title":"InvestEU Equity products",
+"url":"https://www.eif.org/equity-products/all/investeu-equity-products",
+"institution":"European Investment Fund",
+"type":"institutional",
+"published":null,
+"level":3,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Discover EIF's InvestEU programme",
+"url":"https://www.eif.org/flagship-initiatives/investeu/overview",
+"institution":"European Investment Fund",
+"type":"institutional",
+"published":null,
+"level":3,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[
+"amount",
+"opening"
+],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"partial",
+"version":1
+},
+{
+"id":"eif-esu",
+"name":"European Tech Champions Initiative (ETCI 2.0)",
+"framework":"investeu",
+"institution":"EIB Group / European Investment Fund (EIF), with EU Member States and private institutional investors",
+"mechanism":[
+"fund-of-funds"
+],
+"amount":{
+"min_eur":null,
+"max_eur":null,
+"label":"Fund-of-funds commitments to mega funds (€1bn+) and, for the first time, mid-sized growth funds (€300m+); average ticket of €200M per company at mega-fund level"
+},
+"budget":{
+"amount_eur":2000000000,
+"label":"First closing with around €2bn in commitments (9 Nov 2026); fundraising target up to €15bn; EIB Group up to €1.25bn own funds; aims to mobilise up to €80bn. ETCI 1 (2023): up to €3.9bn",
+"period":"2026-",
+"source_url":"https://www.eib.org/en/press/all/2026-415-major-institutional-investors-join-eib-group-and-eu-member-states-to-channel-over-eur10-billion-into-european-scale-ups"
+},
+"beneficiaries":[
+"Investors",
+"Scaleups"
+],
+"countries":"EU27",
+"sectors":[
+"AI",
+"Deeptech",
+"Healthtech",
+"Cybersecurity",
+"Space",
+"Fintech",
+"Cleantech"
+],
+"stages":[
+"Series B",
+"Growth/Late"
+],
+"eligibility":[
+"Applicants are growth-stage VC/PE fund managers; ETCI 1 required a target fund size of at least €1bn; ETCI 2.0 also open to mid-sized funds (€300m+)",
+"Fund managers submit proposals via the EIF standard investment proposal form",
+"ETCI 2.0 investor side open to private institutional investors (pension funds, insurers, foundations, family offices, banks, national promotional institutions)",
+"Strategy focus: AI, deep tech, life sciences, cybersecurity, space, fintech and clean tech"
+],
+"opening":"2026-07-10",
+"deadlines":[],
+"status":"rolling",
+"apply_url":"https://www.eif.org/flagship-initiatives/european-tech-champions-initiative/overview",
+"sources":[
+{
+"title":"ETCI overview",
+"url":"https://www.eif.org/flagship-initiatives/european-tech-champions-initiative/overview",
+"institution":"European Investment Fund",
+"type":"institutional",
+"published":null,
+"level":3,
+"retrieved":"2026-11-09"
+},
+{
+"title":"ETCI 2.0 fundraising",
+"url":"https://www.eif.org/equity-products/all/etci-2-0-fundraising",
+"institution":"European Investment Fund",
+"type":"institutional",
+"published":null,
+"level":3,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Europe launches €80 billion investment alliance to scale up tech leaders",
+"url":"https://www.eif.org/press/all/europe-launches-investment-alliance-to-mobilise-eur80-billion-for-tech-scale-ups",
+"institution":"European Investment Fund",
+"type":"institutional",
+"published":"2026-07-10",
+"level":3,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Major institutional investors join EIB Group and EU Member States to channel over €10 billion into European scale-ups",
+"url":"https://www.eib.org/en/press/all/2026-415-major-institutional-investors-join-eib-group-and-eu-member-states-to-channel-over-eur10-billion-into-european-scale-ups",
+"institution":"European Investment Bank",
+"type":"institutional",
+"published":"2026-11-09",
+"level":3,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[
+"framework",
+"amount.min_eur",
+"amount.max_eur"
+],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"partial",
+"version":1
+},
+{
+"id":"digital-europe",
+"name":"Digital Europe Programme (DIGITAL) calls",
+"framework":"digital-europe-programme",
+"institution":"European Commission (DG CNECT) and HaDEA",
+"mechanism":[
+"grant",
+"procurement"
+],
+"amount":null,
+"budget":{
+"amount_eur":8100000000,
+"label":"Overall budget of over €8.1bn (2021-2027)",
+"period":"2021-2027",
+"source_url":"https://digital-strategy.ec.europa.eu/en/activities/digital-programme"
+},
+"beneficiaries":[
+"SMEs",
+"Startups",
+"Large companies",
+"Public authorities",
+"Research organisations"
+],
+"countries":"EU27 + DIGITAL-associated countries (per call conditions)",
+"sectors":[
+"AI",
+"Cybersecurity",
+"Cloud",
+"Semiconductors",
+"Software"
+],
+"stages":[
+"Seed",
+"Series A",
+"Series B",
+"Growth/Late"
+],
+"eligibility":[],
+"opening":"2026-09-01",
+"deadlines":[
+{
+"date":"2026-10-01",
+"label":"DIGITAL-2026-SKILLS-10 and DIGITAL-2026-BESTUSE-10 (17:00 Brussels; passed)",
+"confirmed":true
+},
+{
+"date":"2027-01-14",
+"label":"Cybersecurity calls CYBER-11-DUALUSE, CYBER-11-EULEG, CYBER-11-NCC (opened 1 Sep 2026)",
+"confirmed":true
+}
+],
+"status":"open",
+"apply_url":"https://digital-strategy.ec.europa.eu/en/activities/get-funding-digital",
+"sources":[
+{
+"title":"The Digital Europe Programme",
+"url":"https://digital-strategy.ec.europa.eu/en/activities/digital-programme",
+"institution":"European Commission (DG CNECT)",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"New calls for proposals under Digital Europe Programme published",
+"url":"https://hadea.ec.europa.eu/news/new-calls-proposals-under-digital-europe-programme-published-2026-04-10_en",
+"institution":"HaDEA",
+"type":"official",
+"published":"2026-04-10",
+"level":1,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[
+"amount",
+"eligibility",
+"countries"
+],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"partial",
+"version":1
+},
+{
+"id":"eurostars",
+"name":"Eurostars-3",
+"framework":"horizon-europe",
+"institution":"Eureka (Eureka Secretariat) with national funding bodies; co-funded partnership under Horizon Europe",
+"mechanism":[
+"grant"
+],
+"amount":null,
+"budget":null,
+"beneficiaries":[
+"SMEs",
+"Startups",
+"Research organisations",
+"Large companies"
+],
+"countries":"Eurostars participating countries",
+"sectors":[
+"All"
+],
+"stages":[
+"Seed",
+"Series A"
+],
+"eligibility":[
+"Consortium must be led by an innovative SME from a Eurostars country",
+"At least two independent organisations from at least two participating countries",
+"Projects must comply with Eurostars international eligibility criteria and applicable national funding rules",
+"Submission via the Eureka Project Management Platform"
+],
+"opening":"2026-12-17",
+"deadlines":[
+{
+"date":"2027-03-04",
+"label":"Eurostars Call 12 submission deadline, 14:00 CET",
+"confirmed":true
+}
+],
+"status":"forthcoming",
+"apply_url":"https://www.eurekanetwork.org/programmes-and-calls/eurostars/eurostars-call-12-for-projects-deadline-march-2027/",
+"sources":[
+{
+"title":"Eurostars programme page (Bulgarian National Innovation Fund)",
+"url":"https://nif.government.bg/en/programs/44",
+"institution":"National Innovation Fund (Bulgaria)",
+"type":"official",
+"published":null,
+"level":3,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Eurostars Call 12 for projects - deadline March 2027 (Eureka; page not retrievable during research)",
+"url":"https://www.eurekanetwork.org/programmes-and-calls/eurostars/eurostars-call-12-for-projects-deadline-march-2027/",
+"institution":"Eureka",
+"type":"institutional",
+"published":null,
+"level":3,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Eurostars Call 12 opens on 17 December 2026 for international SME collaborations",
+"url":"https://www.hezelburcht.com/en/news/eurostars-call-12-opens-on-17-december-2026-for-international-sme-collaborations/",
+"institution":"Hezelburcht",
+"type":"news",
+"published":null,
+"level":5,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[
+"amount",
+"budget",
+"institution",
+"countries"
+],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"partial",
+"version":1
+},
+{
+"id":"innovfund",
+"name":"Innovation Fund (EU ETS)",
+"framework":"green-deal",
+"institution":"European Commission (DG CLIMA) with CINEA",
+"mechanism":[
+"grant"
+],
+"amount":{
+"min_eur":null,
+"max_eur":null,
+"label":"Up to 60% of relevant costs; IF26 SME call for small-scale projects with capex €2.5M-€20M"
+},
+"budget":{
+"amount_eur":200000000,
+"label":"IF26 SME call planned budget €200M (IF26 NZT call budget not yet published; IF25 NZT call budget was €2.9bn; next round to include a €1bn clean-tech manufacturing topic)",
+"period":"IF26 (2026-2027)",
+"source_url":"https://climate.ec.europa.eu/areas-action/eu-funding-climate-action/innovation-fund/calls-proposals/if26-sme-call_en"
+},
+"beneficiaries":[
+"SMEs",
+"Startups",
+"Large companies"
+],
+"countries":"EU27 + Iceland, Norway, Liechtenstein",
+"sectors":[
+"Cleantech",
+"Energy"
+],
+"stages":[
+"Series A",
+"Series B",
+"Growth/Late"
+],
+"eligibility":[
+"Projects located in EU Member States, Iceland, Norway or Liechtenstein",
+"Projects must be sufficiently mature in planning, business model and financial/legal structure",
+"IF26 NZT topics by CAPEX: large-scale >€100M; small and medium-scale €2.5M-€100M; clean-tech manufacturing & critical raw materials >€2.5M; pilots >€2.5M",
+"IF26 SME call: all consortium members must be SMEs (Recommendation 2003/361); small-scale projects with capex €2.5M-€20M"
+],
+"opening":null,
+"deadlines":[],
+"status":"forthcoming",
+"apply_url":"https://climate.ec.europa.eu/areas-action/eu-funding-climate-action/innovation-fund/calls-proposals_en",
+"sources":[
+{
+"title":"IF26 NZT Call",
+"url":"https://climate.ec.europa.eu/areas-action/eu-funding-climate-action/innovation-fund/calls-proposals/if26-nzt-call_en",
+"institution":"European Commission (DG CLIMA)",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"IF26 SME Call",
+"url":"https://climate.ec.europa.eu/areas-action/eu-funding-climate-action/innovation-fund/calls-proposals/if26-sme-call_en",
+"institution":"European Commission (DG CLIMA)",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Calls - regular grants (Innovation Fund)",
+"url":"https://cinea.ec.europa.eu/programmes/innovation-fund/calls-regular-grants_en",
+"institution":"CINEA",
+"type":"official",
+"published":null,
+"level":2,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Commission invests €3.4 billion in net-zero technology projects",
+"url":"https://luxembourg.representation.ec.europa.eu/actualites-et-evenements/actualites/commission-invests-eur34-billion-net-zero-technology-projects-2026-10-19_en",
+"institution":"European Commission Representation in Luxembourg",
+"type":"official",
+"published":"2026-10-19",
+"level":1,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[
+"opening",
+"deadlines",
+"amount.max_eur"
+],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"partial",
+"version":1
+},
+{
+"id":"chips-ju",
+"name":"Chips Joint Undertaking calls (and Chips Fund)",
+"framework":"chips-act",
+"institution":"Chips Joint Undertaking (Chips JU); Chips Fund implemented by the European Innovation Council and InvestEU",
+"mechanism":[
+"grant"
+],
+"amount":null,
+"budget":{
+"amount_eur":300000000,
+"label":"16 calls opened 7 Jul 2026 worth over €300M EU funding (~€180M ECS R&I, ~€130M Chips for Europe Initiative)",
+"period":"2026",
+"source_url":"https://www.chips-ju.europa.eu/NewsDetails/?id=2e25dc95-c37a-f111-ab0f-7ced8d726cac"
+},
+"beneficiaries":[
+"Research organisations",
+"SMEs",
+"Startups",
+"Large companies"
+],
+"countries":"EU27 + participating states (per call conditions)",
+"sectors":[
+"Semiconductors",
+"AI",
+"Hardware"
+],
+"stages":[
+"Research"
+],
+"eligibility":[
+"Call-specific eligibility in full call texts (not summarised on the news page)",
+"2nd-phase Global IA and Global RIA only open to consortia that submitted a project outline in the earlier phase"
+],
+"opening":"2026-07-07",
+"deadlines":[
+{
+"date":"2026-09-16",
+"label":"Resilience calls (power electronics, photonics, health), 6G, international cooperation (passed)",
+"confirmed":true
+},
+{
+"date":"2026-09-17",
+"label":"ECS Global IA and RIA 2nd phase (passed)",
+"confirmed":true
+},
+{
+"date":"2026-09-22",
+"label":"Supply-chain resilience CSA, autonomous driving stack SDV-CSA (passed)",
+"confirmed":true
+},
+{
+"date":"2026-09-24",
+"label":"Skills Hubs of Excellence, Pilot Federation, Stimulation of Chip Design, EU-Japan (passed)",
+"confirmed":true
+},
+{
+"date":"2026-09-30",
+"label":"Impact monitoring and assessment framework (passed)",
+"confirmed":true
+},
+{
+"date":"2026-10-27",
+"label":"AI chip demonstrators; AI compute evaluation and deployment platform (passed)",
+"confirmed":true
+}
+],
+"status":"closed",
+"apply_url":"https://www.chips-ju.europa.eu/Open-and-Upcoming-Calls/?page=1",
+"sources":[
+{
+"title":"Chips JU opens 16 calls worth over €300 million",
+"url":"https://www.chips-ju.europa.eu/NewsDetails/?id=2e25dc95-c37a-f111-ab0f-7ced8d726cac",
+"institution":"Chips Joint Undertaking",
+"type":"official",
+"published":"2026-07-08",
+"level":2,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Chips JU Open and Upcoming Calls",
+"url":"https://www.chips-ju.europa.eu/Open-and-Upcoming-Calls/?page=1",
+"institution":"Chips Joint Undertaking",
+"type":"official",
+"published":null,
+"level":2,
+"retrieved":"2026-11-09"
+},
+{
+"title":"European Chips Act: The Chips for Europe Initiative",
+"url":"https://digital-strategy.ec.europa.eu/en/factpages/european-chips-act-chips-europe-initiative",
+"institution":"European Commission (DG CNECT)",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[
+"amount",
+"countries",
+"chips_fund.amount"
+],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"partial",
+"version":1
+},
+{
+"id":"eif-german-equity",
+"name":"EIF German Equity (formerly ERP-EIF Facility)",
+"framework":null,
+"institution":"European Investment Fund (EIF) on behalf of Germany's Federal Ministry for Economic Affairs and Energy (BMWE) / ERP Special Fund",
+"mechanism":[
+"fund-of-funds"
+],
+"amount":null,
+"budget":{
+"amount_eur":5800000000,
+"label":"Current mandate volume up to €5.8bn (plus €1.6bn for innovation and start-ups and €0.4bn co-invested alongside the GFF-EIF Growth Facility, per EIF page)",
+"period":"since 2004",
+"source_url":"https://www.eif.org/products/all/erp-eif-facility"
+},
+"beneficiaries":[
+"Investors",
+"Startups",
+"SMEs",
+"Scaleups"
+],
+"countries":"Germany (portfolio companies based or active in Germany; fund managers may be non-German)",
+"sectors":[
+"All"
+],
+"stages":[
+"Seed",
+"Series A",
+"Series B",
+"Growth/Late"
+],
+"eligibility":[
+"Applicants are VC/growth fund managers; startups do not apply directly",
+"Commitments aim to support portfolio companies based or active in Germany",
+"Fund managers submit via the EIF generic investment proposal form"
+],
+"opening":null,
+"deadlines":[],
+"status":"rolling",
+"apply_url":"https://www.eif.org/products/all/erp-eif-facility",
+"sources":[
+{
+"title":"EIF German Equity (The ERP-EIF Facility)",
+"url":"https://www.eif.org/products/all/erp-eif-facility",
+"institution":"European Investment Fund",
+"type":"institutional",
+"published":null,
+"level":3,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[
+"framework",
+"amount",
+"eu_budget_cofunding"
+],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"partial",
+"version":1
+}
+]
+}
