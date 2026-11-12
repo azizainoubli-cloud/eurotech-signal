@@ -304,7 +304,14 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 
 /* ---------- contact ---------- */
 .contact { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(24px, 5vw, 64px); align-items: start; }
-.enquiry { display: grid; gap: 22px; min-width: 0; }
+.enquiry { display: grid; gap: 14px; min-width: 0; align-content: start; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); padding: clamp(20px, 3vw, 32px); }
+.form-title { font-size: 24px; }
+.signup { min-height: 320px; max-width: 480px; }
+.helps { display: grid; gap: 0; }
+.helps > div { padding: 10px 0; border-top: 1px solid var(--line); display: grid; gap: 2px; scroll-margin-top: 96px; }
+.helps > div:target dt { color: var(--label); }
+.helps dt { font-weight: 700; }
+.helps dd { color: var(--muted); font-size: 14.5px; }
 .types { border: 0; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; min-width: 0; }
 .types legend { font-weight: 700; font-size: 19px; padding: 0; margin-bottom: 12px; }
 .type { display: flex; gap: 12px; align-items: start; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 14px 16px; cursor: pointer; transition: border-color .15s; }

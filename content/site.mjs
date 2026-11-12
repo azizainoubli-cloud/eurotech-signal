@@ -10,9 +10,10 @@ export const config = {
   // Public address of the site, used for canonical links and the sitemap.
   baseUrl: 'https://www.techcapintelligence.com/',
   contact: {
-    // TODO: replace with the final address, then set emailIsPlaceholder to false.
-    email: 'hello@example.com',
-    emailIsPlaceholder: true,
+    // Enquiries go through the Beehiiv form below until a professional address exists.
+    // When it does: put it in `email`. It then appears on the contact page and in the footer.
+    email: '',
+    beehiivFormId: 'e144240e-0ef7-48e0-849a-57f2a25f4973',
     // TODO: paste the full LinkedIn URLs. While empty, the site shows "link to be added".
     linkedinCompany: '',
     linkedinFounder: '',
@@ -519,7 +520,7 @@ export const contact = {
   hero: {
     eyebrow: 'Contact',
     headline: "Let's explore how we can work together.",
-    text: 'Choose the type of enquiry and tell us briefly what you need. You will get a reply from a person, not a sales sequence.',
+    text: 'Leave your details and tell us who you are. You will get a reply from a person, not a sales sequence.',
   },
   // `id` is used in links such as contact.html#research to preselect the enquiry type.
   types: [

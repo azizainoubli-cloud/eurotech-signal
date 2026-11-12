@@ -108,7 +108,8 @@ export function footer({ nav, config, data }) {
     <div>
       <h2>Contact</h2>
       <ul>
-        <li><span class="email">${esc(c.email)}</span>${c.emailIsPlaceholder ? ' <span class="ph">placeholder</span>' : ''}</li>
+        <li><a href="contact.html">Contact form</a></li>
+        ${c.email ? `<li><span class="email">${esc(c.email)}</span></li>` : ''}
         ${li(c.linkedinCompany, 'LinkedIn')}
         <li><a href="${esc(config.newsletterUrl)}" target="_blank" rel="noopener">Weekly Roundup newsletter</a></li>
       </ul>

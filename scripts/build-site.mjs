@@ -263,34 +263,18 @@ function contactPage() {
   return `${c.pageHero(k.hero)}
 <section class="section tight">
   <div class="wrap contact">
-    <form class="enquiry" id="enquiry" data-email="${esc(ct.email)}" data-placeholder="${ct.emailIsPlaceholder}" novalidate>
-      <fieldset class="types">
-        <legend>What is your enquiry about?</legend>
-${k.types.map((t, i) => `        <label class="type" for="type-${t.id}"><input type="radio" name="type" id="type-${t.id}" value="${esc(t.label)}"${i === 0 ? ' checked' : ''}><span><b>${esc(t.label)}</b><small>${esc(t.text)}</small></span></label>`).join('\n')}
-      </fieldset>
-      <div class="fields">
-        <label for="f-name">Your name<input id="f-name" name="name" type="text" autocomplete="name" required></label>
-        <label for="f-org">Organisation<input id="f-org" name="org" type="text" autocomplete="organization"></label>
-        <label for="f-email">Your email<input id="f-email" name="email" type="email" autocomplete="email" required></label>
-        <label class="full" for="f-msg">What do you need?<textarea id="f-msg" name="message" rows="5" required></textarea></label>
-      </div>
-      <p class="form-error" id="form-error" role="alert" hidden></p>
-      <div class="cta-row"><button class="btn btn-solid" type="submit">Prepare my email</button><span class="hint">This opens your email app with the message ready to send. Nothing is stored on this site.</span></div>
-      <div class="composed" id="composed" hidden>
-        <p id="composed-note"></p>
-        <textarea id="composed-text" rows="8" readonly aria-label="Your message"></textarea>
-        <button class="btn btn-outline" type="button" id="copy-msg">Copy message</button>
-      </div>
-    </form>
+    <div class="enquiry">
+      <h2 class="form-title">Get in touch</h2>
+      <div class="signup" id="signup" data-form="${esc(ct.beehiivFormId)}"></div>
+      <p class="note">Form not showing? <a href="${esc(config.newsletterUrl)}" target="_blank" rel="noopener">Open it on our sign-up page</a>.</p>
+      <p class="note">Submitting the form also subscribes you to the weekly TechCap Intelligence Roundup. You can unsubscribe in one click.</p>
+    </div>
     <aside class="direct">
-      <h2>Direct contact</h2>
-      <p class="email-row"><span class="email" id="email">${esc(ct.email)}</span><button class="btn btn-outline sm" type="button" id="copy-email">Copy</button></p>
-      ${ct.emailIsPlaceholder ? '<p class="note"><span class="ph">placeholder</span> The final address has not been configured yet.</p>' : ''}
+      <h2>What we can help with</h2>
+      <dl class="helps">${k.types.map((t) => `<div id="${t.id}"><dt>${esc(t.label)}</dt><dd>${esc(t.text)}</dd></div>`).join('')}</dl>
+      ${ct.email ? `<h2>Email</h2><p class="email-row"><span class="email" id="email">${esc(ct.email)}</span><button class="btn btn-outline sm" type="button" id="copy-email">Copy</button></p>` : ''}
       <h2>LinkedIn</h2>
       <ul class="links">${link(ct.linkedinCompany, 'TechCap Intelligence on LinkedIn')}${link(ct.linkedinFounder, 'Founder on LinkedIn')}</ul>
-      <h2>Stay informed</h2>
-      <p>The weekly Roundup covers where European startup money went and what it means.</p>
-      <p><a class="btn btn-outline" href="${esc(config.newsletterUrl)}" target="_blank" rel="noopener">Get the weekly Roundup</a></p>
     </aside>
   </div>
 </section>`;
