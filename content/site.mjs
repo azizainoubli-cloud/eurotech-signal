@@ -8,7 +8,7 @@ export const config = {
   positioning:
     "Independent intelligence, strategic insights and ecosystem engagement for Europe's technology and investment landscape.",
   // Public address of the site, used for canonical links and the sitemap.
-  baseUrl: 'https://azizainoubli-cloud.github.io/eurotech-signal/',
+  baseUrl: 'https://techcapintelligence.com/',
   contact: {
     // TODO: replace with the final address, then set emailIsPlaceholder to false.
     email: 'hello@example.com',
