@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://azizainoubli-cloud.github.io/eurotech-signal/sitemap.xml

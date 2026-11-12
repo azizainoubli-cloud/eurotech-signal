@@ -33,11 +33,13 @@ jobs:
         run: node scripts/build-data.mjs
         env:
           FULL: ${{ github.event.inputs.full || '0' }}
+      - name: Build the website pages (figures come from the snapshot)
+        run: node scripts/build-site.mjs
       - name: Save the snapshot in the repository
         run: |
           git config user.name "eurotech-signal-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add site/data
+          git add site/data site/*.html site/sitemap.xml
           git diff --cached --quiet || git commit -m "Update funding data [skip ci]"
           for i in 1 2 3 4; do
             git push && break

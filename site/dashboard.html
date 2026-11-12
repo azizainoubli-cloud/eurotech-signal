@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Funding dashboard · TechCap Intelligence</title>
+<link rel="canonical" href="https://azizainoubli-cloud.github.io/eurotech-signal/dashboard.html">
+<meta name="description" content="Live intelligence on European startup funding: every disclosed round since 2021 by country, sector, stage and investor, updated twice a day.">
+<meta property="og:title" content="Funding dashboard · TechCap Intelligence">
+<meta property="og:description" content="Making sense of European tech capital flows. Live European startup funding data, updated twice a day.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-64.png" sizes="64x64" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/style.css?v=1794046128">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1 class="sr-only">TechCap Intelligence funding dashboard</h1>
+    <div class="lockup">
+      <a href="index.html" aria-label="TechCap Intelligence, home"><div class="logo" role="img" aria-label="TechCap Intelligence logo"><span class="w"></span><span class="m"></span></div></a>
+      <p class="slogan">Making sense of European tech capital flows</p>
+    </div>
+    <div class="co-search" role="search">
+      <label class="sr-only" for="coSearch">Search a startup</label>
+      <input id="coSearch" type="search" placeholder="Search a startup, e.g. Mistral AI" autocomplete="off" aria-controls="coResults" aria-autocomplete="list">
+      <ul id="coResults" role="listbox" hidden></ul>
+    </div>
+    <a class="btn" href="index.html">About TechCap Intelligence</a>
+    <button class="btn btn-solid" id="subscribe" type="button">Join early access</button>
+  </header>
+
+  <nav class="bar" aria-label="Filters">
+    <label>Period <select id="fYear"></select></label>
+    <div class="range" id="rangeBox" hidden>
+      <label>From <input type="month" id="fFrom"></label>
+      <label>To <input type="month" id="fTo"></label>
+      <div class="quick" role="group" aria-label="Quick ranges">
+        <button class="btn sm" type="button" data-range="6">6 months</button>
+        <button class="btn sm" type="button" data-range="12">12 months</button>
+        <button class="btn sm" type="button" data-range="24">2 years</button>
+        <button class="btn sm" type="button" data-range="0">Since 2021</button>
+      </div>
+    </div>
+    <label>Country <select id="fCountry"></select></label>
+    <label>Sector <select id="fSector"></select></label>
+    <button class="btn" id="reset" type="button">Reset</button>
+    <button class="btn btn-accent" id="goCmp" type="button">Compare countries</button>
+  </nav>
+
+  <div class="intro">
+    <p id="lead">European startup funding, tracked round by round.</p>
+    <p class="updated" id="updated"></p>
+  </div>
+
+  <section class="tiles" id="tiles" aria-label="Headline figures"></section>
+
+  <section class="card analysis" id="signalsCard">
+    <div class="card-head"><h2>What the data says</h2><p class="note" id="signalsNote"></p></div>
+    <div class="an-body" id="analysis"></div>
+    <div class="audience" id="audience">
+      <div><h3 class="sub">For founders</h3><ul class="signals" id="forFounders"></ul></div>
+      <div><h3 class="sub">For investors</h3><ul class="signals" id="forInvestors"></ul></div>
+    </div>
+  </section>
+
+  <section class="card outlook" id="outlookCard">
+    <div class="card-head row">
+      <div><h2 id="olTitle">Market outlook</h2><p class="note" id="olNote"></p></div>
+      <div class="ol-actions">
+        <button class="btn sm" id="olCopy" type="button">Copy summary</button>
+        <button class="btn sm" id="olCsv" type="button">Download data (CSV)</button>
+      </div>
+    </div>
+    <div class="verdict" id="olVerdict"></div>
+    <div class="tiles sig" id="olSignals" aria-label="Market signals"></div>
+    <div class="ol-guide">
+      <div><h3 class="sub">Where the opportunity is</h3><ul class="signals" id="olWhere"></ul></div>
+      <div><h3 class="sub">How to approach it</h3><ul class="signals" id="olHow"></ul></div>
+      <div><h3 class="sub">What to watch</h3><ul class="signals" id="olWatch"></ul></div>
+    </div>
+    <div class="grid ol-charts">
+      <div class="ol-chart"><div class="ch-head"><h3 class="sub" id="olMomT">Momentum</h3><button class="btn xs" type="button" data-png="olMom">Save PNG</button></div>
+        <div class="legend" id="olMomLeg"></div><div class="chart" id="olMom"></div><p class="takeaway" id="olMomTake" hidden></p></div>
+      <div class="ol-chart"><div class="ch-head"><h3 class="sub" id="olShareT">Weight in European tech</h3><button class="btn xs" type="button" data-png="olShare">Save PNG</button></div>
+        <div class="legend" id="olShareLeg"></div><div class="chart" id="olShare"></div><p class="takeaway" id="olShareTake" hidden></p></div>
+      <div class="ol-chart"><div class="ch-head"><h3 class="sub">Round sizes: how the market is maturing</h3><button class="btn xs" type="button" data-png="olSize">Save PNG</button></div>
+        <div class="legend" id="olSizeLeg"></div><div class="chart short" id="olSize"></div><p class="takeaway" id="olSizeTake" hidden></p></div>
+      <div class="ol-chart"><div class="ch-head"><h3 class="sub">Typical ticket by stage (median round)</h3><button class="btn xs" type="button" data-png="olTicket">Save PNG</button></div>
+        <div class="legend" id="olTicketLeg"></div><div class="chart" id="olTicket"></div><p class="takeaway" id="olTicketTake" hidden></p></div>
+      <div class="ol-chart"><div class="ch-head"><h3 class="sub">Investors entering vs returning, by year</h3><button class="btn xs" type="button" data-png="olInv">Save PNG</button></div>
+        <div class="legend" id="olInvLeg"></div><div class="chart" id="olInv"></div><p class="takeaway" id="olInvTake" hidden></p></div>
+      <div class="ol-chart"><div class="ch-head"><h3 class="sub" id="olSegT">Sub-segments</h3></div>
+        <p class="note" id="olSegNote"></p><div class="rank" id="olSeg"></div><p class="takeaway" id="olSegTake" hidden></p></div>
+    </div>
+    <h3 class="sub ol-tab-h" id="olPlacesT">Where: country opportunity table</h3>
+    <div class="tbox"><table id="olPlaces"></table></div>
+    <p class="note ol-disc">Signals are computed from disclosed rounds only and compare the selected period with the period of the same length just before it. They describe what the funding data shows; they are not investment advice.</p>
+  </section>
+
+  <section class="card" id="cmpCard">
+    <div class="card-head row">
+      <div><h2>Compare countries</h2><p class="note" id="cmpNote"></p></div>
+    </div>
+    <div class="cmp-pick"><div class="chips" id="cmpChips"></div><select id="cmpAdd" aria-label="Add a country to compare"></select></div>
+    <div id="cmpOut"></div>
+  </section>
+
+  <section class="card" id="mapCard">
+    <div class="card-head"><h2>Funding map</h2><p class="note">Disclosed funding by country for the selected period and sector. Hover a country for its key figures; click it to filter.</p></div>
+    <div class="map" id="map"></div>
+    <div class="map-legend" id="mapLegend"></div>
+    <p class="takeaway" id="mapTake" hidden></p>
+  </section>
+
+
+  <section class="card">
+    <div class="card-head"><h2 id="trendTitle">Funding by year and instrument</h2><p class="note">Equity, debt and grants each year since 2021 for the current country and sector. The current year is year to date. Click a year to select it; years inside a custom range stay highlighted.</p></div>
+    <div class="ch-head"><div class="legend" id="trendLegend"></div><button class="btn xs" type="button" data-png="trend">Save PNG</button></div>
+    <div class="chart" id="trend"></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head row">
+      <div><h2 id="evoTitle">How it evolves</h2><p class="note" id="evoNote"></p></div>
+      <div class="ol-actions"><label>Show <select id="evoMode"><option value="amount">Funding raised</option><option value="rounds">Number of rounds</option></select></label><button class="btn xs" type="button" data-png="months">Save PNG</button></div>
+    </div>
+    <div class="chart" id="months"></div>
+    <p class="takeaway" id="evoTake" hidden></p>
+  </section>
+
+  <div class="grid">
+    <section class="card" id="byCountryCard">
+      <div class="card-head"><h2>By country</h2><p class="note">Top 10 for the selected period. Click to filter.</p></div>
+      <div class="rank" id="byCountry"></div>
+    </section>
+    <section class="card">
+      <div class="card-head"><h2>By sector</h2><p class="note">Top 10. A round tagged with two sectors counts toward both. Click to filter.</p></div>
+      <div class="rank" id="bySector"></div>
+    <p class="takeaway" id="sectorTake" hidden></p>
+    </section>
+  </div>
+
+  <div class="grid">
+    <section class="card">
+      <div class="card-head"><h2>By stage</h2><p class="note">"Not specified" means the announcement gave no round type.</p></div>
+      <div class="rank" id="byStage"></div>
+    <p class="takeaway" id="stageTake" hidden></p>
+    </section>
+  </div>
+
+  <section class="card">
+    <div class="card-head"><h2>Most active investors</h2><p class="note">Investors named most often in this selection. The amount is the combined size of those rounds, not what the investor put in. Click to see their deals.</p></div>
+    <div class="rank" id="investors"></div>
+    <p class="takeaway" id="invTake" hidden></p>
+  </section>
+
+  <section class="card" id="activeCard">
+    <div class="card-head"><h2>Funds currently investing</h2><p class="note" id="activeNote">Investors with at least one disclosed deal in the last 12 months, for the current country and sector filters.</p></div>
+    <div class="tiles mini" id="activeTiles"></div>
+    <div class="filters">
+      <label>Investor type <select id="aType"></select></label>
+      <label>Stage <select id="aStage"></select></label>
+      <label>Active within <select id="aWin"><option value="365">Last 12 months</option><option value="180">Last 6 months</option><option value="90">Last 90 days</option></select></label>
+      <label class="grow">Search <input id="aQ" type="search" placeholder="Fund name"></label>
+    </div>
+    <div class="tbox tall"><table id="activeTable"></table></div>
+    <button class="btn more" id="aMore" type="button" hidden>Show more funds</button>
+  </section>
+
+  <section class="card" id="exitsCard" hidden>
+    <div class="card-head"><h2>European exits</h2><p class="note" id="exitsNote"></p></div>
+    <div class="tiles mini" id="exitTiles"></div>
+    <p class="takeaway" id="exitTake" hidden></p>
+    <div class="grid three">
+      <div><h3 class="sub">By type</h3><div class="rank" id="exitTypes"></div></div>
+      <div><h3 class="sub">Most active acquirers</h3><div class="rank" id="exitBuyers"></div></div>
+      <div><h3 class="sub">Where the buyers are based</h3><div class="rank" id="exitHq"></div></div>
+    </div>
+    <div class="tbox tall"><table id="exitTable"></table></div>
+    <button class="btn more" id="exMore" type="button" hidden>Show more exits</button>
+  </section>
+
+  <section class="card" id="annCard" hidden>
+    <div class="card-head"><h2>Latest announcements</h2><p class="note">Rounds spotted in the daily scan of funding news, founders' and VCs' announcements, newest first, cross-checked across sources. Rounds confirmed by two or more sources are also added to the totals.</p></div>
+    <div class="tbox"><table id="annTable"></table></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>Funding rounds</h2><p class="note" id="roundsNote"></p></div>
+    <div class="filters">
+      <label>Minimum size
+        <select id="fMin"><option value="0">Any</option><option value="1000000">€1M+</option><option value="5000000">€5M+</option><option value="20000000">€20M+</option><option value="100000000">€100M+</option></select>
+      </label>
+      <label>Stage <select id="fStage"></select></label>
+      <label class="grow">Search <input id="fQ" type="search" placeholder="Company or investor"></label>
+    </div>
+    <div class="tbox tall"><table id="roundsTable"></table></div>
+    <button class="btn more" id="more" type="button" hidden>Show more rounds</button>
+  </section>
+
+  <footer class="foot">
+    <p><b>Data:</b> <a href="https://funding.tech.eu" target="_blank" rel="noopener">Tech.eu Funding Explorer</a> (licensed <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>), combined with a daily scan of national tech media in 10+ countries, startup and investor announcements and press wires. A scanned round joins the totals only when at least two independent sources confirm it and Tech.eu does not already list it, so nothing is counted twice. Publicly announced rounds of startups based in Europe since 2021; amounts converted to euros at the ECB rate on each round's date; undisclosed amounts are left out of totals, not estimated. Israel is excluded. Country views cover the EU27, the UK, Switzerland, Norway and Iceland.</p>
+    <p>Exits come from Tech.eu's exits feed; unicorn valuations from <a href="https://en.wikipedia.org/wiki/List_of_unicorn_startup_companies" target="_blank" rel="noopener">Wikipedia's list of unicorn companies</a> (CC BY-SA). Not covered: founder gender, business model and ownership percentages (cap tables of private companies are not public). Coverage is announced rounds only, so databases that also count unannounced rounds report more deals.</p>
+    <p>© TechCap Intelligence. No cookies, no tracking. <a href="index.html">Home</a> · <a href="platform.html">Intelligence Platform</a> · <a href="research.html">Research &amp; Insights</a> · <a href="engagement.html">Ecosystem Engagement</a> · <a href="contact.html">Contact</a></p>
+  </footer>
+</div>
+<dialog class="join" id="join" aria-labelledby="joinTitle">
+  <button class="close" id="joinClose" type="button" aria-label="Close">&times;</button>
+  <div class="join-text">
+    <h2 id="joinTitle">Get the weekly TechCap Intelligence Roundup</h2>
+    <p>Where European startup money went each week, the deals that mattered and what it means for founders and investors. Free, one email a week. Early members help shape what comes next: country reports, investor lists and data exports.</p>
+  </div>
+  <div class="join-form">
+    <div id="joinForm"></div>
+    <p class="note join-alt">Form not showing? <a href="https://azizas-newsletter-11fef7.beehiiv.com/" target="_blank" rel="noopener">Sign up on our newsletter page</a>.</p>
+  </div>
+</dialog>
+<dialog class="profile" id="profile" aria-labelledby="profileTitle">
+  <button class="close" id="profileClose" type="button" aria-label="Close">&times;</button>
+  <div id="profileBody"></div>
+</dialog>
+<div class="tip" id="tip" hidden></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="assets/europe-map.js?v=1793987638"></script>
+<script src="assets/app.js?v=1793987638"></script>
+</body>
+</html>
