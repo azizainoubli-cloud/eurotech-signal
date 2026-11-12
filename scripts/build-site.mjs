@@ -107,7 +107,7 @@ function homePage(ctx) {
     ${c.heroMap(d)}
   </div>
   <div class="wrap">
-    <ul class="verbs">${pillars.map((p) => `<li><a href="${p.href}">${c.pillarIcon(p.key, 28)}<span>We <b>${esc(p.verb)}</b> ${esc(p.object)}.</span></a></li>`).join('')}</ul>
+    <ul class="verbs">${pillars.map((p) => `<li><a href="${p.href}">${c.pillarIcon(p.key, 28)}<span class="v-txt"><b>${esc(p.label)}</b><small>${esc(p.motto)}</small></span></a></li>`).join('')}</ul>
   </div>
 </section>
 ${c.split(h.proposition, `<dl class="points">${h.proposition.points.map((p) => `<div><dt>${esc(p.title)}</dt><dd>${esc(p.text)}</dd></div>`).join('')}</dl>`)}

@@ -35,7 +35,7 @@ export function button({ href, label, external }, variant = 'solid') {
 
 export function head({ page, config, file, artifact }) {
   const title = file === 'index.html' ? `${config.name}` : `${page.title} · ${config.name}`;
-  const fullTitle = file === 'index.html' ? `${config.name} · European tech capital flows` : title;
+  const fullTitle = file === 'index.html' ? `${config.name} · ${config.tagline.replace(/\.$/, '')}` : title;
   const url = config.baseUrl + (file === 'index.html' ? '' : file);
   const links = `<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -95,7 +95,7 @@ export function footer({ nav, config, data }) {
   <div class="wrap foot-in">
     <div class="foot-brand">
       <a class="home-link" href="index.html" aria-label="TechCap Intelligence, home">${logo()}</a>
-      <p class="slogan">Making sense of European tech capital flows</p>
+      <p class="slogan">${esc(config.tagline.replace(/\.$/, ''))}</p>
     </div>
     <nav aria-label="Footer">
       <h2>Explore</h2>

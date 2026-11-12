@@ -4,9 +4,9 @@
 
 export const config = {
   name: 'TechCap Intelligence',
-  tagline: 'Making sense of European tech capital flows.',
+  tagline: 'Turning market signals into strategic intelligence.',
   positioning:
-    "Independent intelligence, strategic insights and ecosystem engagement for Europe's technology and investment landscape.",
+    'Market intelligence, data-driven research and ecosystem expertise to help organisations understand markets, identify opportunities and make informed decisions.',
   // Public address of the site, used for canonical links and the sitemap.
   baseUrl: 'https://www.techcapintelligence.com/',
   contact: {
@@ -40,6 +40,9 @@ export const pillars = [
     verb: 'track',
     object: 'the signals',
     title: 'Intelligence Platform',
+    // Short name and motto shown under the home hero.
+    label: 'Data intelligence',
+    motto: 'Track. Structure. Analyse.',
     line: 'Follow the data. Understand the trends.',
     text: 'A lightweight intelligence terminal for European startup funding, investor activity, capital flows and the EU policy that shapes them.',
     href: 'platform.html',
@@ -50,6 +53,9 @@ export const pillars = [
     verb: 'interpret',
     object: 'the market',
     title: 'Research & Insights',
+    // Short name and motto shown under the home hero.
+    label: 'Research & insights',
+    motto: 'Investigate. Interpret. Advise.',
     line: 'Go beyond the numbers.',
     text: 'Ecosystem mapping, investment research and policy analysis, scoped to the market, sector or mandate you need to understand.',
     href: 'research.html',
@@ -60,6 +66,9 @@ export const pillars = [
     verb: 'connect',
     object: 'the ecosystem',
     title: 'Ecosystem Engagement',
+    // Short name and motto shown under the home hero.
+    label: 'Ecosystem engagement',
+    motto: 'Connect. Convene. Activate.',
     line: 'Connect the people shaping the ecosystem.',
     text: 'Panels, roundtables and introductions designed from market knowledge, so the right people have a conversation worth having.',
     href: 'engagement.html',
@@ -98,10 +107,10 @@ export const audiences = [
 export const home = {
   title: 'TechCap Intelligence',
   description:
-    "Independent intelligence, strategic insights and ecosystem engagement for Europe's technology and investment landscape. Live European startup funding data, research and ecosystem engagement.",
+    'Market intelligence, data-driven research and ecosystem expertise to help organisations understand markets, identify opportunities and make informed decisions. Live startup funding data, research and ecosystem engagement.',
   hero: {
     eyebrow: 'TechCap Intelligence',
-    headline: 'Making sense of European tech capital flows.',
+    headline: config.tagline,
     text: config.positioning,
     primary: { href: 'platform.html', label: 'Explore Intelligence' },
     secondary: { href: 'contact.html', label: 'Work With Us' },

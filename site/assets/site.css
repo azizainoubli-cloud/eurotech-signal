@@ -114,6 +114,9 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .verbs li:first-child a { padding-left: 0; }
 .verbs a:hover { background: var(--soft); }
 .verbs b, .pillar .verb b { font-weight: 700; color: var(--label); }
+.verbs .v-txt { display: grid; gap: 4px; }
+.verbs .v-txt b { color: var(--fg); font-size: clamp(17px, 1.6vw, 20px); }
+.verbs .v-txt small { font-size: 14px; font-weight: 500; color: var(--muted); letter-spacing: .01em; }
 .sym { flex: none; display: block; }
 .sym .off { opacity: .14; }
 @media (max-width: 860px) {
