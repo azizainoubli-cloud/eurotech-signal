@@ -40,7 +40,7 @@ jobs:
           git config user.name "eurotech-signal-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add site/data site/*.html site/sitemap.xml
-          git diff --cached --quiet || git commit -m "Update funding data [skip ci]"
+          git diff --cached --quiet || git commit -m "Update funding data"
           for i in 1 2 3 4; do
             git push && break
             echo "Push rejected (another update landed first), rebasing and retrying"
