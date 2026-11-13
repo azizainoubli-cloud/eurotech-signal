@@ -14,7 +14,8 @@ await fs.cp('site/data/policy', out, { recursive: true });
 for (const f of ['ingest-state.json', 'ingest-log.json', 'calls.json', 'changes.json']) await fs.rm(path.join(out, f), { force: true });
 await fs.mkdir(fx);
 const before = { fw: await fs.readFile(path.join(out, 'frameworks.json'), 'utf8'), pr: await fs.readFile(path.join(out, 'programmes.json'), 'utf8') };
-const devCount0 = JSON.parse(await fs.readFile(path.join(out, 'developments.json'), 'utf8')).records.length;
+const devs0 = JSON.parse(await fs.readFile(path.join(out, 'developments.json'), 'utf8')).records;
+const devCount0 = devs0.length, seedIds = new Set(devs0.map((d) => d.id)); // the live file already holds feed items: tests look only at what the fixtures add
 
 const rss = (items) => `<?xml version="1.0"?><rss version="2.0"><channel><title>t</title>${items.map((i) => `<item><title><![CDATA[${i.t}]]></title><link>${i.l}</link><pubDate>${i.d}</pubDate><description>${i.s || ''}</description></item>`).join('')}</channel></rss>`;
 const sedia = (deadline) => JSON.stringify({ results: [
@@ -59,7 +60,7 @@ let r = await round(1, [
   ['https://down.test/rss', 'x', 'HTTP 500'],
   [SED, 's1.json', sedia('2027-01-20T17:00:00.000+0100')],
 ]);
-const added = r.devs.filter((d) => d.origin === 'feed');
+const added = r.devs.filter((d) => d.origin === 'feed' && !seedIds.has(d.id));
 assert.equal(added.length, 2, 'one new + one historical item from feed A');
 const nw = added.find((d) => d.status === 'unverified');
 assert.ok(nw, 'new item is unverified until reviewed');
@@ -82,11 +83,11 @@ r = await round(2, [
   ['https://down.test/rss', 'x', 'HTTP 500'],
   [SED, 's1.json', sedia('2027-01-27T17:00:00.000+0100')],
 ]);
-const upd = r.devs.find((d) => d.origin === 'feed' && d.status === 'update');
+const upd = r.devs.find((d) => d.origin === 'feed' && !seedIds.has(d.id) && d.status === 'update');
 assert.ok(upd && upd.version === 2, 'edited item marked as update with a new version');
 assert.ok(r.changes.some((c) => c.record_type === 'development' && c.field === 'headline' && c.old.startsWith('EIC opens new')), 'old headline kept in change log');
 assert.ok(r.changes.some((c) => c.record_type === 'call' && c.field === 'deadlines' && c.old[0] === '2027-01-20' && c.new[0] === '2027-01-27'), 'deadline change logged');
-assert.equal(r.devs.filter((d) => d.origin === 'feed').length, 2, 'no duplicates on rerun');
+assert.equal(r.devs.filter((d) => d.origin === 'feed' && !seedIds.has(d.id)).length, 2, 'no duplicates on rerun');
 assert.equal(r.log[0].sources.find((s) => s.id === 'feed-down').consecutive_errors, 2);
 assert.equal(await fs.readFile(path.join(out, 'frameworks.json'), 'utf8'), before.fw, 'frameworks untouched');
 assert.equal(await fs.readFile(path.join(out, 'programmes.json'), 'utf8'), before.pr, 'programmes untouched');
@@ -107,6 +108,29 @@ assert.equal(ai.last_eur, 30); assert.equal(ai.prev_eur, 10); assert.equal(ai.gr
 assert.equal(a.market_growth, 0, '50 vs 50'); assert.equal(ai.rel_growth, 2);
 assert.equal(a.eu_rounds.length, 2, 'EU-backed VC round and EIC grant'); assert.deepEqual(a.co_investors, [['Accel', 1]]);
 assert.ok(!a.countries.some((c) => c.country === 'Türkiye'), 'out-of-scope country excluded');
+
+// Scorecard: EU share of AI rounds doubles (10% -> 20%) while the comparison stays at 10% -> relative +100%, "ahead".
+{
+  const rows = [];
+  const add = (country, date, n, ai, amt = 1e6) => { for (let k = 0; k < n; k++) rows.push({ date, country, sectors: [k < ai ? 'AI' : 'Fintech'], stage: 'Seed', amount: amt, investors: [], company: 'c', company_id: `${country}${date}${k}` }); };
+  add('France', '2023-06-01', 2000, 200); add('France', '2025-06-01', 2000, 400);
+  add('UK', '2023-06-01', 2000, 200); add('UK', '2025-06-01', 2000, 200);
+  add('France', '2026-09-01', 1, 0); // sets the data date after the window closes
+  const cfg = { data_start: '2021-01-01', window_months: 24, min_months_after: 12, comparison: { countries: ['UK', 'Switzerland'] }, thresholds: { band: 0.15, min_rounds: 20, medium_rounds: 40, high_rounds: 150, eur_inline_tolerance: 0.5 },
+    indicators: [{ framework: 'ai-act', match: { sectors: ['AI'] }, fit: 'good' }, { framework: 'late', match: { sectors: ['AI'] }, fit: 'good' }, { framework: 'old', match: { sectors: ['AI'] }, fit: 'good' }, { framework: 'chips', match: { sectors: ['AI'] }, fit: 'partial' }] };
+  const fws = [{ id: 'ai-act', in_force: '2024-08-01' }, { id: 'late', in_force: '2026-01-01' }, { id: 'old', published: '2019-12-11' }, { id: 'chips', in_force: '2024-08-01' }];
+  const sc = m.scorecard(rows, cfg, fws);
+  const [c, late, old, chips] = sc.cards;
+  assert.equal(c.target[0].share, 0.1); assert.equal(c.target[1].share, 0.2); assert.equal(c.comparison[1].share, 0.1);
+  assert.ok(Math.abs(c.rel - 1) < 1e-9, 'relative change +100%');
+  assert.equal(c.verdict, 'ahead'); assert.equal(c.confidence, 'High', '150+ rounds in every cell and € agrees');
+  assert.equal(late.verdict, 'early', 'under 12 months of data after the date');
+  assert.equal(old.verdict, 'no-baseline', 'policy predates the data');
+  assert.equal(chips.confidence, 'Medium', 'partial fit lowers confidence one level');
+  assert.equal(m.scorecard(rows, cfg, fws, { noise: 2 }).cards[0].confidence, 'Medium', 'gap inside placebo noise lowers confidence');
+  assert.equal(m.scorecard(rows, cfg, fws, { country: 'Germany' }).cards[0].verdict, 'insufficient', 'no rounds in the target group');
+  assert.equal(m.shiftMonths('2024-08-31', -24), '2022-08-31'); assert.equal(m.shiftMonths('2024-03-31', -1), '2024-02-29');
+}
 
 await fs.rm(tmp, { recursive: true, force: true });
 console.log('policy tests: all passed');

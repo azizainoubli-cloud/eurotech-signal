@@ -27,7 +27,13 @@ export async function analytics() {
   const strategic = (frameworks.find((f) => f.id === 'step') || {}).sectors || [];
   const rounds = (await loadRounds()).filter((r) => r.date >= '2021-01-01');
   const a = m.analyse(rounds, { frameworks, programmes, strategic });
-  const out = { built: new Date().toISOString(), scope: 'Europe (all in-scope countries), all sectors', strategic_sectors: strategic, strategic_source: 'STEP regulation record (frameworks.json, id "step")', ...a, eu_rounds: a.eu_rounds.slice(0, 300), eu_rounds_total: a.eu_rounds.length };
+  const cfg = await readJSON(p('scorecard.json'), null);
+  let score = null;
+  if (cfg) {
+    const pl = m.placebo(rounds, cfg, frameworks);
+    score = { ...m.scorecard(rounds, cfg, frameworks, { noise: pl.p90_abs }), placebo: pl, follow_on: m.followOn(rounds, cfg.follow_on) };
+  }
+  const out = { built: new Date().toISOString(), scope: 'Europe (all in-scope countries), all sectors', strategic_sectors: strategic, strategic_source: 'STEP regulation record (frameworks.json, id "step")', ...a, eu_rounds: a.eu_rounds.slice(0, 300), eu_rounds_total: a.eu_rounds.length, scorecard: score };
   await writeJSON(p('analytics.json'), out);
   return out;
 }

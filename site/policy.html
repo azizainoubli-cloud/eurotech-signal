@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css?v=1794046128">
-<link rel="stylesheet" href="assets/policy.css?v=1">
+<link rel="stylesheet" href="assets/policy.css?v=2">
 </head>
 <body class="policy">
 <div class="wrap">
@@ -20,50 +20,51 @@
     <h1 class="sr-only">TechCap Intelligence: Policy & Capital Intelligence</h1>
     <a class="lockup" href="index.html" aria-label="TechCap Intelligence home">
       <div class="logo" role="img" aria-label="TechCap Intelligence logo"><span class="w"></span><span class="m"></span></div>
-      <p class="slogan">Making sense of European tech capital flows</p>
+      <p class="slogan">Turning market signals into strategic intelligence</p>
     </a>
     <div class="top-links">
-      <a class="btn" href="dashboard.html">Funding data</a>
+      <a class="btn" href="dashboard.html">Funding dashboard</a>
       <span class="btn btn-accent is-here" aria-current="page">Policy &amp; Capital</span>
     </div>
   </header>
 
+  <div class="intro">
+    <p id="lead">Are EU policies moving startup investment? We match each policy’s goal with what investors actually do, and compare the EU with countries outside EU rules.</p>
+    <p class="updated" id="pUpdated"></p>
+  </div>
+
   <nav class="ptabs" id="tabs" aria-label="Policy & Capital sections">
-    <a href="#overview" data-view="overview">Overview</a>
-    <a href="#radar" data-view="radar">Policy Radar</a>
-    <a href="#funding" data-view="funding">Funding &amp; Opportunities</a>
-    <a href="#capital" data-view="capital">Policy → Capital</a>
-    <a href="#feed" data-view="feed">Developments</a>
-    <a href="#insights" data-view="insights">Insights</a>
-    <a href="#saved" data-view="saved">Saved <span class="count" id="savedCount"></span></a>
+    <a href="#score" data-view="score">Is it working?<small>Policy scorecard</small></a>
+    <a href="#policies" data-view="policies">Policies &amp; funding<small>Rules, programmes, open calls</small></a>
+    <a href="#news" data-view="news">What’s new<small>Developments and insights</small></a>
+    <span class="ptabs-end"><a href="#method" data-view="method" class="minor">Methodology</a><a href="#saved" data-view="saved" class="minor">Saved <span class="count" id="savedCount"></span></a></span>
   </nav>
 
-  <nav class="bar pbar" id="filters" aria-label="Filters">
+  <div class="pfilters" id="filters" role="search" aria-label="Filters">
     <label>Sector <select id="pSector"></select></label>
     <label>Country <select id="pCountry"></select></label>
-    <label>Policy framework <select id="pFramework"></select></label>
-    <label>Funding instrument <select id="pInstrument"></select></label>
-    <label>Startup stage <select id="pStage"></select></label>
-    <label>Status <select id="pStatus"></select></label>
-    <label>Published since <input type="month" id="pSince"></label>
-    <button class="btn" id="pReset" type="button">Reset</button>
-    <button class="btn" id="pSaveSearch" type="button">Save this search</button>
-  </nav>
-
-  <div class="intro">
-    <p id="lead">How European policy priorities translate into actual funding, investment activity and opportunities for startups.</p>
-    <p class="updated" id="pUpdated"></p>
+    <button class="linkbtn" id="pMore" type="button" aria-expanded="false" aria-controls="pMoreBox">More filters</button>
+    <button class="linkbtn" id="pReset" type="button" hidden>Clear filters</button>
+    <div class="pmore" id="pMoreBox" hidden>
+      <label data-f="stage">Startup stage <select id="pStage"></select></label>
+      <label data-f="status">Status <select id="pStatus"></select></label>
+      <label data-f="framework">Policy <select id="pFramework"></select></label>
+      <label data-f="instrument">Funding type <select id="pInstrument"></select></label>
+      <label data-f="since">Published since <input type="month" id="pSince"></label>
+      <button class="linkbtn" id="pSaveSearch" type="button">Save this search</button>
+    </div>
+    <p class="fnote" id="pFilterNote" hidden></p>
   </div>
 
   <main id="view" aria-live="polite"><p class="empty">Loading…</p></main>
 
   <footer class="foot">
     <p><b>Sources:</b> official EU legislation and institutional documents (EUR-Lex, European Commission, Council, Parliament), official EU funding databases (EU Funding &amp; Tenders Portal, EIC), public financial institutions (EIF, EIB, national agencies), then industry research and news, in that order of precedence. Every record shows its source, publication date, retrieval date and last verification. Startup funding rounds come from the TechCap Intelligence funding dataset (<a href="https://funding.tech.eu" target="_blank" rel="noopener">Tech.eu Funding Explorer</a>, CC BY 4.0, plus confirmed multi-source rounds).</p>
-    <p>Analysis is labelled separately from facts. A statistical association between a policy and funding data is not evidence that the policy caused it. Not legal, financial or investment advice; check eligibility and deadlines on the official page before applying.</p>
+    <p>Analysis is labelled separately from facts. A statistical association between a policy and funding data is not evidence that the policy caused it. <a href="#method">How the scorecard works</a>. Not legal, financial or investment advice; check eligibility and deadlines on the official page before applying.</p>
     <p>© TechCap Intelligence. No cookies, no tracking; saved items stay in your browser.</p>
   </footer>
 </div>
 <div class="tip" id="tip" hidden></div>
-<script type="module" src="assets/policy.js?v=1"></script>
+<script type="module" src="assets/policy.js?v=2"></script>
 </body>
 </html>
