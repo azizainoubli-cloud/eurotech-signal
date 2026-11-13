@@ -177,7 +177,7 @@ ${pillars
     <div class="pillar-top">${pillarIcon(p.key)}<p class="verb">We <b>${esc(p.verb)}</b> ${esc(p.object)}</p></div>
     <h3><a href="${p.href}">${esc(p.title)}</a></h3>
     <p class="line">${esc(p.line)}</p>
-    <p class="text">${esc(p.text)}</p>
+    ${p.offers ? `<ul class="ticks">${p.offers.map((o) => `<li>${esc(o)}</li>`).join('')}</ul>` : `<p class="text">${esc(p.text)}</p>`}
     <p class="more"><a class="btn btn-text" href="${p.href}">${esc(p.cta)}${arrow}</a></p>
   </article>`,
   )
@@ -259,6 +259,17 @@ const rank = (rows) => {
     .join('')}</ol>`;
 };
 
+// Policy & Capital panel: live figures when the add-on is built, otherwise the sample structure.
+function policyPanel(p, sample) {
+  if (!p) return `<section class="panel sample"><h3>${esc(sample.title)}</h3><p class="status status-dev">${esc(sample.tag)}</p><dl>${sample.fields.map((f) => `<div><dt>${esc(f.label)}</dt><dd>${esc(f.text)}</dd></div>`).join('')}</dl></section>`;
+  const lead = p.lead ? `<div><dt>Clearest signal</dt><dd>${esc(p.lead.name)}: ${esc(p.lead.indicator.replace(/^./, (ch) => ch.toLowerCase()))} grew ${Math.abs(Math.round(p.lead.rel * 100))}% ${p.lead.verdict === 'ahead' ? 'more' : 'less'} in the EU than in the UK and Switzerland</dd></div>` : '';
+  return `<section class="panel sample"><h3>Policy &amp; Capital</h3><p class="status status-live">Live</p><dl>
+    <div><dt>Policy scorecard</dt><dd>${p.scored} EU policies scored against the funding data: ${p.ahead} ahead of the comparison, ${p.inline} moving with the market${p.behind ? `, ${p.behind} behind` : ''}</dd></div>
+    ${lead}
+    <div><dt>Tracked</dt><dd>${p.frameworks} frameworks (${p.inForce} in force), ${p.programmes} funding programmes (${p.open} open or rolling)</dd></div>
+    <div><dt></dt><dd><a href="policy.html">Open Policy &amp; Capital</a></dd></div></dl></section>`;
+}
+
 export function terminal(data, policySample) {
   const t = data.current;
   const chips = ['Period', `${t.year} to date`, 'Country', 'All Europe', 'Sector', 'All sectors'];
@@ -275,7 +286,7 @@ export function terminal(data, policySample) {
     <section class="panel wide"><h3>Funding by year and instrument</h3><p class="legend"><span class="k-equity">Equity</span><span class="k-debt">Debt</span><span class="k-grant">Grants</span></p>${yearChart(data)}</section>
     <section class="panel"><h3>Top countries, ${t.year} to date</h3>${rank(data.topCountries)}</section>
     <section class="panel"><h3>Top sectors, ${t.year} to date</h3>${rank(data.topSectors)}<p class="note">A round tagged with two sectors counts toward both.</p></section>
-    <section class="panel sample"><h3>${esc(policySample.title)}</h3><p class="status status-dev">${esc(policySample.tag)}</p><dl>${policySample.fields.map((f) => `<div><dt>${esc(f.label)}</dt><dd>${esc(f.text)}</dd></div>`).join('')}</dl></section>
+    ${policyPanel(data.policy, policySample)}
   </div>
   <p class="term-foot">${sourceNote(data)}</p>
 </div>`;

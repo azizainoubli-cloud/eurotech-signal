@@ -46,8 +46,10 @@ export const pillars = [
     // Short name and motto shown under the home hero.
     label: 'Data intelligence',
     motto: 'Track. Structure. Analyse.',
-    line: 'Follow the data. Understand the trends.',
+    line: 'Live data on European startup funding, investors and EU policy.',
     text: 'A lightweight intelligence terminal for European startup funding, investor activity, capital flows and the EU policy that shapes them.',
+    // What you get. Shown as a short list on the home page.
+    offers: ['Funding dashboard: every announced round since 2021, updated twice a day', 'Policy & Capital: EU policies scored against the funding data', 'Weekly Roundup of the signals that matter'],
     href: 'platform.html',
     cta: 'Explore the platform',
   },
@@ -59,8 +61,9 @@ export const pillars = [
     // Short name and motto shown under the home hero.
     label: 'Research & insights',
     motto: 'Investigate. Interpret. Advise.',
-    line: 'Go beyond the numbers.',
+    line: 'Custom research when a dashboard is not enough.',
     text: 'Ecosystem mapping, investment research and policy analysis, scoped to the market, sector or mandate you need to understand.',
+    offers: ['Market and ecosystem mapping', 'Investor and capital-flow research', 'EU policy and funding analysis', 'Reports, briefs and executive presentations'],
     href: 'research.html',
     cta: 'See research services',
   },
@@ -72,8 +75,9 @@ export const pillars = [
     // Short name and motto shown under the home hero.
     label: 'Ecosystem engagement',
     motto: 'Connect. Convene. Activate.',
-    line: 'Connect the people shaping the ecosystem.',
+    line: 'Conversations and introductions built on market knowledge.',
     text: 'Panels, roundtables and introductions designed from market knowledge, so the right people have a conversation worth having.',
+    offers: ['Panel and roundtable design and moderation', 'Introductions between investors, founders, corporates and institutions', 'Closed-door sessions and workshops'],
     href: 'engagement.html',
     cta: 'See engagement services',
   },
@@ -114,8 +118,8 @@ export const home = {
   hero: {
     eyebrow: 'TechCap Intelligence',
     headline: config.tagline,
-    text: config.positioning,
-    primary: { href: 'platform.html', label: 'Explore Intelligence' },
+    text: 'We track European startup funding and EU policy, research what it means, and bring the right people together.',
+    primary: { href: 'platform.html', label: 'Explore the platform' },
     secondary: { href: 'contact.html', label: 'Work With Us' },
   },
   proposition: {
@@ -133,24 +137,26 @@ export const home = {
   },
   pillars: {
     eyebrow: 'What we do',
-    headline: 'Three business lines. One view of the market.',
-    text: 'The data informs the research. The research shapes the conversations. The conversations surface what the data cannot show yet.',
+    headline: 'Three ways to work with us.',
+    text: 'The data informs the research. The research shapes the conversations.',
   },
   tracking: {
     eyebrow: 'Coverage',
     headline: 'What we track',
+    // Shown as short tags on the home page; the text is kept for the longer description elsewhere.
     items: [
       { title: 'Startup funding and venture capital', text: 'Publicly announced rounds across Europe since 2021, by stage and instrument.' },
-      { title: 'European technology markets', text: 'Funding by country and sector, with year-on-year comparisons.' },
+      { title: 'European tech markets by country and sector', text: 'Funding by country and sector, with year-on-year comparisons.' },
       { title: 'Investor activity and capital flows', text: 'Who is investing, where, at which stage and how often.' },
       { title: 'Emerging technologies', text: 'AI, deeptech, energy, defence and the sectors gaining share.' },
       { title: 'EU innovation policy and funding frameworks', text: 'Programmes, instruments and regulation, and what they mean in practice.' },
-      { title: 'Startup and innovation ecosystems', text: 'The organisations, hubs and institutions that make each market work.' },
+      { title: 'Startup ecosystems and their institutions', text: 'The organisations, hubs and institutions that make each market work.' },
     ],
   },
   audiences: {
     eyebrow: 'Who we work with',
     headline: 'Built for the people who allocate capital, build companies and shape policy.',
+    text: 'Investors, founders, corporates, institutions and ecosystem builders.',
   },
   closing: {
     headline: 'Better intelligence. Stronger connections. Smarter decisions.',
@@ -162,21 +168,18 @@ export const home = {
 export const platform = {
   title: 'European Tech Intelligence Platform',
   description:
-    'A lightweight intelligence terminal for European startup funding, investor activity, capital flows and EU policy. The funding dashboard is live; policy intelligence is in development.',
+    'A lightweight intelligence terminal for European startup funding, investor activity, capital flows and EU policy. The funding dashboard and the Policy & Capital scorecard are live.',
   hero: {
     eyebrow: 'European Tech Intelligence Platform',
     headline: 'Follow the data. Understand the trends.',
-    text: 'A lightweight intelligence terminal for people who need to know where technology and investment are moving in Europe. It is built in the open and grows module by module.',
+    text: 'Where technology and investment are moving in Europe, with a source on every figure. Built in the open, module by module.',
     primary: { href: 'dashboard.html', label: 'Open the live dashboard' },
     secondary: { href: 'contact.html#platform', label: 'Request early access' },
   },
   why: {
     eyebrow: 'Why capital flows',
     headline: 'A funding announcement is a data point. A capital flow is a signal.',
-    paragraphs: [
-      'A single round says little. Thousands of rounds, read together, show which sectors are attracting money, which countries are gaining ground, which stages are getting harder to raise and which investors are still writing cheques.',
-      'The platform is built to answer those questions directly, with every figure traceable to its source.',
-    ],
+    paragraphs: ['A single round says little. Thousands of rounds, read together, answer the questions that matter.'],
     questions: [
       'Where is capital going?',
       'Which sectors are attracting investment?',
@@ -188,7 +191,7 @@ export const platform = {
   modulesIntro: {
     eyebrow: 'Modules',
     headline: 'Four modules, built progressively.',
-    text: 'Each module is labelled with its real status. Nothing is presented as live before it is.',
+    text: 'Each module shows its real status.',
   },
   modules: [
     {
@@ -196,15 +199,8 @@ export const platform = {
       title: 'Startup and Investment Intelligence',
       status: 'live',
       statusLabel: 'Live',
-      text: 'A structured view of the European startup and investment landscape, built on every publicly announced round since 2021.',
-      features: [
-        'Funding rounds, amounts and instruments',
-        'Sector and technology breakdowns',
-        'Funding map by country',
-        'Investor activity and funds currently investing',
-        'Stage trends and historical comparisons',
-        'Exits and acquirers',
-      ],
+      text: 'Every publicly announced round since 2021, structured.',
+      features: ['Funding rounds, amounts and instruments', 'Sectors, countries and stages', 'Investor activity and funds currently investing', 'Exits and acquirers'],
       link: { href: 'dashboard.html', label: 'Open the dashboard' },
     },
     {
@@ -212,51 +208,33 @@ export const platform = {
       title: 'European Tech Capital Flows',
       status: 'live',
       statusLabel: 'Live, expanding',
-      text: 'The analytical layer on top of the rounds: how funding patterns shift between countries, sectors and stages over time.',
-      features: [
-        'Market outlook for any country and sector',
-        'Country-to-country comparison',
-        'Momentum and share of European tech',
-        'Round sizes and typical ticket by stage',
-        'New versus returning investors',
-      ],
+      text: 'How funding shifts between countries, sectors and stages over time.',
+      features: ['Market outlook for any country and sector', 'Country-to-country comparison', 'Round sizes and typical ticket by stage', 'New versus returning investors'],
       link: { href: 'dashboard.html', label: 'See the market outlook' },
     },
     {
       letter: 'C',
-      title: 'EU Policy and Funding Framework Intelligence',
-      status: 'dev',
-      statusLabel: 'In development',
-      text: 'A curated tracker of the European policies, programmes and funding instruments that shape the startup ecosystem, connected to the funding data. Not a news feed.',
-      features: [
-        'Commission startup and scale-up initiatives',
-        'Horizon Europe and EIC instruments',
-        'InvestEU and related financial instruments',
-        'Regulation affecting startups and investors',
-        'Deeptech, AI and strategic technology initiatives',
-      ],
-      link: { href: 'contact.html#platform', label: 'Ask about early access' },
+      title: 'Policy & Capital Intelligence',
+      status: 'live',
+      statusLabel: 'Live',
+      text: 'EU policies and funding programmes, connected to the funding data and scored on whether they move it.',
+      features: ['Policy scorecard: is each policy moving investment?', 'EU programmes, instruments and open calls with deadlines', 'Developments with why they matter', 'Full methodology, open source'],
+      link: { href: 'policy.html', label: 'Open Policy & Capital' },
     },
     {
       letter: 'D',
       title: 'Market Signals and Intelligence Updates',
       status: 'partial',
       statusLabel: 'Live in part',
-      text: 'A curated stream of developments, each with context on why it matters. Today: a daily scan of funding announcements and the weekly Roundup.',
-      features: [
-        'Significant funding announcements',
-        'New investment vehicles',
-        'Policy and regulatory updates',
-        'Strategic partnerships',
-        'Relevant reports and publications',
-      ],
+      text: 'A daily scan of funding announcements and the weekly Roundup.',
+      features: ['Significant funding announcements', 'New investment vehicles', 'Policy and regulatory updates', 'Strategic partnerships'],
       link: { href: config.newsletterUrl, label: 'Get the weekly Roundup', external: true },
     },
   ],
   preview: {
     eyebrow: 'Platform preview',
     headline: 'What the terminal shows',
-    text: 'Clean views, a few filters and a source on every figure. The numbers below come from the live dataset.',
+    text: 'The numbers below come from the live dataset.',
   },
   // Structure of a policy tracker entry. Field descriptions only: no policy content is invented here.
   policySample: {
@@ -304,15 +282,14 @@ export const research = {
   hero: {
     eyebrow: 'Research & Insights',
     headline: 'Go beyond the numbers.',
-    text: 'Research and intelligence for organisations that need a deeper understanding of a technology market or an innovation ecosystem than a database can give them.',
+    text: 'Custom research on a technology market, an investor landscape or an innovation ecosystem, when a database is not enough.',
     primary: { href: 'contact.html#research', label: 'Discuss a research project' },
   },
   intro: {
     eyebrow: 'Approach',
     headline: 'Scoped to your question, grounded in the data.',
     paragraphs: [
-      'Every assignment starts from a specific question: a market to enter, a sector to assess, an investor landscape to map, a programme to design. The work combines the platform dataset with desk research, institutional sources and conversations with people in the market.',
-      'Findings separate what the evidence shows from what we conclude from it, and every figure names its source.',
+      'Every assignment starts from your question. The work combines the platform dataset with desk research, institutional sources and conversations with people in the market. Every figure names its source, and analysis is labelled as analysis.',
     ],
     tailoredTo: ['A market or geography', 'A sector or technology', 'An investment theme', 'An institutional mandate'],
   },
@@ -325,9 +302,7 @@ export const research = {
         'Startup ecosystem mapping',
         'Market landscape assessments',
         'Technology and sector analysis',
-        'Geographic market research',
         'Stakeholder and institutional mapping',
-        'Emerging technology assessments',
       ],
     },
     {
@@ -337,10 +312,8 @@ export const research = {
       items: [
         'Venture capital landscape analysis',
         'Investor mapping and profiling',
-        'Investment flow analysis',
-        'Fundraising ecosystem assessments',
+        'Investment flows by geography, sector and stage',
         'Access-to-finance research',
-        'Trends by geography, sector and stage',
       ],
     },
     {
@@ -352,7 +325,6 @@ export const research = {
         'Mapping of funding frameworks and instruments',
         'Regulatory landscape monitoring',
         'Policy implications for startups and investors',
-        'Research on public and private funding mechanisms',
       ],
     },
     {
@@ -360,9 +332,7 @@ export const research = {
       title: 'Strategic Advisory and Intelligence Products',
       text: 'Research delivered in the format your team will use.',
       items: [
-        'Bespoke research assignments',
-        'Investment landscape reports',
-        'Market intelligence briefs',
+        'Investment landscape reports and market briefs',
         'Investor and stakeholder databases',
         'Strategic presentations and executive briefings',
         'Ecosystem development strategies',
@@ -393,15 +363,14 @@ export const engagement = {
   hero: {
     eyebrow: 'Ecosystem Engagement',
     headline: 'Connect the people shaping the ecosystem.',
-    text: 'We design and lead conversations between investors, founders, corporates and institutions. They start from what the market data shows, so they produce knowledge, connections and opportunities.',
+    text: 'We design and lead conversations between investors, founders, corporates and institutions, starting from what the market data shows.',
     primary: { href: 'contact.html#engagement', label: "Let's create meaningful conversations" },
   },
   difference: {
     eyebrow: 'The difference',
     headline: 'Market understanding, and the ability to bring the right people together.',
     paragraphs: [
-      'Most panels fail before anyone speaks: the theme is broad, the speakers were chosen for their titles and the questions could be asked anywhere.',
-      'We start from the intelligence. What is changing in this market? Who has a real stake in it? What do they disagree on? The format, the people and the questions follow from the answers.',
+      'Most panels fail before anyone speaks: a broad theme, speakers chosen for their titles, questions that could be asked anywhere. We start from the intelligence: what is changing, who has a stake in it, what they disagree on. The format, the people and the questions follow.',
     ],
     outcomes: [
       { title: 'Knowledge', text: 'Discussions that surface something the room did not already know.' },
@@ -448,10 +417,8 @@ export const engagement = {
       title: 'Ecosystem Activation',
       text: 'Formats that turn a network into working relationships.',
       items: [
-        'Investor roundtables',
+        'Investor roundtables and closed-door discussions',
         'Thematic workshops',
-        'Closed-door discussions',
-        'Innovation ecosystem sessions',
         'International ecosystem exchanges',
         'Strategic stakeholder convenings',
       ],
@@ -501,8 +468,7 @@ export const about = {
     eyebrow: 'Experience',
     headline: 'Nine years inside technology and innovation ecosystems.',
     paragraphs: [
-      'The founder brings 9 years of experience across technology, innovation and emerging-market ecosystems, working with investors, startups, corporates, international institutions and innovation organisations.',
-      'That experience includes work with organisations such as Briter, Expertise France and Station F, as well as engagements involving international organisations and institutions.',
+      'The founder brings 9 years of experience across technology, innovation and emerging-market ecosystems, working with investors, startups, corporates, international institutions and innovation organisations, including Briter, Expertise France and Station F.',
     ],
     organisations: ['Briter', 'Expertise France', 'Station F'],
     disclaimer:

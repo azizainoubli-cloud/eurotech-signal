@@ -370,3 +370,16 @@ textarea { resize: vertical; line-height: 1.5; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* Lighter pages: offers in the business-line cards, tags for coverage, compact audiences. */
+.pillar .ticks { gap: 7px; }
+.pillar .ticks li { font-size: 15px; color: var(--muted); }
+.pillar .ticks li::before { border-color: currentColor; opacity: .55; }
+.pillar-track .ticks li::before { border-color: #FD0A71; opacity: 1; }
+.pillar-interpret .ticks li::before { border-color: var(--purple); opacity: 1; }
+.pillar-connect .ticks li::before { border-color: var(--amber); opacity: 1; }
+.tags.big { gap: 10px; }
+#coverage .tags { margin-bottom: 8px; }
+.audiences li { gap: 6px; }
+.audiences h3 { font-size: 17px; }
+.panel.sample dd a { font-weight: 700; }

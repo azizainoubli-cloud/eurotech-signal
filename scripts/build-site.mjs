@@ -72,8 +72,21 @@ function loadData() {
     return `M${hub.x} ${hub.y} Q${(mx - dy * 0.22).toFixed(1)} ${(my + dx * 0.22).toFixed(1)} ${b.x} ${b.y}`;
   });
 
+  // Policy & Capital figures for the platform preview (optional: the add-on may be absent).
+  let policy = null;
+  try {
+    const fw = JSON.parse(readFileSync(join(site, 'data/policy/frameworks.json'), 'utf8')).records;
+    const pr = JSON.parse(readFileSync(join(site, 'data/policy/programmes.json'), 'utf8')).records;
+    const sc = JSON.parse(readFileSync(join(site, 'data/policy/analytics.json'), 'utf8')).scorecard;
+    const cards = (sc && sc.cards) || [];
+    const n = (v) => cards.filter((c) => c.verdict === v).length;
+    policy = { frameworks: fw.length, inForce: fw.filter((f) => f.status === 'in-force').length, programmes: pr.length, open: pr.filter((q) => ['open', 'rolling', 'continuous'].includes(q.status)).length,
+      scored: cards.length, ahead: n('ahead'), inline: n('inline'), behind: n('behind'), lead: cards.find((c) => c.verdict === 'ahead' || c.verdict === 'behind') || null };
+  } catch { /* policy add-on not present */ }
+
   const updated = new Date(meta.updated);
   return {
+    policy,
     year: updated.getUTCFullYear(),
     updatedLabel: updated.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }),
     years,
@@ -110,14 +123,13 @@ function homePage(ctx) {
     <ul class="verbs">${pillars.map((p) => `<li><a href="${p.href}">${c.pillarIcon(p.key, 28)}<span class="v-txt"><b>${esc(p.label)}</b><small>${esc(p.motto)}</small></span></a></li>`).join('')}</ul>
   </div>
 </section>
-${c.split(h.proposition, `<dl class="points">${h.proposition.points.map((p) => `<div><dt>${esc(p.title)}</dt><dd>${esc(p.text)}</dd></div>`).join('')}</dl>`)}
-<section class="section tinted" id="pillars">
+<section class="section" id="pillars">
   <div class="wrap">
     ${c.sectionHead(h.pillars)}
     ${c.pillarCards(pillars)}
   </div>
 </section>
-<section class="section" id="coverage">
+<section class="section tinted" id="coverage">
   <div class="wrap">
     ${c.sectionHead(h.tracking)}
     <dl class="facts">
@@ -125,14 +137,14 @@ ${c.split(h.proposition, `<dl class="points">${h.proposition.points.map((p) => `
       <div><dt>${d.countryCount}</dt><dd>countries: the EU27, the UK, Switzerland, Norway and Iceland</dd></div>
       <div><dt>2&times; a day</dt><dd>the dataset is refreshed, most recently on ${esc(d.updatedLabel)}</dd></div>
     </dl>
-    <ul class="track">${h.tracking.items.map((i) => `<li><h3>${esc(i.title)}</h3><p>${esc(i.text)}</p></li>`).join('')}</ul>
+    <ul class="tags big">${h.tracking.items.map((i) => `<li>${esc(i.title)}</li>`).join('')}</ul>
     <p class="after"><a class="btn btn-outline" href="dashboard.html">Open the live funding dashboard</a></p>
   </div>
 </section>
-<section class="section tinted" id="audiences">
+<section class="section" id="audiences">
   <div class="wrap">
     ${c.sectionHead(h.audiences)}
-    <ul class="audiences">${audiences.map((a) => `<li><h3>${esc(a.name)}</h3><p class="who">${esc(a.who)}</p><p>${esc(a.need)}</p></li>`).join('')}</ul>
+    <ul class="audiences">${audiences.map((a) => `<li><h3>${esc(a.name)}</h3><p>${esc(a.need)}</p></li>`).join('')}</ul>
   </div>
 </section>
 ${c.closing(h.closing)}`;
@@ -167,16 +179,7 @@ ${p.modules
     </div>
   </div>
 </section>
-<section class="section" id="policy">
-  <div class="wrap">
-    ${c.sectionHead(p.complement)}
-    <div class="pairs" role="table" aria-label="How policy signals and market signals connect">
-      <div class="pairs-head" role="row"><span role="columnheader">Policy signal</span><span role="columnheader">Market signal</span></div>
-${p.complement.rows.map((r) => `      <div class="pair" role="row"><span role="cell">${esc(r.policy)}</span><span class="to" aria-hidden="true"></span><span role="cell">${esc(r.market)}</span></div>`).join('\n')}
-    </div>
-  </div>
-</section>
-<section class="section tinted">
+<section class="section">
   <div class="wrap">
     ${c.sectionHead(p.benefits)}
     ${c.nameList(p.benefits.items, 'cols-4')}
@@ -247,7 +250,6 @@ function aboutPage() {
     ${portrait}
   </div>
 </section>
-${c.split(a.why)}
 <section class="section tinted">
   <div class="wrap">
     ${c.sectionHead(a.foundations)}
@@ -259,12 +261,6 @@ ${c.split(f, `<div class="orgs"><h3>Professional experience includes</h3><ul cla
   <div class="wrap">
     ${c.sectionHead(a.principles)}
     ${c.nameList(a.principles.items, 'cols-4')}
-  </div>
-</section>
-<section class="section">
-  <div class="wrap">
-    ${c.sectionHead({ eyebrow: 'What we do', headline: 'Three business lines that reinforce each other' })}
-    ${c.pillarCards(pillars)}
   </div>
 </section>
 ${c.closing(a.closing)}`;
