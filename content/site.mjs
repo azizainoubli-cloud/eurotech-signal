@@ -30,7 +30,7 @@ export const config = {
 };
 
 export const nav = [
-  { href: 'platform.html', label: 'Intelligence Platform', short: 'Platform' },
+  { href: 'platform.html', label: 'European Tech Intelligence Platform', short: 'Platform' },
   { href: 'research.html', label: 'Research & Insights', short: 'Research' },
   { href: 'engagement.html', label: 'Ecosystem Engagement', short: 'Engagement' },
   { href: 'about.html', label: 'About', short: 'About' },
@@ -42,7 +42,7 @@ export const pillars = [
     key: 'track',
     verb: 'track',
     object: 'the signals',
-    title: 'Intelligence Platform',
+    title: 'European Tech Intelligence Platform',
     // Short name and motto shown under the home hero.
     label: 'Data intelligence',
     motto: 'Track. Structure. Analyse.',
@@ -160,11 +160,11 @@ export const home = {
 };
 
 export const platform = {
-  title: 'Intelligence Platform',
+  title: 'European Tech Intelligence Platform',
   description:
     'A lightweight intelligence terminal for European startup funding, investor activity, capital flows and EU policy. The funding dashboard is live; policy intelligence is in development.',
   hero: {
-    eyebrow: 'Intelligence Platform',
+    eyebrow: 'European Tech Intelligence Platform',
     headline: 'Follow the data. Understand the trends.',
     text: 'A lightweight intelligence terminal for people who need to know where technology and investment are moving in Europe. It is built in the open and grows module by module.',
     primary: { href: 'dashboard.html', label: 'Open the live dashboard' },

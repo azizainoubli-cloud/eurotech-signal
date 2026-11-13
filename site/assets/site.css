@@ -71,7 +71,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .logo .m { background: url(logo-mark.png?v=4) no-repeat 0 0 / 100% 100%; }
 .site-nav { display: flex; align-items: center; gap: 28px; }
 .site-nav ul { display: flex; gap: 26px; }
-.site-nav li a { text-decoration: none; font-weight: 600; font-size: 15px; color: var(--muted); padding: 12px 0; display: inline-block; border-bottom: 2px solid transparent; transition: color .15s; }
+.site-nav li a { text-decoration: none; font-weight: 600; font-size: 15px; color: var(--muted); padding: 12px 0; display: inline-block; white-space: nowrap; border-bottom: 2px solid transparent; transition: color .15s; }
 .site-nav li a:hover { color: var(--fg); }
 .site-nav li a[aria-current="page"] { color: var(--fg); border-bottom-color: var(--label); }
 .nav-toggle { display: none; width: 46px; height: 46px; border: 1px solid var(--line); border-radius: var(--r-md); background: transparent; cursor: pointer; align-items: center; justify-content: center; }
@@ -81,7 +81,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .nav-toggle[aria-expanded="true"] .bars { background: transparent; }
 .nav-toggle[aria-expanded="true"] .bars::before { transform: translateY(6px) rotate(45deg); }
 .nav-toggle[aria-expanded="true"] .bars::after { transform: translateY(-6px) rotate(-45deg); }
-@media (max-width: 980px) {
+@media (max-width: 1160px) {
   .nav-toggle { display: inline-flex; }
   .site-nav { display: none; position: absolute; left: 0; right: 0; top: 100%; background: var(--bg); border-bottom: 1px solid var(--line); flex-direction: column; align-items: stretch; gap: 16px;
     padding: 12px max(20px, env(safe-area-inset-right, 0px)) 24px max(20px, env(safe-area-inset-left, 0px)); }

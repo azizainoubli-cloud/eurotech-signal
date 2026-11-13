@@ -15,7 +15,7 @@ The site has six pages plus the dashboard, all static files in `site/`:
 | Page | File |
 | --- | --- |
 | Home | `index.html` |
-| Intelligence Platform | `platform.html` |
+| European Tech Intelligence Platform | `platform.html` |
 | Research & Insights | `research.html` |
 | Ecosystem Engagement | `engagement.html` |
 | About | `about.html` |
