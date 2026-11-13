@@ -119,9 +119,6 @@ function homePage(ctx) {
     </div>
     ${c.heroMap(d)}
   </div>
-  <div class="wrap">
-    <ul class="verbs">${pillars.map((p) => `<li><a href="${p.href}">${c.pillarIcon(p.key, 28)}<span class="v-txt"><b>${esc(p.label)}</b><small>${esc(p.motto)}</small></span></a></li>`).join('')}</ul>
-  </div>
 </section>
 <section class="section" id="pillars">
   <div class="wrap">
