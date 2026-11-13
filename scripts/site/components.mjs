@@ -224,7 +224,6 @@ export function heroMap(data) {
     <g>${cores}</g>
     <g>${texts}</g>
   </svg>
-  <figcaption>Disclosed startup funding by country, ${year} to date. Circle area is proportional to the amount. Connecting lines are decorative. ${sourceNote(data)}</figcaption>
 </figure>`;
 }
 
