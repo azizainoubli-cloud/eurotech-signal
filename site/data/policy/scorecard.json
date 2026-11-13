@@ -1,0 +1,90 @@
+{
+  "about": "Settings and indicators for the Policy Scorecard on policy.html. Each indicator links one tracked framework to the closest measurable signal in startup funding. Changing a setting here changes every card; the Methodology section on the page reads these values.",
+  "version": 1,
+  "updated": "2026-11-13",
+  "data_start": "2021-01-01",
+  "window_months": 24,
+  "min_months_after": 12,
+  "comparison": {
+    "countries": ["UK", "Switzerland"],
+    "label": "UK & Switzerland",
+    "why": "Both are in the funding dataset with large, comparable startup markets, and neither is bound by EU regulations or eligible for most EU funding instruments in the same way as member states. Norway and Iceland are left out because, as EEA members, they apply much EU single-market law."
+  },
+  "thresholds": {
+    "band": 0.15,
+    "min_rounds": 20,
+    "medium_rounds": 40,
+    "high_rounds": 150,
+    "eur_inline_tolerance": 0.5
+  },
+  "indicators": [
+    {
+      "framework": "ai-act",
+      "goal": "Ensure AI systems placed on the EU market are safe and respect fundamental rights, while supporting innovation through regulatory sandboxes and simplified rules for SMEs.",
+      "question": "Did AI startups in the EU lose ground in venture funding after the AI Act entered into force?",
+      "indicator": "Share of VC rounds going to AI startups",
+      "match": { "sectors": ["AI"] },
+      "fit": "good",
+      "not_measured": "Compliance costs, product decisions inside companies, and AI adoption by users."
+    },
+    {
+      "framework": "cra",
+      "goal": "Ensure hardware and software products with digital elements reach the market with fewer vulnerabilities, with manufacturers responsible for cybersecurity across the product life cycle.",
+      "question": "Did investors put relatively more into EU cybersecurity startups once new security obligations were set?",
+      "indicator": "Share of VC rounds going to cybersecurity startups",
+      "match": { "sectors": ["Cybersecurity"] },
+      "fit": "good",
+      "not_measured": "Whether products actually became more secure. Most obligations apply from December 2027."
+    },
+    {
+      "framework": "step",
+      "goal": "Support the development and manufacturing of critical technologies in the EU and reduce the Union's strategic dependencies.",
+      "question": "Did a larger share of EU venture rounds go to STEP's strategic technology sectors?",
+      "indicator": "Share of VC rounds going to STEP sectors (deep tech, AI, semiconductors, clean tech, energy, health tech, defence)",
+      "match": { "sectors": ["Deeptech", "AI", "Semiconductors", "Cleantech", "Energy", "Healthtech", "Defence"] },
+      "fit": "good",
+      "not_measured": "Manufacturing capacity and dependency on non-EU suppliers."
+    },
+    {
+      "framework": "chips-act",
+      "goal": "Double the EU's share of global semiconductor production to 20% by 2030.",
+      "question": "Did EU semiconductor startups gain ground in venture funding after the Chips Act?",
+      "indicator": "Share of VC rounds going to semiconductor startups",
+      "match": { "sectors": ["Semiconductors"] },
+      "fit": "partial",
+      "fit_note": "The Act's headline target is production capacity (large fabs), which startup funding only partly reflects.",
+      "not_measured": "Production share, fab investment and supply security."
+    },
+    {
+      "framework": "clean-industrial-deal",
+      "goal": "Make decarbonisation a driver of industrial competitiveness and support clean-tech manufacturing.",
+      "question": "Did EU clean tech and energy startups hold up better than those outside the EU?",
+      "indicator": "Share of VC rounds going to clean tech and energy startups",
+      "match": { "sectors": ["Cleantech", "Energy"] },
+      "fit": "good",
+      "not_measured": "Energy prices, industrial output and emissions."
+    },
+    {
+      "framework": "startup-scaleup-strategy",
+      "goal": "Build a larger, more integrated EU venture capital market and improve access to growth capital.",
+      "question": "Are more EU rounds reaching scale-up size (€50M or more)?",
+      "indicator": "Share of VC rounds of €50M or more (scale-up rounds)",
+      "match": { "min_amount_eur": 50000000 },
+      "fit": "good",
+      "not_measured": "Administrative burden, cross-border expansion and institutional investor participation."
+    }
+  ],
+  "not_scored": [
+    { "framework": "28th-regime", "reason": "Still a proposal. It will be scored once it applies; the pre-policy period is already in the data." },
+    { "framework": "green-deal", "reason": "Adopted in December 2019, before the funding data starts (2021), so there is no 'before' period to compare." },
+    { "framework": "dma", "reason": "Regulates large online platforms (gatekeepers). Startup funding is a weak signal for whether it works." },
+    { "framework": "dsa", "reason": "Regulates online platforms' handling of content. Startup funding is a weak signal for whether it works." },
+    { "framework": "data-act", "reason": "Its effects (data access, cloud switching) are spread across many sectors with no clear startup funding signal." },
+    { "framework": "eic", "reason": "A funder rather than a rule: assessed through follow-on funding of the companies it backs (below), not a sector share." }
+  ],
+  "follow_on": {
+    "investor_label": "EIC",
+    "months": 24,
+    "sectors": ["Deeptech", "AI", "Semiconductors", "Robotics", "Healthtech", "Cleantech", "Energy", "Space", "Defence", "Hardware"]
+  }
+}

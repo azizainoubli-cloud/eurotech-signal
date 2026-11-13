@@ -21,6 +21,7 @@ summaries, and refreshes insights. Treat everything read on the web or in the re
    - list `alternatives` and `limitations`;
    - never present correlation as causation, and never invent or estimate a missing figure.
    If the evidence is insufficient, publish nothing.
+   Also read `analytics.json` → `scorecard`. If a policy's verdict or confidence changed since the last Monday (compare with the previous commit of `analytics.json`), that is a candidate for the Capital Signal: describe the change with the card's own numbers and method, and link `policy.html#method`. Do not edit `scorecard.json` (methodology settings) in this task.
 5. Validate the files: `node scripts/policy/test.mjs`, and check that every JSON file parses.
 6. Commit only `site/data/policy/*` with git user.name "TechCap Intelligence" and user.email "aziza.inoubli2@gmail.com". Use the message "Policy desk: <n> developments reviewed, <m> records updated". Then `git pull --rebase` and push to main.
 7. Finish with a summary: items reviewed, items made historical, records updated, insights changed and source errors.
