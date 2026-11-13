@@ -29,7 +29,8 @@ h1 { margin: 0 0 6px; font-size: 32px; font-weight: 700; letter-spacing: -0.01em
 .logo span { position: absolute; inset: 0; }
 .lockup { display: grid; justify-items: start; }
 .slogan { margin: -18px 0 0 66px; font-size: 14px; font-weight: 500; color: var(--muted); text-align: left; letter-spacing: .01em; }
-.logo .w { background: var(--fg); -webkit-mask: url(logo-word.png?v=4) no-repeat 0 0 / 100% 100%; mask: url(logo-word.png?v=4) no-repeat 0 0 / 100% 100%; }
+/* "techcap" follows the text colour; "intelligence" (from 57.7% of the wordmark width) is Magenta. */
+.logo .w { background: linear-gradient(90deg, var(--fg) 57.7%, #FD0A71 57.7%); -webkit-mask: url(logo-word.png?v=4) no-repeat 0 0 / 100% 100%; mask: url(logo-word.png?v=4) no-repeat 0 0 / 100% 100%; }
 .logo .m { background: url(logo-mark.png?v=4) no-repeat 0 0 / 100% 100%; }
 @media (max-width: 640px) { .slogan { margin: -12px 0 0 44px; font-size: 13px; } .logo { width: 200px; } h1 { font-size: 26px; } }
 .bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); display: flex; flex-wrap: wrap; gap: 12px; align-items: end; padding: 10px 0; border-bottom: 1px solid var(--line); }
