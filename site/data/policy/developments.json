@@ -1,0 +1,840 @@
+{
+"records":[
+{
+"id":"2026-11-09-eib-etci2-first-closing-def2",
+"date":"2026-11-09",
+"headline":"Institutional investors and Member States join EIB Group to channel over €10bn into scale-ups (ETCI 2.0, DEF 2.0)",
+"institution":"EIB Group / European Commission",
+"frameworks":[
+"investeu",
+"startup-scaleup-strategy"
+],
+"sectors":[
+"Deeptech",
+"Defence",
+"Space",
+"Cybersecurity"
+],
+"countries":[
+"EU27"
+],
+"type":"investment",
+"what":"The EIB Group announced over €10 billion in new equity for European scale-ups: 15 institutional investors declared an intention to channel more than €8 billion, and the Tech Champions fund-of-funds reached a first closing of about €2 billion with Bulgaria, Germany, Greece, Italy, Luxembourg, the Netherlands and Spain. Defence Equity Facility 2.0 has a €1 billion target, with €100 million from the Commission and commitments from Lithuania and Bulgaria.",
+"why":"The first closing moves ETCI 2.0 from announcement to committed capital for large growth-stage VC funds.",
+"startups":"Late-stage companies may gain indirectly, as ETCI capital reaches them through large VC funds rather than directly.",
+"investors":"Managers raising €1bn+ growth funds or defence, space and cyber funds may approach ETCI 2.0 or DEF 2.0 as a cornerstone LP.",
+"programmes":[
+"investeu-equity"
+],
+"source_url":"https://www.eib.org/en/press/all/2026-415-major-institutional-investors-join-eib-group-and-eu-member-states-to-channel-over-eur10-billion-into-european-scale-ups",
+"source_institution":"European Investment Bank Group",
+"source_type":"institutional",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":3,
+"verified":true,
+"hash":"29a7a76abca190b7"
+},
+{
+"id":"2026-11-06-invest-europe-h1-2026-activity",
+"date":"2026-11-06",
+"headline":"Invest Europe preliminary data: record €11.5bn European VC investment in H1 2026",
+"institution":"Invest Europe",
+"frameworks":[],
+"sectors":[
+"Deeptech",
+"Defence"
+],
+"countries":[
+"Europe"
+],
+"type":"statistics",
+"what":"Preliminary Invest Europe data report European VC investment of €11.5 billion in H1 2026, a half-year record and up 11% year on year, with deeptech investment of €8.5 billion (+35%) and defence €2.7 billion (vs €1.3 billion in H1 2025). Total PE investment fell 35% to €43.1 billion, mainly due to buyouts.",
+"why":"The figures give recent market context for judging how far EU public capital initiatives add to private activity.",
+"startups":"The data suggest deeptech and defence attracted a larger share of VC in H1 2026; it is not clear whether that will last.",
+"investors":"The split between rising VC and falling buyout and growth investment matters for allocation comparisons; the figures are preliminary.",
+"programmes":[],
+"source_url":"https://thenextweb.com/news/invest-europe-h1-2026-venture-capital-record-defence-private-equity",
+"source_institution":"The Next Web (reporting Invest Europe data)",
+"source_type":"news",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":5,
+"verified":false,
+"hash":"83ba05690815a2a7"
+},
+{
+"id":"2026-11-05-eic-work-programme-2027",
+"date":"2026-11-05",
+"headline":"EIC launches €1.8 billion in funding for 2027",
+"institution":"European Innovation Council",
+"frameworks":[
+"eic",
+"horizon-europe",
+"scaleup-europe"
+],
+"sectors":[
+"Deeptech",
+"Defence"
+],
+"countries":[
+"EU27 + Horizon Europe associated countries"
+],
+"type":"funding",
+"what":"The Commission adopted the 2027 EIC Work Programme, making €1.8 billion available for deep-tech researchers and entrepreneurs from early research to scale-up. Scale-up support continues through the Scaleup Europe Fund and EIC STEP Scale Up, including dual-use and defence, with new measures to help EIC-backed companies win first customers, including through public procurement.",
+"why":"The 2027 programme is the last annual EIC envelope under the current Horizon Europe and sets the 2027 grant and equity pipeline for deep tech.",
+"startups":"Applicants should check the scheme pages for 2027 Accelerator cut-off dates, which the announcement does not state.",
+"investors":"The continued equity components and procurement measures may affect co-investment opportunities in EIC-backed companies in 2027.",
+"programmes":[
+"eic-accelerator",
+"eic-pathfinder",
+"eic-transition",
+"eic-step-scaleup"
+],
+"source_url":"https://eic.ec.europa.eu/news/european-innovation-council-launches-eur18-billion-funding-2027-2026-11-05_en",
+"source_institution":"European Innovation Council",
+"source_type":"official",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":2,
+"verified":true,
+"hash":"3a8e596e36864364"
+},
+{
+"id":"2026-11-04-ec-commission-work-programme-2027",
+"date":"2026-11-04",
+"headline":"Commission adopts 2027 work programme with simplification focus",
+"institution":"European Commission",
+"frameworks":[
+"28th-regime",
+"chips-act"
+],
+"sectors":[
+"Software",
+"Fintech"
+],
+"countries":[
+"EU27"
+],
+"type":"strategy",
+"what":"The Commission adopted its 2027 work programme alongside a simplification progress report, with 23 new initiatives including a digital transformation, simplification and copyright package (Q2 2027) and a bank competitiveness and simplification package (Q1 2027). Pending proposals listed as priorities include EU Inc., Chips Act 2.0, the Cloud and AI Development Act and the Savings and Investments Union files.",
+"why":"The work programme sets which startup-relevant files the Commission will push through co-decision in 2027.",
+"startups":"No new startup-specific initiative is listed; the relevant files for founders remain the pending EU Inc. and digital proposals.",
+"investors":"The bank competitiveness package and SIU files are the 2027 items most relevant to capital markets.",
+"programmes":[],
+"source_url":"https://ec.europa.eu/commission/presscorner/detail/en/IP_26_2321",
+"source_institution":"European Commission",
+"source_type":"official",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":1,
+"verified":true,
+"hash":"15456741372cf053"
+},
+{
+"id":"2026-10-30-council-misp-general-approach-prepared",
+"date":"2026-10-30",
+"headline":"Council Presidency tables Market Integration and Supervision Package for general approach",
+"institution":"Council of the EU",
+"frameworks":[],
+"sectors":[
+"Fintech"
+],
+"countries":[
+"EU27"
+],
+"type":"legislative",
+"what":"The Presidency asked Coreper to confirm agreed texts on the three Market Integration and Supervision Package proposals (4 December 2025) and recommend adoption of a Council general approach at ECOFIN on 9 November 2026. In Parliament the ECON committee tabled draft reports on 11 June 2026, and work there is ongoing.",
+"why":"The package aims to deepen EU capital market integration and supervision, which bears on how easily funds and investors operate across borders.",
+"startups":"Effects on startup financing are indirect and long-term, depending on the final text.",
+"investors":"Fund managers (UCITS/AIFMD) should follow the general approach for cross-border distribution and supervisory changes.",
+"programmes":[],
+"source_url":"https://data.consilium.europa.eu/doc/document/ST-15099-2026-INIT/en/pdf",
+"source_institution":"Council of the EU",
+"source_type":"official",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":1,
+"verified":true,
+"hash":"1ae17051a6bfdbba"
+},
+{
+"id":"2026-10-29-eic-step-scale-up-defence-submissions",
+"date":"2026-10-29",
+"headline":"EIC STEP Scale Up Defence call receives nine applications seeking €175m in equity",
+"institution":"European Innovation Council",
+"frameworks":[
+"eic",
+"step"
+],
+"sectors":[
+"Defence"
+],
+"countries":[
+"EU27"
+],
+"type":"call",
+"what":"Nine defence companies from seven countries applied, requesting €175 million in equity against a €100 million 2026 budget offering €10-30 million direct equity per company via the EIC Fund. The EIC says this is the first time an EU funding programme will invest directly in defence companies' equity; interviews are expected in January 2027 and results in February 2027.",
+"why":"Direct EU equity in defence companies is a new public capital channel for a sector that has struggled to access some private investors.",
+"startups":"Defence-tech scaleups can watch the results to see how selective the scheme is before future rounds.",
+"investors":"Applicants target rounds of at least three times the EIC contribution, so co-investors will be needed alongside the EIC Fund.",
+"programmes":[
+"eic-step-scaleup"
+],
+"source_url":"https://eic.ec.europa.eu/news/overview-eic-step-scale-defence-call-submissions-2026-10-29_en",
+"source_institution":"European Innovation Council",
+"source_type":"official",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":2,
+"verified":true,
+"hash":"620903402f3b23f9"
+},
+{
+"id":"2026-10-21-council-digital-omnibus-mandate",
+"date":"2026-10-21",
+"headline":"Council agrees position on Digital Omnibus amending GDPR, cookie rules and incident reporting",
+"institution":"Council of the EU",
+"frameworks":[
+"data-act"
+],
+"sectors":[
+"Software",
+"AI",
+"Cybersecurity"
+],
+"countries":[
+"EU27"
+],
+"type":"legislative",
+"what":"The Council agreed its negotiating mandate on the Digital Omnibus (proposed 19 November 2025). It keeps the GDPR definition of personal data, adds a pseudonymisation provision, extends breach notification deadlines, exempts some cookie purposes (e.g. audience measurement, security) from consent, and uses national entry points for incident reporting. Trilogues start once Parliament adopts its position.",
+"why":"If enacted, the changes could lower recurring privacy and reporting compliance costs for data-driven businesses.",
+"startups":"Consent and breach-reporting simplifications are not yet law, so current GDPR and ePrivacy obligations still apply.",
+"investors":"Investors in adtech, analytics and data-heavy SaaS may follow the trilogue for changes to consent requirements.",
+"programmes":[],
+"source_url":"https://www.lovguiden.dk/en/det-offentlige/raadet-for-den-europaeiske-union/2026-10-21-raadet-vil-beholde-gdprs-definition-af-personoplysninger-i-digital-omnibus",
+"source_institution":"Lovguiden (summary of Council of the EU press release)",
+"source_type":"news",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":5,
+"verified":false,
+"hash":"d1171979d35d02a7"
+},
+{
+"id":"2026-10-21-siu-securitisation-political-agreement",
+"date":"2026-10-21",
+"headline":"Parliament and Council reach political agreement on securitisation framework review",
+"institution":"European Parliament / Council of the EU",
+"frameworks":[],
+"sectors":[
+"Fintech"
+],
+"countries":[
+"EU27"
+],
+"type":"legislative",
+"what":"Co-legislators reached political agreement on reviewing the Securitisation Regulation (simplified due diligence and transparency) and the Capital Requirements Regulation (more risk-sensitive prudential treatment). The Commission calls it the first legislative deliverable of the Savings and Investments Union; formal adoption is pending.",
+"why":"Lower capital costs for securitised assets could free bank balance sheets for further lending, including to SMEs.",
+"startups":"Any indirect effect on SME lending or venture debt availability would only appear after adoption and market take-up.",
+"investors":"Credit and structured-finance investors should follow the final text and its prudential calibration.",
+"programmes":[],
+"source_url":"https://finance.ec.europa.eu/news/commission-welcomes-political-agreement-reached-review-securitisation-framework-2026-10-22_en",
+"source_institution":"European Commission (DG FISMA)",
+"source_type":"official",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":1,
+"verified":true,
+"hash":"5d121eb5a8bfc748"
+},
+{
+"id":"2026-10-14-eic-pathfinder-open-43-projects",
+"date":"2026-10-14",
+"headline":"EIC Pathfinder Open 2026 backs 43 breakthrough research projects",
+"institution":"European Innovation Council",
+"frameworks":[
+"eic",
+"horizon-europe"
+],
+"sectors":[
+"Deeptech"
+],
+"countries":[
+"EU27 + Horizon Europe associated countries"
+],
+"type":"funding",
+"what":"The EIC selected 43 projects under Pathfinder Open 2026, each eligible for up to €4 million, involving 218 organisations from 30 countries (24 Member States). Private companies are 25% of participants and SMEs take part in 34 projects.",
+"why":"Pathfinder funds very early science-to-technology work that can later feed EIC Transition and Accelerator pipelines.",
+"startups":"Early-stage spinouts may find consortium roles in Pathfinder projects a route to grant funding before raising equity.",
+"investors":"Pathfinder consortia can be a source of future deep-tech spinout deal flow.",
+"programmes":[
+"eic-pathfinder"
+],
+"source_url":"https://eic.ec.europa.eu/news/european-innovation-council-backs-43-projects-turn-breakthrough-research-prototypes-2026-10-14_en",
+"source_institution":"European Innovation Council",
+"source_type":"official",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":2,
+"verified":true,
+"hash":"0493feac2a0b7c52"
+},
+{
+"id":"2026-10-10-council-mff-negotiating-box-figures",
+"date":"2026-10-10",
+"headline":"Presidency tables MFF 2028-2034 negotiating box with figures, including ECF and Horizon Europe",
+"institution":"Council of the EU (Irish Presidency)",
+"frameworks":[
+"horizon-europe",
+"investeu",
+"eic"
+],
+"sectors":[
+"Deeptech",
+"Defence",
+"Space"
+],
+"countries":[
+"EU27"
+],
+"type":"strategy",
+"what":"Ahead of the 15-16 October European Council, the Presidency issued a revised, non-binding MFF 2028-2034 negotiating box with bracketed figures: Heading 2 (competitiveness) at €455.6 billion, a European Competitiveness Fund envelope of €180.4 billion, Horizon Europe at €140 billion and an ECF InvestEU Instrument guarantee of up to €60.9 billion (2025 prices). All figures remain bracketed and not agreed.",
+"why":"These are the first figures on the table for the main post-2027 EU instruments for innovation and investment.",
+"startups":"Founders should treat post-2027 EU funding levels as unsettled until the MFF is agreed.",
+"investors":"The proposed InvestEU guarantee ceiling indicates the possible scale of future EU-backed fund-of-funds and guarantee capacity, subject to change.",
+"programmes":[
+"investeu-equity",
+"eic-accelerator"
+],
+"source_url":"https://data.consilium.europa.eu/doc/document/ST-13922-2026-INIT/en/pdf",
+"source_institution":"Council of the EU",
+"source_type":"official",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":1,
+"verified":true,
+"hash":"ae3eb3e68201eebe"
+},
+{
+"id":"2026-09-30-coreper-eu-inc-guidance",
+"date":"2026-09-30",
+"headline":"Coreper takes up 'guidance for further work' on EU Inc. 28th regime regulation",
+"institution":"Council of the EU",
+"frameworks":[
+"28th-regime",
+"startup-scaleup-strategy"
+],
+"sectors":[
+"Software",
+"Deeptech"
+],
+"countries":[
+"EU27"
+],
+"type":"legislative",
+"what":"A Council General Secretariat document titled 'Regulation on the 28th Regime Corporate Legal Framework - EU Inc. - Guidance for further work' (file 2026/0074 (COD)) was prepared for Coreper I's meeting on 30 September 2026. The document is restricted (LIMITE) and its content is not public.",
+"why":"Coreper guidance indicates that Council work on the EU Inc. company form is active, but the negotiating stage is not publicly confirmed.",
+"startups":"Founders hoping to use an EU-wide company form should expect it to take time; no Council position has been confirmed.",
+"investors":"Investors should follow whether Council guidance keeps features relevant to cross-border investment and employee equity.",
+"programmes":[],
+"source_url":"https://www.parlament.gv.at/gegenstand/XXVIII/EU/93945",
+"source_institution":"Austrian Parliament (EU document register, Council document RAT 12849/26)",
+"source_type":"institutional",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":3,
+"verified":true,
+"hash":"b7b7f79ae6f751ed"
+},
+{
+"id":"2026-09-29-ec-horizon-europe-additional-500m",
+"date":"2026-09-29",
+"headline":"Commission adds €500 million to Horizon Europe for 2026-2027, including Bridging Actions",
+"institution":"European Commission",
+"frameworks":[
+"horizon-europe"
+],
+"sectors":[
+"Deeptech",
+"Cleantech",
+"Agritech",
+"Healthtech"
+],
+"countries":[
+"EU27 + Horizon Europe associated countries"
+],
+"type":"funding",
+"what":"The Commission added €500 million to Horizon Europe for 2026-2027, taking the two-year total to about €14.8 billion, including a nature-positive economy call (€237 million) and 'Bridging Actions 2027' (€260 million) linking research results to market deployment. A State of Play report says Horizon Europe has invested €61 billion in grants and €1.3 billion in equity across nearly 23,000 projects.",
+"why":"The Bridging Actions are designed to prepare the move to the 2028-2034 programme and its links to the European Competitiveness Fund.",
+"startups":"Companies from completed Horizon Europe Pillar II projects may be eligible for Bridging topics that opened from October 2026.",
+"investors":"Bridging Actions may give an early view of how EU funding will link research to deployment after 2027.",
+"programmes":[
+"horizon-europe-cluster"
+],
+"source_url":"https://euraxess.ec.europa.eu/worldwide/lac/news/eu-support-research-and-innovation-increases-additional-eu500-million-research",
+"source_institution":"European Commission (EURAXESS)",
+"source_type":"official",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":1,
+"verified":true,
+"hash":"6808042643f37ade"
+},
+{
+"id":"2026-09-24-ec-if26-heat-auction-terms",
+"date":"2026-09-24",
+"headline":"Commission publishes terms for €1bn Innovation Fund industrial heat auction, an IDB pilot",
+"institution":"European Commission (DG CLIMA)",
+"frameworks":[
+"clean-industrial-deal",
+"green-deal"
+],
+"sectors":[
+"Cleantech",
+"Energy"
+],
+"countries":[
+"EEA"
+],
+"type":"call",
+"what":"Final terms for the IF26 Heat Auction were published, with a €1 billion budget from ETS revenues and bidding expected to open in early December 2026. It is open to industrial heat projects above 80ºC in the EEA using electrified heat, direct renewable heat or, for the first time, nuclear such as SMRs. Winners receive a fixed premium per tonne of CO2 abated for up to five years. The Commission describes it as a pilot for the Industrial Decarbonisation Bank.",
+"why":"A fixed per-tonne premium can improve the revenue visibility of industrial heat decarbonisation projects that win.",
+"startups":"Heat-pump, electric boiler, thermal storage and SMR companies may find demand from industrial customers bidding in the auction.",
+"investors":"Investors in industrial heat technology can treat auction results as a signal of near-term deployment demand.",
+"programmes":[
+"innovfund"
+],
+"source_url":"https://climate.ec.europa.eu/news-other-reads/news/commission-publishes-terms-and-conditions-eur1-billion-industrial-heat-decarbonisation-auction-2026-09-24_en?prefLang=nl",
+"source_institution":"European Commission (DG CLIMA)",
+"source_type":"official",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":1,
+"verified":true,
+"hash":"2a816f7aa6e4b996"
+},
+{
+"id":"2026-09-22-ec-eib-european-institutional-investors-pact",
+"date":"2026-09-22",
+"headline":"Commission and EIB Group launch European Institutional Investors Pact for tech scale-ups",
+"institution":"European Commission / EIB Group",
+"frameworks":[
+"startup-scaleup-strategy",
+"scaleup-europe"
+],
+"sectors":[
+"Deeptech"
+],
+"countries":[
+"EU27"
+],
+"type":"strategy",
+"what":"Launched at the TechEU Equity Summit, the voluntary European Institutional Investors Pact aims to channel long-term institutional capital into European tech scale-ups, with 13 institutional investors stating an intention to invest. It has a Commission-led Policy Dialogue Forum and an EIB Group-led Investment Platform offering pipelines, market intelligence and exit-linked pathways.",
+"why":"It targets the shortage of pension and insurance money in European growth equity, which is often cited as a scale-up funding gap.",
+"startups":"Any effect on growth-round availability will depend on how much of the stated intentions turns into actual commitments.",
+"investors":"Growth funds may find new LP prospects among Pact signatories and should follow the Policy Dialogue Forum for regulatory changes.",
+"programmes":[],
+"source_url":"https://www.eib.org/en/press/all/2026-306-european-commission-and-eib-group-launch-institutional-investors-pact-to-boost-investment-in-tech-scale-ups",
+"source_institution":"European Investment Bank Group",
+"source_type":"institutional",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":3,
+"verified":true,
+"hash":"d59a4a5735e4855f"
+},
+{
+"id":"2026-09-15-eic-board-statement-horizon-europe-2028-2034",
+"date":"2026-09-15",
+"headline":"EIC Board cautiously welcomes Council position on Horizon Europe 2028-2034 and ECF",
+"institution":"European Innovation Council Board",
+"frameworks":[
+"eic",
+"horizon-europe"
+],
+"sectors":[
+"Deeptech"
+],
+"countries":[
+"EU27"
+],
+"type":"strategy",
+"what":"The EIC Board 'broadly welcomes, albeit with some caution' the Council's Partial General Approach on the Horizon Europe and European Competitiveness Fund proposals for 2028-2034, warning that unclear novel elements could weaken the EIC's future impact. It calls for preserving the distinct character of the EIC Fund and a significantly increased EIC budget.",
+"why":"The design of the next framework programme will set the scale and form of EU deep-tech grant and equity support after 2027.",
+"startups":"Deep-tech founders planning beyond 2027 should treat the future shape and budget of EIC support as still under negotiation.",
+"investors":"Investors relying on EIC co-investment should monitor whether the EIC Fund keeps its distinct model in the 2028-2034 framework.",
+"programmes":[
+"eic-accelerator",
+"eic-pathfinder",
+"eic-transition"
+],
+"source_url":"https://eic.ec.europa.eu/news/eic-board-statement-horizon-europe-2028-2034-negotiations-2026-09-15_en",
+"source_institution":"European Innovation Council",
+"source_type":"official",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":2,
+"verified":true,
+"hash":"fa77d989474531e9"
+},
+{
+"id":"2026-09-15-eif-first-etci-co-investment-exein",
+"date":"2026-09-15",
+"headline":"EIB Group makes first ETCI direct co-investment, in cybersecurity company Exein",
+"institution":"European Investment Fund (EIB Group)",
+"frameworks":[
+"startup-scaleup-strategy"
+],
+"sectors":[
+"Cybersecurity"
+],
+"countries":[
+"Italy"
+],
+"type":"investment",
+"what":"Through the EIF, the EIB Group made the first investment under the ETCI Co-investment Facility, investing in Rome-based Exein alongside ETCI-backed Headline Growth in a round of about €234 million valuing the company at about €1.45 billion. ETCI has committed about €3.5 billion to 15 mega-funds to date.",
+"why":"It marks ETCI's move from a pure fund-of-funds into direct co-investment alongside its fund managers.",
+"startups":"Scaleups backed by ETCI-supported funds may be able to access additional EIB Group capital directly in large rounds.",
+"investors":"Managers in ETCI-backed funds may be able to bring the EIF in as a direct co-investor in their own deals.",
+"programmes":[],
+"source_url":"https://www.eif.org/press/all/eib-group-makes-first-etci-co-investment-in-exein-europes-newest-cybersecurity-unicorn",
+"source_institution":"European Investment Fund",
+"source_type":"institutional",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":3,
+"verified":true,
+"hash":"3e2f952a2aa82732"
+},
+{
+"id":"2026-09-11-enisa-cra-reporting-obligations-apply",
+"date":"2026-09-11",
+"headline":"Cyber Resilience Act reporting obligations apply; ENISA launches Single Reporting Platform",
+"institution":"European Commission / ENISA",
+"frameworks":[
+"cra"
+],
+"sectors":[
+"Cybersecurity",
+"Hardware",
+"Software"
+],
+"countries":[
+"EU27"
+],
+"type":"regulatory",
+"what":"From 11 September 2026 manufacturers of products with digital elements must report actively exploited vulnerabilities and severe incidents (24-hour early warning, 72-hour notification) via ENISA's Single Reporting Platform, which entered initial operation that day. Main CRA requirements and open-source steward reporting apply from 11 December 2027.",
+"why":"This is the first binding CRA obligation and creates an ongoing operational compliance duty for hardware and software makers selling in the EU.",
+"startups":"Connected-device and software startups may need incident-response and reporting processes ready now, ahead of the full 2027 requirements.",
+"investors":"CRA readiness may become a due-diligence item for hardware, IoT and software portfolio companies.",
+"programmes":[],
+"source_url":"https://digital-strategy.ec.europa.eu/en/policies/cra-reporting",
+"source_institution":"European Commission (DG CNECT)",
+"source_type":"official",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":1,
+"verified":true,
+"hash":"37978fa3203efd31"
+},
+{
+"id":"2026-09-11-council-chips-act-2-policy-debate",
+"date":"2026-09-11",
+"headline":"Council prepares ministerial policy debate on Chips Act 2.0",
+"institution":"Council of the EU",
+"frameworks":[
+"chips-act"
+],
+"sectors":[
+"Semiconductors",
+"AI"
+],
+"countries":[
+"EU27"
+],
+"type":"legislative",
+"what":"A Presidency note prepared a policy debate on the Chips Act 2.0 at the 24 September 2026 Competitiveness Council. It summarises the Commission's 3 June 2026 proposal: demand-side measures such as innovation procurement and Demand Accelerators, AI-chip manufacturing as strategic projects with a maximum 12-month permitting process, and a voluntary supply-chain platform. Agreement is targeted for Q2 2027.",
+"why":"The proposal's shift toward demand-side measures and faster permitting could affect public procurement opportunities and fab investment cases in the EU.",
+"startups":"Chip design and equipment startups could gain from innovation procurement under 'Chips for Europe 2.0' if it is adopted as proposed.",
+"investors":"The targeted Q2 2027 agreement gives a rough timeline for when new semiconductor incentives could become available.",
+"programmes":[
+"chips-ju"
+],
+"source_url":"https://data.consilium.europa.eu/doc/document/ST-12887-2026-INIT/en/pdf",
+"source_institution":"Council of the EU",
+"source_type":"official",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":1,
+"verified":true,
+"hash":"2e2cb33d3d3414e0"
+},
+{
+"id":"2026-09-10-eic-advanced-innovation-challenges-first-projects",
+"date":"2026-09-10",
+"headline":"EIC launches first Advanced Innovation Challenges projects on Physical AI and NAMs",
+"institution":"European Innovation Council",
+"frameworks":[
+"eic",
+"horizon-europe"
+],
+"sectors":[
+"AI",
+"Robotics",
+"Healthtech"
+],
+"countries":[
+"EU27"
+],
+"type":"funding",
+"what":"The EIC selected 20 projects from 709 proposals (39 countries) under its Advanced Innovation Challenges pilot, ten each on 'Accelerating Physical AI' and 'New Approach Methodologies'. Each receives €300,000 for up to nine months from 1 September 2026, with successful projects able to compete for up to €2.5 million in a second stage.",
+"why":"The stage-gated, challenge-driven model is a new EIC funding format that ties follow-on money to milestones.",
+"startups":"Founders in physical AI and alternatives to animal testing should note the low first-stage selection rate and the milestone-based path to larger funding.",
+"investors":"Stage-gate milestones could serve as an external validation signal when assessing early deep-tech teams.",
+"programmes":[],
+"source_url":"https://eic.ec.europa.eu/news/challenges-breakthrough-solutions-eic-launches-first-advanced-innovation-challenges-projects-2026-09-10_en",
+"source_institution":"European Innovation Council",
+"source_type":"official",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":2,
+"verified":true,
+"hash":"741d9342c2ba3a1f"
+},
+{
+"id":"2026-09-09-ec-european-innovation-act-proposal",
+"date":"2026-09-09",
+"headline":"Commission proposes European Innovation Act on IP-backed finance and R&D procurement",
+"institution":"European Commission",
+"frameworks":[
+"innovation-act",
+"startup-scaleup-strategy"
+],
+"sectors":[
+"Deeptech"
+],
+"countries":[
+"EU27"
+],
+"type":"legislative",
+"what":"The Commission proposed a European Innovation Act creating an EU framework for valuing intellectual property, a digital marketplace for IP assets, and a harmonised framework for public R&D procurement including joint cross-border procedures, alongside a separate proposal for a Council Recommendation on regulatory sandboxes. The Commission estimates €10.2 billion per year in additional financing and €25.92 billion in additional annual company profits.",
+"why":"If adopted, common IP valuation and cross-border R&D procurement rules could open new collateral-based financing routes and public first-customer channels.",
+"startups":"IP-rich deep-tech companies may in future be able to use IP more readily as a basis for financing; the proposal still needs Parliament and Council agreement.",
+"investors":"Lenders and investors may follow the IP valuation framework, which could affect venture debt and IP-backed structures if adopted.",
+"programmes":[],
+"source_url":"https://commission.europa.eu/news-and-media/news/eus-plan-grow-innovation-europe-2026-09-09_pt",
+"source_institution":"European Commission (DG COMM)",
+"source_type":"official",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":1,
+"verified":true,
+"hash":"862905aafc80f659"
+},
+{
+"id":"2026-08-27-ec-eic-fund-investment-guidelines-update",
+"date":"2026-08-27",
+"headline":"Commission updates EIC Fund Investment Guidelines for EIC Accelerator and STEP Scale Up",
+"institution":"European Commission / EIC",
+"frameworks":[
+"eic",
+"step",
+"horizon-europe"
+],
+"sectors":[
+"Deeptech",
+"Defence"
+],
+"countries":[
+"EU27"
+],
+"type":"regulatory",
+"what":"Updated EIC Fund Investment Guidelines add defence-related activities and reflect larger investment amounts under the EIC STEP call, with better alignment on investment safeguards, TRLs, follow-on investments and IP rights. The EIC says the Fund has invested in more than 360 deep-tech companies since June 2020; separate guidelines for the Scaleup Europe Fund will follow.",
+"why":"The guidelines define what the EIC Fund can invest in and on what terms, so the defence inclusion widens the pool of eligible companies.",
+"startups":"Defence and dual-use deep-tech companies selected under the Accelerator or STEP may now fall within the EIC Fund's investment scope.",
+"investors":"Co-investors should review the updated safeguards and follow-on rules that govern EIC Fund participation in rounds.",
+"programmes":[
+"eic-accelerator",
+"eic-step-scaleup"
+],
+"source_url":"https://eic.ec.europa.eu/news/european-commission-updates-eic-fund-investment-guidelines-eic-accelerator-and-step-scaleup-2026-08-27_en",
+"source_institution":"European Innovation Council",
+"source_type":"official",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":2,
+"verified":true,
+"hash":"b580510fa1dd0dbc"
+},
+{
+"id":"2026-08-05-eqt-scaleup-europe-fund-first-investment-iceye",
+"date":"2026-08-05",
+"headline":"Scaleup Europe Fund makes first investment, co-leading ICEYE's €1bn financing",
+"institution":"Scaleup Europe Fund (managed by EQT)",
+"frameworks":[
+"scaleup-europe",
+"eic"
+],
+"sectors":[
+"Space",
+"Defence"
+],
+"countries":[
+"Finland"
+],
+"type":"investment",
+"what":"The Scaleup Europe Fund co-led ICEYE's Series F as part of a €1 billion financing round including €450 million of primary proceeds at a valuation above €10 billion. The transaction is subject to regulatory approvals and closing conditions.",
+"why":"The first deal indicates the fund is prepared to participate in very large rounds in strategic sectors such as space and sovereign capabilities.",
+"startups":"The ticket size suggests the fund targets mature scaleups rather than early-growth companies.",
+"investors":"Co-investors in late-stage European space and dual-use deals may increasingly meet an EU-backed vehicle at the table.",
+"programmes":[],
+"source_url":"https://eqtgroup.com/news/eqts-scaleup-europe-fund-makes-first-investment-co-leads-1-billion-funding-round-in-iceye-europes-leader-in-sovereign-intelligence-from-space-2026-08-05",
+"source_institution":"EQT",
+"source_type":"news",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":5,
+"verified":false,
+"hash":"014c65dd7600914f"
+},
+{
+"id":"2026-08-04-ec-scaleup-europe-fund-operational",
+"date":"2026-08-04",
+"headline":"Scaleup Europe Fund set up within the EIC Fund and ready to start investing",
+"institution":"European Commission",
+"frameworks":[
+"scaleup-europe",
+"eic",
+"horizon-europe",
+"startup-scaleup-strategy"
+],
+"sectors":[
+"AI",
+"Deeptech",
+"Healthtech",
+"Cleantech"
+],
+"countries":[
+"EU27"
+],
+"type":"investment",
+"what":"The Commission completed the final legal steps to establish the Scaleup Europe Fund as part of the EIC Fund, with EQT as independent investment manager and a €5 billion target, with fundraising continuing. The fund will back scaleups in AI, quantum, biotech and clean technologies; founding investors include Novo Holdings, EIFO, CriteriaCaixa, Santander/Mouro Capital, APG (for ABP), Wallenberg Investments and Allianz alongside the Commission.",
+"why":"A Commission-backed, market-managed growth vehicle adds a new potential source of large late-stage tickets for European deep-tech companies.",
+"startups":"Later-stage deep-tech companies in the four focus areas could consider the fund as a potential lead or co-lead for large rounds, subject to its market-terms selection.",
+"investors":"Growth investors may encounter the fund as a co-investor in large European rounds; final size depends on ongoing fundraising toward the €5 billion target.",
+"programmes":[
+"eic-step-scaleup"
+],
+"source_url":"https://europa.eu/newsroom/ecpc-failover/pdf/ip-26-1718_en.pdf",
+"source_institution":"European Commission",
+"source_type":"official",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":1,
+"verified":true,
+"hash":"4dc40dd21ccd8b1d"
+},
+{
+"id":"2026-08-02-ec-ai-act-enforcement-starts",
+"date":"2026-08-02",
+"headline":"Commission starts enforcing AI Act rules and new transparency requirements",
+"institution":"European Commission (AI Office)",
+"frameworks":[
+"ai-act"
+],
+"sectors":[
+"AI"
+],
+"countries":[
+"EU27"
+],
+"type":"regulatory",
+"what":"From 2 August 2026 the AI Office and national authorities began enforcing the AI Act, with transparency obligations (AI interaction disclosure, deepfake labelling, machine-readable marking of AI-generated content) taking effect. The Commission's enforcement powers over providers of the most advanced general-purpose AI models also apply from that date, including fines of up to 3% of global annual turnover.",
+"why":"Enforcement moving from guidance to live supervision raises the compliance baseline for any company building or deploying AI in the EU market.",
+"startups":"Founders shipping chatbots or generative features may need disclosure and content-marking measures in place now rather than at a later scale-up stage.",
+"investors":"Investors may want to add AI Act transparency and GPAI-dependency questions to technical due diligence on AI portfolio companies.",
+"programmes":[],
+"source_url":"https://futurium.ec.europa.eu/ga/node/19670",
+"source_institution":"European Commission (Futurium / Apply AI Alliance)",
+"source_type":"official",
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"status":"new",
+"origin":"analyst",
+"summary_by":"claude",
+"source_level":1,
+"verified":true,
+"hash":"8f9e8253ff1541fc"
+}
+]
+}

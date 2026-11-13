@@ -35,6 +35,12 @@ jobs:
           FULL: ${{ github.event.inputs.full || '0' }}
       - name: Build the website pages (figures come from the snapshot)
         run: node scripts/build-site.mjs
+      # Policy & Capital Intelligence (optional add-on). Allowed to fail: it can never block the funding data or the site.
+      - name: Policy & Capital pipeline
+        if: hashFiles('scripts/policy/run.mjs') != ''
+        continue-on-error: true
+        timeout-minutes: 15
+        run: node scripts/policy/test.mjs && node scripts/policy/run.mjs
       - name: Save the snapshot in the repository
         run: |
           git config user.name "eurotech-signal-bot"

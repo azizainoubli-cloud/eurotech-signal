@@ -1,0 +1,2233 @@
+{
+"records":[
+{
+"id":"startup-scaleup-strategy",
+"name":"EU Startup and Scaleup Strategy: Choose Europe to start and scale",
+"short":"Startup and Scaleup Strategy",
+"description":"Commission communication adopted on 28 May 2025 that aims to make Europe a great place for starting and growing global technology-driven companies. It sets out actions in five areas: an innovation-friendly regulatory environment, better access to finance, faster market uptake and expansion, access to talent, and access to infrastructure, networks and services. Flagship follow-ups include the 28th regime (EU Inc.), the European Innovation Act, the Scaleup Europe Fund and a European Innovation Investment Pact.",
+"objectives":[
+"Reduce fragmentation, administrative burden and regulatory complexity for innovative companies",
+"Build a larger, more integrated EU venture capital market with greater involvement of institutional investors",
+"Speed up the journey from lab to market and cross-border expansion",
+"Improve access to highly skilled talent",
+"Simplify and harmonise access to research and technology infrastructures and services"
+],
+"institution":"European Commission",
+"category":"Communication",
+"sectors":[],
+"beneficiaries":[
+"Startups",
+"Scaleups",
+"SMEs",
+"Investors",
+"Research organisations"
+],
+"geography":"EU27",
+"announced":"2025-05-28",
+"published":"2025-05-28",
+"in_force":null,
+"status":"under-implementation",
+"status_note":"Non-legislative strategy being rolled out through follow-up acts: the EU Inc. proposal was tabled on 18 March 2026, the Scaleup Europe Fund launched on 3 June 2026, the European Innovation Act was proposed on 9 September 2026 and the institutional investors pact launched on 22 September 2026; an implementation report is due by end-2027.",
+"key_dates":[
+{
+"date":"2025-05-28",
+"event":"Commission adopts communication COM(2025) 270 and staff working document SWD(2025) 138"
+},
+{
+"date":"2026-03-18",
+"event":"Commission proposes EU Inc. / 28th regime regulation (planned Q1 2026 in the strategy)"
+},
+{
+"date":"2026-06-03",
+"event":"Scaleup Europe Fund publicly launched at the EIC Summit"
+},
+{
+"date":"2026-09-09",
+"event":"Commission proposes the European Innovation Act (planned Q1 2026 in the strategy)"
+},
+{
+"date":"2026-09-22",
+"event":"Commission and EIB Group launch the European Institutional Investors Pact (the strategy's 'European Innovation Investment Pact')"
+}
+],
+"latest_development":{
+"date":"2026-09-22",
+"text":"The Commission and the EIB Group launched the European Institutional Investors Pact, a voluntary framework under which 13 institutional investors signalled intent to invest in European venture and growth funds; it delivers the strategy's planned investment pact.",
+"source_url":"https://www.brusselstimes.com/2328512/new-eu-investors-pact-seeks-to-unlock-e20-billion-for-tech-scale-ups"
+},
+"related_programmes":[
+"eic-accelerator",
+"eic-step-scaleup",
+"eif-esu",
+"investeu-equity"
+],
+"funding":null,
+"document_id":"COM(2025) 270",
+"sources":[
+{
+"title":"Choose Europe for your startup and scaleup",
+"url":"https://commission.europa.eu/news-and-media/news/choose-europe-your-startup-and-scaleup-2025-05-28_en",
+"institution":"European Commission",
+"type":"official",
+"published":"2025-05-28",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"COM(2025) 270 final – The EU Startup and Scaleup Strategy (Council document ST 9607/25)",
+"url":"https://data.consilium.europa.eu/doc/document/ST-9607-2025-INIT/en/pdf",
+"institution":"Council of the EU",
+"type":"official",
+"published":"2025-05-28",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"SWD(2025) 138 final accompanying the Startup and Scaleup Strategy",
+"url":"https://www.parlament.gv.at/gegenstand/XXVIII/EU/22346",
+"institution":"Austrian Parliament (EU document register)",
+"type":"institutional",
+"published":"2025-05-28",
+"level":3,
+"retrieved":"2026-11-09"
+},
+{
+"title":"New EU investors pact seeks to unlock €20 billion for tech scale-ups",
+"url":"https://www.brusselstimes.com/2328512/new-eu-investors-pact-seeks-to-unlock-e20-billion-for-tech-scale-ups",
+"institution":"The Brussels Times",
+"type":"news",
+"published":"2026-09-22",
+"level":5,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"verified",
+"version":1
+},
+{
+"id":"28th-regime",
+"name":"Regulation on the 28th Regime Corporate Legal Framework (EU Inc.)",
+"short":"EU Inc. / 28th regime",
+"description":"Proposed regulation creating an optional, harmonised EU corporate legal form, 'EU Inc.', that would be recognised in every Member State alongside national company forms. The proposal provides for digital-by-default formation and filings, no minimum capital requirement, and an EU employee stock option scheme with harmonised timing of taxation. It is aimed primarily at startups, scaleups and innovative SMEs but is open to any company.",
+"objectives":[
+"Offer a single optional company form usable across the Single Market",
+"Enable fully online incorporation (target of 48 hours and costs below €100)",
+"Digitise procedures across the company life cycle with once-only data transmission",
+"Harmonise employee stock option schemes and their tax timing",
+"Provide faster, digital insolvency procedures for EU Inc. companies"
+],
+"institution":"European Commission; European Parliament (JURI); Council of the EU (Competitiveness)",
+"category":"Legislative proposal",
+"sectors":[],
+"beneficiaries":[
+"Startups",
+"Scaleups",
+"SMEs",
+"Investors"
+],
+"geography":"EU27",
+"announced":"2025-05-28",
+"published":null,
+"in_force":null,
+"status":"proposed",
+"status_note":"Commission proposal COM(2026) 321 (procedure 2026/0074(COD)) is pending: the Council adopted its position on 23 October 2026, but Parliament's JURI committee has not yet adopted a report (a vote failed on 19 October 2026); the European Council has called for agreement by end-2026.",
+"key_dates":[
+{
+"date":"2025-05-28",
+"event":"Startup and Scaleup Strategy announces a 28th regime proposal for Q1 2026"
+},
+{
+"date":"2026-03-18",
+"event":"Commission adopts proposal COM(2026) 321 and Communication COM(2026) 320"
+},
+{
+"date":"2026-03-19",
+"event":"European Council conclusions call for agreement on the 28th regime by end-2026"
+},
+{
+"date":"2026-05-28",
+"event":"Policy debate at Competitiveness Council"
+},
+{
+"date":"2026-10-19",
+"event":"JURI committee fails to vote on rapporteur René Repasi's draft report"
+},
+{
+"date":"2026-10-23",
+"event":"Council adopts its position (negotiating mandate)"
+}
+],
+"latest_development":{
+"date":"2026-10-23",
+"text":"The Council adopted its position on EU Inc., backing the aims while simplifying the framework, streamlining digital and stock-option provisions and adding safeguards; the Parliament's JURI committee had failed to agree its report on 19 October, so trilogues have not started.",
+"source_url":"https://www.euronews.com/2026/10/27/eu-inc-why-the-commissions-perfect-startup-plan-might-be-falling-apart"
+},
+"related_programmes":[],
+"funding":null,
+"document_id":"COM(2026) 321",
+"sources":[
+{
+"title":"Regulation on the 28th Regime Corporate Legal Framework – EU Inc. – policy debate (ST 8598/26)",
+"url":"https://data.consilium.europa.eu/doc/document/ST-8598-2026-INIT/en/pdf",
+"institution":"Council of the EU",
+"type":"official",
+"published":"2026-05-13",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Cover note forwarding CoR opinion on EU Inc. (ST 13324/26)",
+"url":"https://data.consilium.europa.eu/doc/document/ST-13324-2026-INIT/en/pdf",
+"institution":"Council of the EU",
+"type":"official",
+"published":"2026-09-18",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"EPRS briefing on the 28th regime proposal BRI(2026)785710",
+"url":"https://eprs.europarl.europa.eu/contents/publications/EPRS/2026/04/EPRS_BRI(2026)785710.html",
+"institution":"European Parliamentary Research Service",
+"type":"institutional",
+"published":"2026-04-15",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"EU proposal for a regulation on the 28th regime corporate legal framework ('EU Inc.')",
+"url":"https://www.stibbe.com/publications-and-insights/eu-proposal-for-a-regulation-on-the-28th-regime-corporate-legal-framework",
+"institution":"Stibbe",
+"type":"news",
+"published":null,
+"level":5,
+"retrieved":"2026-11-09"
+},
+{
+"title":"EU Inc: Why the Commission's perfect startup plan might be falling apart",
+"url":"https://www.euronews.com/2026/10/27/eu-inc-why-the-commissions-perfect-startup-plan-might-be-falling-apart",
+"institution":"Euronews",
+"type":"news",
+"published":"2026-10-27",
+"level":5,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"verified",
+"version":1
+},
+{
+"id":"innovation-act",
+"name":"European Innovation Act",
+"short":"Innovation Act",
+"description":"Proposed regulation establishing a framework of measures to strengthen the Union innovation ecosystem (and amending Regulation (EU) 2017/1001), adopted by the Commission on 9 September 2026. It would create a harmonised EU framework for R&D public procurement including joint cross-border procurement, an EU-wide framework for valuing intellectual property to support IP-backed finance, and a digital marketplace for commercialising IP. A separate proposal on regulatory sandboxes was presented alongside it.",
+"objectives":[
+"Speed the path of innovations from research to market and cross-border scale-up",
+"Give legal certainty to R&D public procurement and enable joint procurement across Member States",
+"Unlock IP-backed financing through a common IP valuation framework",
+"Create an EU marketplace linking buyers and sellers of IP assets, notably in deep tech",
+"Reduce dependence on non-EU suppliers of innovative products and services"
+],
+"institution":"European Commission (DG RTD)",
+"category":"Legislative proposal",
+"sectors":[
+"Deeptech"
+],
+"beneficiaries":[
+"Startups",
+"Scaleups",
+"SMEs",
+"Research organisations",
+"Public authorities",
+"Investors"
+],
+"geography":"EU27",
+"announced":"2025-05-28",
+"published":null,
+"in_force":null,
+"status":"proposed",
+"status_note":"Commission proposal COM(2026) 567 (procedure 2026/0264(COD)) of 9 September 2026 is at the start of the ordinary legislative procedure; no Council or Parliament position yet.",
+"key_dates":[
+{
+"date":"2025-05-28",
+"event":"Startup and Scaleup Strategy announces the Innovation Act for Q1 2026"
+},
+{
+"date":"2026-09-09",
+"event":"Commission adopts proposal COM(2026) 567 with impact assessment SWD(2026) 567"
+},
+{
+"date":"2026-09-16",
+"event":"Commission presents the proposal to the Council Research Working Party"
+}
+],
+"latest_development":{
+"date":"2026-09-16",
+"text":"The Commission presented the European Innovation Act proposal to the Council's Research Working Party, opening Council examination of file 2026/0264(COD).",
+"source_url":"https://www.parlament.gv.at/gegenstand/XXVIII/EU/92189"
+},
+"related_programmes":[
+"eic-accelerator",
+"eic-transition"
+],
+"funding":null,
+"document_id":"COM(2026) 567",
+"sources":[
+{
+"title":"European Innovation Act – What the Commission is doing",
+"url":"https://research-and-innovation.ec.europa.eu/strategy/support-policy-making/shaping-eu-research-and-innovation-policy/european-innovation-act_en",
+"institution":"European Commission (DG RTD)",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"EU's plan to grow innovation in Europe",
+"url":"https://commission.europa.eu/news-and-media/news/eus-plan-grow-innovation-europe-2026-09-09_pt",
+"institution":"European Commission",
+"type":"official",
+"published":"2026-09-09",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"COM(2026) 567 final – Proposal for a Regulation (European Innovation Act)",
+"url":"https://www.senat.fr/europe/textes_europeens/e20981.pdf",
+"institution":"French Senate (EU document register)",
+"type":"institutional",
+"published":"2026-09-09",
+"level":3,
+"retrieved":"2026-11-09"
+},
+{
+"title":"SWD(2026) 567 final – Impact assessment, European Innovation Act",
+"url":"https://www.parlament.gv.at/gegenstand/XXVIII/EU/90688",
+"institution":"Austrian Parliament (EU document register)",
+"type":"institutional",
+"published":"2026-09-09",
+"level":3,
+"retrieved":"2026-11-09"
+},
+{
+"title":"European Innovation Act / Presentation by the Commission (WK 14165/26)",
+"url":"https://www.parlament.gv.at/gegenstand/XXVIII/EU/92189",
+"institution":"Austrian Parliament (EU document register)",
+"type":"institutional",
+"published":"2026-09-16",
+"level":3,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"verified",
+"version":1
+},
+{
+"id":"eic",
+"name":"European Innovation Council",
+"short":"EIC",
+"description":"The European Innovation Council is Horizon Europe's Pillar III flagship for identifying, developing and scaling breakthrough technologies, with a €10.1 billion budget under Horizon Europe. It funds from early research (Pathfinder) through technology transfer (Transition) to startup and SME scale-up (Accelerator, STEP Scale Up), combining grants with direct equity managed by the EIC Fund. The EIC Fund, established in 2020, is its venture capital arm with over €4 billion in capitalisation and 300+ portfolio companies, and is the umbrella for the Scaleup Europe Fund.",
+"objectives":[
+"Support breakthrough and deep tech innovation from research to scale-up",
+"Provide patient capital and co-investment to startups and SMEs via the EIC Fund",
+"Close the scale-up financing gap for strategic technologies (STEP Scale Up, Scaleup Europe Fund)",
+"Since June 2026, extend support to defence and dual-use technologies"
+],
+"institution":"European Commission; European Innovation Council and SMEs Executive Agency (EISMEA); EIC Board; EIC Fund",
+"category":"Funding programme",
+"sectors":[
+"Deeptech",
+"AI",
+"Semiconductors",
+"Robotics",
+"Healthtech",
+"Cleantech",
+"Energy",
+"Space",
+"Defence"
+],
+"beneficiaries":[
+"Startups",
+"SMEs",
+"Scaleups",
+"Research organisations"
+],
+"geography":"EU27 + Horizon Europe associated countries",
+"announced":null,
+"published":null,
+"in_force":null,
+"status":"under-implementation",
+"status_note":"Fully-fledged EIC launched in March 2021 under Horizon Europe after a 2018-2020 pilot; the 2026 Work Programme (over €1.4bn) was amended in June 2026 to open the Accelerator and STEP Scale Up to dual-use technologies and add a €100m STEP Defence Scale Up call.",
+"key_dates":[
+{
+"date":"2025-11-06",
+"event":"EIC Work Programme 2026 published, making €1.4bn available (simpler Accelerator, pilot Advanced Innovation Challenges)"
+},
+{
+"date":"2026-05-18",
+"event":"EIC Fund Board selects EQT as fund manager of the Scaleup Europe Fund"
+},
+{
+"date":"2026-06-03",
+"event":"Scaleup Europe Fund launched at the EIC Summit"
+},
+{
+"date":"2026-06-17",
+"event":"Amended Work Programme opens EIC to defence and dual-use technologies; €100m STEP Defence Scale Up call announced"
+},
+{
+"date":"2026-06-30",
+"event":"EIC STEP Defence Scale Up call opens"
+},
+{
+"date":"2026-10-28",
+"event":"EIC STEP Defence Scale Up call closes (results expected early 2027)"
+}
+],
+"latest_development":{
+"date":"2026-06-17",
+"text":"The Commission amended the EIC Work Programme 2026 to implement the Defence Mini-Omnibus: the Accelerator and STEP Scale Up now support dual-use technologies, and a €100m EIC STEP Defence Scale Up call offers up to €30m direct equity (applications 30 June to 28 October 2026).",
+"source_url":"https://eic.ec.europa.eu/news/european-innovation-council-opens-defence-and-dual-use-technologies-2026-06-17_en"
+},
+"related_programmes":[
+"eic-pathfinder",
+"eic-transition",
+"eic-accelerator",
+"eic-step-scaleup",
+"horizon-europe-cluster"
+],
+"funding":{
+"amount_eur":10100000000,
+"label":"€10.1bn EIC budget under Horizon Europe 2021-2027",
+"source_url":"https://eic.ec.europa.eu/about-european-innovation-council_en"
+},
+"document_id":"CELEX:32021R0695",
+"sources":[
+{
+"title":"About the European Innovation Council",
+"url":"https://eic.ec.europa.eu/about-european-innovation-council_en",
+"institution":"European Innovation Council",
+"type":"official",
+"published":null,
+"level":2,
+"retrieved":"2026-11-09"
+},
+{
+"title":"EIC Fund",
+"url":"https://eic.ec.europa.eu/eic-fund_en",
+"institution":"European Innovation Council",
+"type":"official",
+"published":null,
+"level":2,
+"retrieved":"2026-11-09"
+},
+{
+"title":"€1.4 billion to support deep tech innovators",
+"url":"https://eic.ec.europa.eu/news/eur14-billion-support-deep-tech-innovators-2025-11-06_en",
+"institution":"European Innovation Council",
+"type":"official",
+"published":"2025-11-06",
+"level":2,
+"retrieved":"2026-11-09"
+},
+{
+"title":"The European Innovation Council opens to defence and dual-use technologies",
+"url":"https://eic.ec.europa.eu/news/european-innovation-council-opens-defence-and-dual-use-technologies-2026-06-17_en",
+"institution":"European Innovation Council",
+"type":"official",
+"published":"2026-06-17",
+"level":2,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Scaleup Europe Fund",
+"url":"https://eic.ec.europa.eu/eic-fund/scaleup-europe-fund_en",
+"institution":"European Innovation Council",
+"type":"official",
+"published":null,
+"level":2,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[
+"announced",
+"published",
+"in_force"
+],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"partial",
+"version":1
+},
+{
+"id":"step",
+"name":"Strategic Technologies for Europe Platform",
+"short":"STEP",
+"description":"Regulation (EU) 2024/795 established STEP to boost investment in critical technologies by steering and reinforcing existing EU programmes (including Horizon Europe/EIC, InvestEU, Innovation Fund, European Defence Fund and cohesion funds) rather than creating a new fund. It covers digital and deep tech, clean and resource-efficient technologies and biotechnologies, and since the 2025 defence mini-omnibus also defence technologies. It introduced the Sovereignty Seal quality label and the STEP Portal listing funding opportunities.",
+"objectives":[
+"Support development and manufacturing of critical technologies in the EU and their value chains",
+"Reduce strategic dependencies of the Union",
+"Address labour and skills shortages in STEP sectors",
+"Signal high-quality projects through the Sovereignty Seal to help them access cumulative or alternative funding"
+],
+"institution":"European Commission",
+"category":"Regulation",
+"sectors":[
+"Deeptech",
+"AI",
+"Semiconductors",
+"Cleantech",
+"Energy",
+"Healthtech",
+"Defence"
+],
+"beneficiaries":[
+"Startups",
+"SMEs",
+"Scaleups",
+"Large companies",
+"Research organisations",
+"Public authorities"
+],
+"geography":"EU27",
+"announced":"2023-06-20",
+"published":"2024-02-29",
+"in_force":"2024-03-01",
+"status":"in-force",
+"status_note":"In force since 1 March 2024; Regulation (EU) 2025/2653 (defence mini-omnibus) added defence technologies as a fourth STEP sector, reflected in the Commission's second guidance note of 23 December 2025.",
+"key_dates":[
+{
+"date":"2023-06-20",
+"event":"Commission proposal (procedure 2023/0199(COD))"
+},
+{
+"date":"2024-02-29",
+"event":"Regulation (EU) 2024/795 adopted and published in the Official Journal"
+},
+{
+"date":"2024-03-01",
+"event":"Entry into force; STEP Sovereignty Portal due to launch"
+},
+{
+"date":"2025-12-23",
+"event":"Second guidance note C/2025/6798 published, adding defence technologies scope"
+},
+{
+"date":"2025-12-31",
+"event":"Deadline for the interim evaluation report (Article 8)"
+}
+],
+"latest_development":{
+"date":"2025-12-23",
+"text":"The Commission published its second STEP guidance note after Regulation (EU) 2025/2653 added defence technologies (linked to the EU Common Military List) as a fourth STEP sector, and clarified scope for critical medicines, recycling and net-zero technologies.",
+"source_url":"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:C_202506798"
+},
+"related_programmes":[
+"eic-step-scaleup",
+"eic-accelerator",
+"investeu-equity",
+"innovfund",
+"horizon-europe-cluster",
+"digital-europe"
+],
+"funding":null,
+"document_id":"CELEX:32024R0795",
+"sources":[
+{
+"title":"Regulation (EU) 2024/795 establishing the Strategic Technologies for Europe Platform (STEP)",
+"url":"https://eur-lex.europa.eu/eli/reg/2024/795/oj/eng",
+"institution":"EUR-Lex",
+"type":"legislation",
+"published":"2024-02-29",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Regulation (EU) 2024/795 – full text (OJ L 2024/795)",
+"url":"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202400795",
+"institution":"EUR-Lex",
+"type":"legislation",
+"published":"2024-02-29",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Second Guidance Note on the Strategic Technologies for Europe Platform (C/2025/6798)",
+"url":"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:C_202506798",
+"institution":"European Commission",
+"type":"official",
+"published":"2025-12-23",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Establishing the Strategic Technologies for Europe Platform ('STEP') – proposal summary",
+"url":"https://oeil.europarl.europa.eu/oeil/en/document-summary?id=1748493",
+"institution":"European Parliament Legislative Observatory",
+"type":"institutional",
+"published":"2023-06-20",
+"level":1,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[
+"funding"
+],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"partial",
+"version":1
+},
+{
+"id":"investeu",
+"name":"InvestEU Programme",
+"short":"InvestEU",
+"description":"InvestEU, established by Regulation (EU) 2021/523, uses an EU budget guarantee to back financing by the EIB Group and other implementing partners, with a target of mobilising more than €372 billion of additional investment over 2021-2027. It comprises the InvestEU Fund, the InvestEU Advisory Hub and the InvestEU Portal, covering the green and digital transitions, innovation, SMEs, social investment and skills. The December 2025 'Omnibus II' amendment (Regulation (EU) 2025/2005) raised the EU guarantee and simplified reporting.",
+"objectives":[
+"Mobilise public and private investment in EU policy priorities through an EU budget guarantee",
+"Improve access to finance for SMEs, startups and innovative companies",
+"Support green and digital transitions, innovation, social investment and skills",
+"Increase risk-taking capacity for strategic investments, including Clean Industrial Deal priorities"
+],
+"institution":"European Commission (DG ECFIN); EIB Group and other implementing partners",
+"category":"Financial instrument",
+"sectors":[],
+"beneficiaries":[
+"SMEs",
+"Startups",
+"Scaleups",
+"Large companies",
+"Public authorities",
+"Investors"
+],
+"geography":"EU27",
+"announced":null,
+"published":"2021-03-26",
+"in_force":null,
+"status":"under-implementation",
+"status_note":"Running 2021-2027; Regulation (EU) 2025/2005 (adopted 16 December 2025, OJ 23 December 2025) set the EU compartment guarantee at about €29.05bn (+€2.9bn), and a June 2026 Commission-EIB agreement added €22bn of strategic financing expected to mobilise about €70bn by end of the current MFF.",
+"key_dates":[
+{
+"date":"2021-03-24",
+"event":"Regulation (EU) 2021/523 adopted"
+},
+{
+"date":"2021-03-26",
+"event":"Published in the Official Journal"
+},
+{
+"date":"2025-12-16",
+"event":"Omnibus II amending Regulation (EU) 2025/2005 adopted"
+},
+{
+"date":"2025-12-23",
+"event":"Regulation (EU) 2025/2005 published in the Official Journal"
+},
+{
+"date":"2026-06-10",
+"event":"Commission and EIB Group sign amendment adding €22bn of strategic financing under InvestEU"
+}
+],
+"latest_development":{
+"date":"2026-06-10",
+"text":"The Commission and the EIB Group signed an agreement increasing InvestEU strategic financing by €22bn following the Omnibus II amendment, expected to help over 130,000 SMEs and reach about €70bn of investment by the end of the current MFF (above the €55bn minimum target).",
+"source_url":"https://luxembourg.representation.ec.europa.eu/actualites-et-evenements/actualites/commission-and-eib-group-increase-financial-support-eu-economy-and-speed-key-transformative-2026-06-10_fr"
+},
+"related_programmes":[
+"investeu-equity",
+"eif-esu",
+"eic-step-scaleup"
+],
+"funding":{
+"amount_eur":29052310073,
+"label":"EU compartment guarantee €29.05bn (current prices) after Regulation (EU) 2025/2005; originally €26.2bn",
+"source_url":"https://eur-lex.europa.eu/eli/reg/2025/2005/oj/eng"
+},
+"document_id":"CELEX:32021R0523",
+"sources":[
+{
+"title":"InvestEU Programme",
+"url":"https://investeu.europa.eu/investeu-programme_en",
+"institution":"European Commission",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Regulation (EU) 2021/523 establishing the InvestEU Programme",
+"url":"https://eur-lex.europa.eu/eli/reg/2021/523/oj/eng",
+"institution":"EUR-Lex",
+"type":"legislation",
+"published":"2021-03-26",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Regulation (EU) 2025/2005 amending the InvestEU Regulation (Omnibus II)",
+"url":"https://eur-lex.europa.eu/eli/reg/2025/2005/oj/eng",
+"institution":"EUR-Lex",
+"type":"legislation",
+"published":"2025-12-23",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Commission and EIB Group increase financial support to the EU economy",
+"url":"https://luxembourg.representation.ec.europa.eu/actualites-et-evenements/actualites/commission-and-eib-group-increase-financial-support-eu-economy-and-speed-key-transformative-2026-06-10_fr",
+"institution":"European Commission Representation in Luxembourg",
+"type":"official",
+"published":"2026-06-10",
+"level":1,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[
+"announced",
+"in_force"
+],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"partial",
+"version":1
+},
+{
+"id":"horizon-europe",
+"name":"Horizon Europe – the Framework Programme for Research and Innovation",
+"short":"Horizon Europe",
+"description":"Horizon Europe is the EU's research and innovation framework programme for 2021-2027, established by Regulation (EU) 2021/695, with indicative funding of €93.5 billion after the MFF mid-term review. It is structured in three pillars (Excellent Science; Global Challenges and European Industrial Competitiveness with six clusters; Innovative Europe including the EIC) plus a widening/ERA part. The main 2026-2027 work programme (€14 billion) was adopted on 11 December 2025, and a successor programme for 2028-2034 with a proposed €175 billion budget is under negotiation.",
+"objectives":[
+"Strengthen the EU's scientific and technological base and the European Research Area",
+"Tackle global challenges and boost industrial competitiveness through collaborative research",
+"Support breakthrough innovation and scale-up via the European Innovation Council",
+"Widen participation across Member States"
+],
+"institution":"European Commission (DG RTD) and executive agencies (ERCEA, REA, EISMEA, HaDEA, CINEA)",
+"category":"Funding programme",
+"sectors":[],
+"beneficiaries":[
+"Research organisations",
+"Startups",
+"SMEs",
+"Scaleups",
+"Large companies",
+"Public authorities"
+],
+"geography":"EU27 + Horizon Europe associated countries",
+"announced":null,
+"published":"2021-05-12",
+"in_force":null,
+"status":"under-implementation",
+"status_note":"Runs 2021-2027 with 22 associated non-EU countries; the final 2026-2027 work programme is being implemented, and the Commission's 16 July 2025 proposal for the 2028-2034 successor (€175bn, linked to the European Competitiveness Fund) awaits agreement.",
+"key_dates":[
+{
+"date":"2021-04-28",
+"event":"Regulation (EU) 2021/695 adopted"
+},
+{
+"date":"2021-05-12",
+"event":"Published in the Official Journal"
+},
+{
+"date":"2025-07-16",
+"event":"Commission proposes successor programme for 2028-2034 with €175bn budget"
+},
+{
+"date":"2025-12-11",
+"event":"Commission adopts main Horizon Europe Work Programme 2026-2027 (€14bn)"
+},
+{
+"date":"2026-06-09",
+"event":"EU and Australia conclude negotiations on Australia's association to Pillar II (from January 2027)"
+}
+],
+"latest_development":{
+"date":"2026-06-09",
+"text":"The EU and Australia concluded negotiations on Australia's association to Horizon Europe Pillar II; Australian entities will be treated as associated-country entities from January 2027 under a transitional arrangement, joining 22 currently associated countries.",
+"source_url":"https://research-and-innovation.ec.europa.eu/news/all-research-and-innovation-news/european-union-and-australia-successfully-conclude-horizon-europe-negotiations-2026-06-09_en"
+},
+"related_programmes":[
+"horizon-europe-cluster",
+"eic-pathfinder",
+"eic-transition",
+"eic-accelerator",
+"eic-step-scaleup",
+"eurostars",
+"chips-ju"
+],
+"funding":{
+"amount_eur":93500000000,
+"label":"€93.5bn indicative budget 2021-2027 (after MFF mid-term review)",
+"source_url":"https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe_en"
+},
+"document_id":"CELEX:32021R0695",
+"sources":[
+{
+"title":"Horizon Europe – Research and innovation",
+"url":"https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe_en",
+"institution":"European Commission (DG RTD)",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Regulation (EU) 2021/695 establishing Horizon Europe",
+"url":"https://eur-lex.europa.eu/eli/reg/2021/695/oj/eng",
+"institution":"EUR-Lex",
+"type":"legislation",
+"published":"2021-05-12",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Commission adopts the main Horizon Europe Work Programme for 2026–2027",
+"url":"https://climate.ec.europa.eu/news-other-reads/news/commission-adopts-main-horizon-europe-work-programme-2026-2027-and-dedicates-eu49-billion-climate-2025-12-11_en",
+"institution":"European Commission (DG CLIMA)",
+"type":"official",
+"published":"2025-12-11",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"The European Union and Australia successfully conclude Horizon Europe negotiations",
+"url":"https://research-and-innovation.ec.europa.eu/news/all-research-and-innovation-news/european-union-and-australia-successfully-conclude-horizon-europe-negotiations-2026-06-09_en",
+"institution":"European Commission (DG RTD)",
+"type":"official",
+"published":"2026-06-09",
+"level":1,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[
+"announced",
+"in_force"
+],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"partial",
+"version":1
+},
+{
+"id":"chips-act",
+"name":"European Chips Act",
+"short":"Chips Act",
+"description":"Regulation (EU) 2023/1781 establishes a framework to strengthen Europe's semiconductor ecosystem, aiming to double the EU's global market share to 20% by 2030. It created the Chips for Europe Initiative (pilot lines, design capacities, competence centres and a Chips Fund for start-ups and scale-ups via the EIC and InvestEU), a framework for first-of-a-kind facilities and a supply-crisis coordination mechanism. On 3 June 2026 the Commission proposed a Chips Act 2.0 that would repeal and replace it.",
+"objectives":[
+"Double the EU's share of global semiconductor production to 20% by 2030",
+"Build design, pilot-line and testing capacity through the Chips for Europe Initiative",
+"Attract investment in first-of-a-kind manufacturing facilities",
+"Monitor supply chains and respond to semiconductor shortages",
+"Finance semiconductor start-ups and scale-ups through the Chips Fund"
+],
+"institution":"European Commission (DG CNECT); Chips Joint Undertaking; European Semiconductor Board",
+"category":"Regulation",
+"sectors":[
+"Semiconductors",
+"Hardware",
+"Deeptech"
+],
+"beneficiaries":[
+"Startups",
+"Scaleups",
+"SMEs",
+"Large companies",
+"Research organisations",
+"Public authorities"
+],
+"geography":"EU27",
+"announced":null,
+"published":"2023-09-18",
+"in_force":"2023-09-21",
+"status":"in-force",
+"status_note":"Regulation (EU) 2023/1781 has applied since 21 September 2023; the Chips Act 2.0 proposal COM(2026) 504 (procedure 2026/0139(COD)) of 3 June 2026, which would repeal it and launch a Chips for Europe Initiative 2.0, is pending before Parliament and Council.",
+"key_dates":[
+{
+"date":"2023-09-13",
+"event":"Regulation (EU) 2023/1781 adopted"
+},
+{
+"date":"2023-09-18",
+"event":"Published in the Official Journal"
+},
+{
+"date":"2023-09-21",
+"event":"Entry into force"
+},
+{
+"date":"2026-06-03",
+"event":"Commission proposes Chips Act 2.0 (COM(2026) 504), repealing Regulation (EU) 2023/1781"
+},
+{
+"date":"2026-11-04",
+"event":"Chips Design Platform launched with investment for new chip design companies"
+}
+],
+"latest_development":{
+"date":"2026-11-04",
+"text":"The Commission announced investment to support new chip design companies through the newly launched Chips Design Platform, a one-stop shop under the Chips for Europe Initiative (the policy page cites €525m in one place and €500m mobilised in another).",
+"source_url":"https://digital-strategy.ec.europa.eu/en/policies/european-chips-act"
+},
+"related_programmes":[
+"chips-ju",
+"digital-europe",
+"horizon-europe-cluster",
+"eic-step-scaleup",
+"eic-accelerator",
+"investeu-equity"
+],
+"funding":{
+"amount_eur":3000000000,
+"label":"Over €3bn EU funding for the Chips for Europe Initiative (Digital Europe + Horizon Europe), matched by participating states",
+"source_url":"https://digital-strategy.ec.europa.eu/en/policies/european-chips-act"
+},
+"document_id":"CELEX:32023R1781",
+"sources":[
+{
+"title":"Regulation (EU) 2023/1781 (Chips Act)",
+"url":"https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX:32023R1781",
+"institution":"EUR-Lex",
+"type":"legislation",
+"published":"2023-09-18",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Digital sovereignty: European Chips Act enters into force",
+"url":"https://digital-strategy.ec.europa.eu/en/news/digital-sovereignty-european-chips-act-enters-force",
+"institution":"European Commission (DG CNECT)",
+"type":"official",
+"published":"2023-09-21",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"European Chips Act – policy page",
+"url":"https://digital-strategy.ec.europa.eu/en/policies/european-chips-act",
+"institution":"European Commission (DG CNECT)",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Proposal for a Chips Act 2.0",
+"url":"https://digital-strategy.ec.europa.eu/en/library/proposal-chips-act-20",
+"institution":"European Commission (DG CNECT)",
+"type":"official",
+"published":"2026-06-03",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"COM(2026) 504 – Proposal for a Regulation (Chips Act 2.0)",
+"url":"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52026PC0504",
+"institution":"EUR-Lex",
+"type":"legislation",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Chips Act 2.0 – procedure 2026/0139(COD) summary",
+"url":"https://oeil.europarl.europa.eu/oeil/en/document-summary?id=1903660",
+"institution":"European Parliament Legislative Observatory",
+"type":"institutional",
+"published":"2026-06-03",
+"level":1,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[
+"announced"
+],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"partial",
+"version":1
+},
+{
+"id":"scaleup-europe",
+"name":"Scaleup Europe Fund",
+"short":"Scaleup Europe Fund",
+"description":"The Scaleup Europe Fund is a market-based growth fund within the EIC Fund umbrella, targeting about €5 billion, with the European Commission committing €1 billion as a founding investor on equal terms with private investors. Managed by EQT, it makes growth and scale-up investments of €100 million and above in strategic technologies such as AI, quantum, semiconductors, robotics, energy, space, biotech and medtech. It was launched at the EIC Summit on 3 June 2026; the strategy's companion 'European Innovation Investment Pact' was launched on 22 September 2026 under the name European Institutional Investors Pact.",
+"objectives":[
+"Close the late-stage financing gap for European deep tech scaleups",
+"Crowd in private institutional capital alongside a €1bn EU commitment",
+"Keep strategic-technology scaleups headquartered in Europe",
+"Channel institutional investors' capital into EU venture and growth funds (via the companion Institutional Investors Pact)"
+],
+"institution":"European Commission / European Innovation Council (EIC Fund); fund manager EQT; EIB Group (Institutional Investors Pact)",
+"category":"Financial instrument",
+"sectors":[
+"Deeptech",
+"AI",
+"Semiconductors",
+"Robotics",
+"Energy",
+"Space",
+"Healthtech",
+"Cleantech",
+"Agritech"
+],
+"beneficiaries":[
+"Scaleups",
+"Investors"
+],
+"geography":"EU27 + Horizon Europe associated countries (Pillar III)",
+"announced":"2025-05-28",
+"published":"2026-06-03",
+"in_force":null,
+"status":"under-implementation",
+"status_note":"No initiative named 'European Innovation Investment Pact' exists as a launched instrument: it was the working name in the May 2025 strategy and was launched on 22 September 2026 as the European Institutional Investors Pact (EIIP); this record covers the Scaleup Europe Fund, launched 3 June 2026 with first investments expected in autumn 2026.",
+"key_dates":[
+{
+"date":"2025-05-28",
+"event":"Startup and Scaleup Strategy announces the Scaleup Europe Fund and a European Innovation Investment Pact for 2026"
+},
+{
+"date":"2026-05-18",
+"event":"EIC Fund Board selects EQT as investment adviser and fund manager"
+},
+{
+"date":"2026-06-03",
+"event":"Scaleup Europe Fund publicly launched at the EIC Summit"
+},
+{
+"date":"2026-09-22",
+"event":"European Institutional Investors Pact launched by the Commission and EIB Group at the TechEU Equity Summit"
+}
+],
+"latest_development":{
+"date":"2026-09-22",
+"text":"The Commission and EIB Group launched the European Institutional Investors Pact, a voluntary framework (Commission-led policy dialogue forum plus EIB-led investment platform) with 13 institutional investors signalling intent, citing €15bn for ETCI 2.0 and €5bn for the EQT-managed Scaleup Europe Fund.",
+"source_url":"https://www.brusselstimes.com/2328512/new-eu-investors-pact-seeks-to-unlock-e20-billion-for-tech-scale-ups"
+},
+"related_programmes":[
+"eic-step-scaleup",
+"eic-accelerator",
+"eif-esu"
+],
+"funding":{
+"amount_eur":5000000000,
+"label":"Target fund size approx. €5bn, including €1bn European Commission commitment",
+"source_url":"https://eic.ec.europa.eu/eic-fund/scaleup-europe-fund_en"
+},
+"document_id":null,
+"sources":[
+{
+"title":"Scaleup Europe Fund",
+"url":"https://eic.ec.europa.eu/eic-fund/scaleup-europe-fund_en",
+"institution":"European Innovation Council",
+"type":"official",
+"published":null,
+"level":2,
+"retrieved":"2026-11-09"
+},
+{
+"title":"COM(2025) 270 final – The EU Startup and Scaleup Strategy (Council document ST 9607/25)",
+"url":"https://data.consilium.europa.eu/doc/document/ST-9607-2025-INIT/en/pdf",
+"institution":"Council of the EU",
+"type":"official",
+"published":"2025-05-28",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"The Scaleup Europe Fund is now operational",
+"url":"https://fasi.eu/en/articles/in-evidence/29269-scaleup-europe-fund-investments.html",
+"institution":"FASI",
+"type":"news",
+"published":"2026-08-04",
+"level":5,
+"retrieved":"2026-11-09"
+},
+{
+"title":"EU and EIB launch pact to boost tech scale-up investment",
+"url":"https://www.portugalglobal.pt/en/news/2026/setembro/eu-and-eib-launch-pact-to-boost-tech-scale-up-investment/",
+"institution":"AICEP Portugal Global",
+"type":"news",
+"published":"2026-09-23",
+"level":5,
+"retrieved":"2026-11-09"
+},
+{
+"title":"New EU investors pact seeks to unlock €20 billion for tech scale-ups",
+"url":"https://www.brusselstimes.com/2328512/new-eu-investors-pact-seeks-to-unlock-e20-billion-for-tech-scale-ups",
+"institution":"The Brussels Times",
+"type":"news",
+"published":"2026-09-22",
+"level":5,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"verified",
+"version":1
+},
+{
+"id":"ai-act",
+"name":"Artificial Intelligence Act",
+"short":"AI Act",
+"description":"Regulation (EU) 2024/1689 sets harmonised, risk-based rules for placing AI systems and general-purpose AI models on the EU market, banning certain practices and imposing obligations on high-risk systems. It was amended in 2026 by the Digital Omnibus on AI (Regulation (EU) 2026/1744), which postponed high-risk obligations, added new prohibitions and extended SME simplifications to small mid-caps.",
+"objectives":[
+"Ensure AI systems placed on the EU market are safe and respect fundamental rights",
+"Prohibit unacceptable-risk AI practices",
+"Set requirements for high-risk AI systems and general-purpose AI models",
+"Support innovation through regulatory sandboxes and simplified rules for SMEs and small mid-caps"
+],
+"institution":"European Commission (DG CNECT, AI Office)",
+"category":"Regulation",
+"sectors":[
+"AI",
+"Software"
+],
+"beneficiaries":[
+"Startups",
+"SMEs",
+"Scaleups",
+"Large companies",
+"Public authorities"
+],
+"geography":"EU27",
+"announced":"2021-04-21",
+"published":"2024-07-12",
+"in_force":"2024-08-01",
+"status":"in-force",
+"status_note":"Prohibitions and AI literacy apply since 2 Feb 2025, GPAI obligations since 2 Aug 2025 and the Act generally since 2 Aug 2026; after the AI Omnibus, Annex III high-risk obligations apply from 2 Dec 2027 and Annex I (product-embedded) high-risk obligations from 2 Aug 2028.",
+"key_dates":[
+{
+"date":"2021-04-21",
+"event":"Commission proposal COM(2021) 206"
+},
+{
+"date":"2024-06-13",
+"event":"Regulation (EU) 2024/1689 adopted"
+},
+{
+"date":"2024-07-12",
+"event":"Published in the Official Journal"
+},
+{
+"date":"2024-08-01",
+"event":"Entry into force"
+},
+{
+"date":"2025-02-02",
+"event":"Prohibited practices and AI literacy obligations apply"
+},
+{
+"date":"2025-08-02",
+"event":"Governance rules and general-purpose AI model obligations apply"
+},
+{
+"date":"2025-11-19",
+"event":"Commission proposes Digital Omnibus on AI"
+},
+{
+"date":"2026-05-07",
+"event":"Political agreement on the AI Omnibus"
+},
+{
+"date":"2026-07-24",
+"event":"Regulation (EU) 2026/1744 (Digital Omnibus on AI) published in the OJ"
+},
+{
+"date":"2026-07-27",
+"event":"AI Omnibus enters into force"
+},
+{
+"date":"2026-08-02",
+"event":"AI Act becomes generally applicable, including transparency rules"
+},
+{
+"date":"2026-12-02",
+"event":"New prohibition on AI generating non-consensual sexual content/CSAM applies; Art. 50(2) marking deadline for generative AI systems placed on the market before 2 Aug 2026"
+},
+{
+"date":"2027-12-02",
+"event":"High-risk obligations apply for Annex III use cases"
+},
+{
+"date":"2028-08-02",
+"event":"High-risk obligations apply for AI embedded in Annex I regulated products"
+}
+],
+"latest_development":{
+"date":"2026-07-27",
+"text":"The Digital Omnibus on AI (Regulation (EU) 2026/1744 of 8 July 2026, OJ 24 July 2026) entered into force, postponing high-risk obligations to 2 Dec 2027 (Annex III) and 2 Aug 2028 (Annex I), adding new Article 5 prohibitions and extending SME privileges to small mid-caps.",
+"source_url":"https://eur-lex.europa.eu/eli/reg/2026/1744/oj?locale=es"
+},
+"related_programmes":[
+"digital-europe",
+"eic-accelerator",
+"horizon-europe-cluster"
+],
+"funding":null,
+"document_id":"CELEX:32024R1689",
+"sources":[
+{
+"title":"Regulation (EU) 2024/1689 (Official Journal PDF)",
+"url":"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ%3AL_202401689",
+"institution":"EUR-Lex",
+"type":"legislation",
+"published":"2024-07-12",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Regulation (EU) 2026/1744 (Digital Omnibus on AI)",
+"url":"https://eur-lex.europa.eu/eli/reg/2026/1744/oj?locale=es",
+"institution":"EUR-Lex",
+"type":"legislation",
+"published":"2026-07-24",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"AI Act - Shaping Europe's digital future",
+"url":"https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai",
+"institution":"European Commission",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Proposal COM(2021) 206 final",
+"url":"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=COM:2021:206:FIN",
+"institution":"EUR-Lex",
+"type":"legislation",
+"published":"2021-04-21",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Digital Omnibus on AI has been published",
+"url":"https://www.cuatrecasas.com/en/global/intellectual-property/art/digital-omnibus-ai-has-been-published",
+"institution":"Cuatrecasas",
+"type":"news",
+"published":null,
+"level":5,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"verified",
+"version":1
+},
+{
+"id":"data-act",
+"name":"Data Act",
+"short":"Data Act",
+"description":"Regulation (EU) 2023/2854 sets harmonised rules on fair access to and use of data generated by connected products and related services, including B2B and B2G data sharing, unfair contractual terms and switching between data processing (cloud) services. It applies since 12 September 2025; amendments are pending under the Commission's Digital Omnibus proposal of 19 November 2025.",
+"objectives":[
+"Give users of connected products access to the data they generate and the right to share it with third parties",
+"Protect businesses, especially SMEs, against unfair data-sharing contract terms",
+"Make it easier to switch between cloud and data processing providers, removing switching charges",
+"Enable public-sector access to private data in exceptional situations"
+],
+"institution":"European Commission (DG CNECT)",
+"category":"Regulation",
+"sectors":[
+"Software",
+"Cloud",
+"Hardware"
+],
+"beneficiaries":[
+"Startups",
+"SMEs",
+"Scaleups",
+"Large companies",
+"Public authorities"
+],
+"geography":"EU27",
+"announced":"2022-02-23",
+"published":"2023-12-22",
+"in_force":"2024-01-11",
+"status":"in-force",
+"status_note":"Applies since 12 Sep 2025; the Article 3(1) data-access-by-design obligation applies to connected products placed on the market after 12 Sep 2026, switching charges are to be fully removed from 12 Jan 2027, and Chapter IV extends to certain pre-existing contracts from 12 Sep 2027.",
+"key_dates":[
+{
+"date":"2022-02-23",
+"event":"Commission proposal COM(2022) 68"
+},
+{
+"date":"2023-12-13",
+"event":"Regulation (EU) 2023/2854 adopted"
+},
+{
+"date":"2023-12-22",
+"event":"Published in the Official Journal"
+},
+{
+"date":"2024-01-11",
+"event":"Entry into force"
+},
+{
+"date":"2025-09-12",
+"event":"Regulation applies; Chapter IV applies to contracts concluded after this date"
+},
+{
+"date":"2025-11-19",
+"event":"Commission tables Digital Omnibus Regulation proposal including Data Act amendments (cloud-switching exemptions, B2G scope, data intermediation)"
+},
+{
+"date":"2026-09-12",
+"event":"Article 3(1) design obligation applies to connected products placed on the market after this date"
+},
+{
+"date":"2027-01-12",
+"event":"Switching charges fully removed"
+},
+{
+"date":"2027-09-12",
+"event":"Chapter IV applies to certain contracts concluded on or before 12 Sep 2025"
+}
+],
+"latest_development":{
+"date":"2026-09-12",
+"text":"The Article 3(1) obligation to design connected products and related services for user data access began to apply to products placed on the market after 12 September 2026.",
+"source_url":"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202302854"
+},
+"related_programmes":[
+"digital-europe"
+],
+"funding":null,
+"document_id":"CELEX:32023R2854",
+"sources":[
+{
+"title":"Regulation (EU) 2023/2854 (Official Journal PDF)",
+"url":"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202302854",
+"institution":"EUR-Lex",
+"type":"legislation",
+"published":"2023-12-22",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Data Act - Shaping Europe's digital future",
+"url":"https://digital-strategy.ec.europa.eu/en/policies/data-act",
+"institution":"European Commission",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Data Act explained",
+"url":"https://digital-strategy.ec.europa.eu/en/factpages/data-act-explained",
+"institution":"European Commission",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Data Act enters into force: what it means for you",
+"url":"https://commission.europa.eu/news-and-media/news/data-act-enters-force-what-it-means-you-2024-01-11_en",
+"institution":"European Commission",
+"type":"official",
+"published":"2024-01-11",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Digital Package FAQ",
+"url":"https://digital-strategy.ec.europa.eu/en/faqs/digital-package",
+"institution":"European Commission",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Legislative Train: The Digital Omnibus Regulation Proposal",
+"url":"https://www.europarl.europa.eu/legislative-train/theme-a-new-plan-for-europe-s-sustainable-prosperity-and-competitiveness/file-digital-package",
+"institution":"European Parliament",
+"type":"institutional",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Data Act proposal COM(2022) 68 final",
+"url":"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52022PC0068",
+"institution":"EUR-Lex",
+"type":"legislation",
+"published":"2022-02-23",
+"level":1,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"verified",
+"version":1
+},
+{
+"id":"dma",
+"name":"Digital Markets Act",
+"short":"DMA",
+"description":"Regulation (EU) 2022/1925 imposes ex-ante obligations and prohibitions on large online platforms designated as gatekeepers to keep digital markets contestable and fair. Seven gatekeepers are designated (Alphabet, Amazon, Apple, ByteDance, Meta, Microsoft, Booking), and the Commission has adopted non-compliance decisions with fines, including €890 million against Google in July 2026.",
+"objectives":[
+"Ensure contestable and fair digital markets where gatekeepers operate",
+"Prohibit self-preferencing and unfair practices by gatekeepers",
+"Open opportunities for business users, developers and alternative services (interoperability, data portability, steering)"
+],
+"institution":"European Commission (DG COMP and DG CNECT)",
+"category":"Regulation",
+"sectors":[
+"Software",
+"E-commerce",
+"Cloud",
+"Media"
+],
+"beneficiaries":[
+"Startups",
+"SMEs",
+"Scaleups",
+"Large companies"
+],
+"geography":"EU27",
+"announced":"2020-12-15",
+"published":"2022-10-12",
+"in_force":"2022-11-01",
+"status":"in-force",
+"status_note":"Applicable since 2 May 2023; designated gatekeepers must comply within six months of designation, and enforcement through non-compliance decisions is ongoing.",
+"key_dates":[
+{
+"date":"2020-12-15",
+"event":"Commission proposal COM(2020) 842"
+},
+{
+"date":"2022-09-14",
+"event":"Regulation (EU) 2022/1925 adopted"
+},
+{
+"date":"2022-10-12",
+"event":"Published in the Official Journal"
+},
+{
+"date":"2022-11-01",
+"event":"Entry into force"
+},
+{
+"date":"2023-05-02",
+"event":"DMA becomes applicable"
+},
+{
+"date":"2023-09-06",
+"event":"First six gatekeepers designated (Alphabet, Amazon, Apple, ByteDance, Meta, Microsoft)"
+},
+{
+"date":"2024-05-13",
+"event":"Booking designated as gatekeeper"
+},
+{
+"date":"2026-04-28",
+"event":"First DMA review published: Commission finds the DMA remains fit for purpose"
+},
+{
+"date":"2026-06-25",
+"event":"Commission preliminary position that Amazon's and Microsoft's cloud services should be designated"
+},
+{
+"date":"2026-07-23",
+"event":"Commission fines Google €890 million in two non-compliance decisions (Search self-preferencing, Google Play steering)"
+}
+],
+"latest_development":{
+"date":"2026-07-23",
+"text":"The Commission adopted two non-compliance decisions against Google, on self-preferencing in Google Search and steering restrictions on Google Play, with fines totalling €890 million (€460m and €430m), and ordered Google to end the non-compliance.",
+"source_url":"https://digital-strategy.ec.europa.eu/en/news/commission-fines-google-eu890-million-breaches-digital-markets-act"
+},
+"related_programmes":[],
+"funding":null,
+"document_id":"CELEX:32022R1925",
+"sources":[
+{
+"title":"Regulation (EU) 2022/1925 (ELI)",
+"url":"https://eur-lex.europa.eu/eli/reg/2022/1925/oj/eng",
+"institution":"EUR-Lex",
+"type":"legislation",
+"published":"2022-10-12",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"About the Digital Markets Act",
+"url":"https://digital-markets-act.ec.europa.eu/about-dma_en",
+"institution":"European Commission",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"DMA designated gatekeepers",
+"url":"https://digital-markets-act.ec.europa.eu/gatekeepers-portal_en",
+"institution":"European Commission",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Commission fines Google €890 million for breaches of the Digital Markets Act",
+"url":"https://digital-strategy.ec.europa.eu/en/news/commission-fines-google-eu890-million-breaches-digital-markets-act",
+"institution":"European Commission",
+"type":"official",
+"published":"2026-07-23",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Review highlights Digital Markets Act remains fit for purpose and has positive impact",
+"url":"https://digital-markets-act.ec.europa.eu/review-highlights-digital-markets-act-remains-fit-purpose-and-has-positive-impact-2026-04-28_en",
+"institution":"European Commission",
+"type":"official",
+"published":"2026-04-28",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Commission reaches preliminary position that Amazon's and Microsoft's cloud services should be designated under the DMA",
+"url":"https://digital-markets-act.ec.europa.eu/commission-reaches-preliminary-position-amazons-and-microsofts-market-leading-cloud-services-should-2026-06-25_en",
+"institution":"European Commission",
+"type":"official",
+"published":"2026-06-25",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Digital Markets Act: rules for digital gatekeepers enter into force",
+"url":"https://digital-strategy.ec.europa.eu/en/news/digital-markets-act-rules-digital-gatekeepers-ensure-open-markets-enter-force",
+"institution":"European Commission",
+"type":"official",
+"published":"2022-10-31",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Proposal COM(2020) 842 final",
+"url":"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020PC0842&from=en",
+"institution":"EUR-Lex",
+"type":"legislation",
+"published":"2020-12-15",
+"level":1,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"verified",
+"version":1
+},
+{
+"id":"dsa",
+"name":"Digital Services Act",
+"short":"DSA",
+"description":"Regulation (EU) 2022/2065 sets rules for online intermediaries and platforms on illegal content, transparency, and systemic risk management, with the strictest obligations for very large online platforms and search engines supervised by the Commission. It has applied to all online intermediaries since 17 February 2024, and the Commission has issued fines against X, Temu and AliExpress.",
+"objectives":[
+"Create a safer online environment and counter illegal content, goods and services",
+"Protect users' fundamental rights and minors online",
+"Increase transparency and accountability of online platforms, including recommender systems and advertising",
+"Require very large platforms and search engines to assess and mitigate systemic risks"
+],
+"institution":"European Commission (DG CNECT) and national Digital Services Coordinators",
+"category":"Regulation",
+"sectors":[
+"Software",
+"E-commerce",
+"Media"
+],
+"beneficiaries":[
+"Startups",
+"SMEs",
+"Scaleups",
+"Large companies",
+"Public authorities"
+],
+"geography":"EU27",
+"announced":"2020-12-15",
+"published":"2022-10-27",
+"in_force":"2022-11-16",
+"status":"in-force",
+"status_note":"Fully applicable to all online intermediaries since 17 Feb 2024; VLOP/VLOSE obligations applied earlier, four months after designation, and enforcement against very large platforms is ongoing.",
+"key_dates":[
+{
+"date":"2020-12-15",
+"event":"Commission proposal COM(2020) 825"
+},
+{
+"date":"2022-10-19",
+"event":"Regulation (EU) 2022/2065 adopted"
+},
+{
+"date":"2022-10-27",
+"event":"Published in the Official Journal"
+},
+{
+"date":"2022-11-16",
+"event":"Entry into force"
+},
+{
+"date":"2023-02-17",
+"event":"Deadline for platforms to publish average monthly active recipients"
+},
+{
+"date":"2024-02-17",
+"event":"DSA applies to all online intermediaries"
+},
+{
+"date":"2026-07-20",
+"event":"Commission fines AliExpress €550 million for risk-assessment and mitigation failures"
+},
+{
+"date":"2026-11-06",
+"event":"Preliminary findings that TikTok's 'For You' feed breaches the DSA ('rabbit hole' effect)"
+}
+],
+"latest_development":{
+"date":"2026-11-06",
+"text":"The Commission preliminarily found that TikTok breaches the DSA over the 'rabbit hole' effect of its 'For You' recommender system, concerning its risk assessment and mitigation measures.",
+"source_url":"https://digital-strategy.ec.europa.eu/en/news/commission-preliminarily-finds-tiktoks-you-feed-breach-digital-services-act-harmful-rabbit-holes"
+},
+"related_programmes":[],
+"funding":null,
+"document_id":"CELEX:32022R2065",
+"sources":[
+{
+"title":"Regulation (EU) 2022/2065 (ELI)",
+"url":"https://eur-lex.europa.eu/eli/reg/2022/2065/oj/eng",
+"institution":"EUR-Lex",
+"type":"legislation",
+"published":"2022-10-27",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Digital Services Act: Application timeline",
+"url":"https://www.europarl.europa.eu/RegData/etudes/ATAG/2022/739227/EPRS-AaG-739227-DSA-Application-timeline-FINAL.pdf",
+"institution":"European Parliament (EPRS)",
+"type":"institutional",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Digital Services Act starts applying to all online platforms in the EU",
+"url":"https://digital-strategy.ec.europa.eu/en/news/digital-services-act-starts-applying-all-online-platforms-eu",
+"institution":"European Commission",
+"type":"official",
+"published":"2024-02-16",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"The Digital Services Act",
+"url":"https://digital-strategy.ec.europa.eu/en/policies/digital-services-act",
+"institution":"European Commission",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Commission fines AliExpress €550 million for breaching the Digital Services Act",
+"url":"https://digital-strategy.ec.europa.eu/en/news/commission-fines-aliexpress-eu550-million-breaching-digital-services-act",
+"institution":"European Commission",
+"type":"official",
+"published":"2026-07-20",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Commission preliminarily finds TikTok's 'For You' feed in breach of DSA for harmful 'rabbit holes' effect",
+"url":"https://digital-strategy.ec.europa.eu/en/news/commission-preliminarily-finds-tiktoks-you-feed-breach-digital-services-act-harmful-rabbit-holes",
+"institution":"European Commission",
+"type":"official",
+"published":"2026-11-06",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Proposal COM(2020) 825 final",
+"url":"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX%3A52020PC0825&from=en",
+"institution":"EUR-Lex",
+"type":"legislation",
+"published":"2020-12-15",
+"level":1,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"verified",
+"version":1
+},
+{
+"id":"cra",
+"name":"Cyber Resilience Act",
+"short":"CRA",
+"description":"Regulation (EU) 2024/2847 introduces horizontal cybersecurity requirements for hardware and software products with digital elements placed on the EU market, covering their design, development and vulnerability handling across the life cycle. Manufacturers' obligations to report actively exploited vulnerabilities and severe incidents through ENISA's Single Reporting Platform apply since 11 September 2026, with main obligations applying from 11 December 2027.",
+"objectives":[
+"Ensure hardware and software products with digital elements are placed on the market with fewer vulnerabilities",
+"Make manufacturers responsible for cybersecurity throughout the product life cycle",
+"Require reporting of actively exploited vulnerabilities and severe incidents",
+"Help users take cybersecurity into account when choosing and using products"
+],
+"institution":"European Commission (DG CNECT) with ENISA",
+"category":"Regulation",
+"sectors":[
+"Cybersecurity",
+"Software",
+"Hardware"
+],
+"beneficiaries":[
+"Startups",
+"SMEs",
+"Scaleups",
+"Large companies",
+"Public authorities"
+],
+"geography":"EU27",
+"announced":"2022-09-15",
+"published":"2024-11-20",
+"in_force":"2024-12-10",
+"status":"in-force",
+"status_note":"Chapter IV (conformity assessment bodies) applies since 11 Jun 2026 and Article 14 reporting obligations since 11 Sep 2026; the Regulation applies in full from 11 Dec 2027.",
+"key_dates":[
+{
+"date":"2022-09-15",
+"event":"Commission proposal (procedure 2022/0272(COD))"
+},
+{
+"date":"2024-10-23",
+"event":"Regulation (EU) 2024/2847 adopted"
+},
+{
+"date":"2024-11-20",
+"event":"Published in the Official Journal"
+},
+{
+"date":"2024-12-10",
+"event":"Entry into force"
+},
+{
+"date":"2026-06-11",
+"event":"Chapter IV (notification of conformity assessment bodies) applies"
+},
+{
+"date":"2026-09-11",
+"event":"Article 14 reporting obligations apply; ENISA Single Reporting Platform operational"
+},
+{
+"date":"2027-12-11",
+"event":"Main obligations apply (full application); reporting obligations for open-source software stewards start"
+}
+],
+"latest_development":{
+"date":"2026-09-11",
+"text":"Manufacturers became required to report actively exploited vulnerabilities and severe incidents, via ENISA's Single Reporting Platform, which became operational the same day.",
+"source_url":"https://digital-strategy.ec.europa.eu/en/policies/cra-reporting"
+},
+"related_programmes":[
+"digital-europe"
+],
+"funding":null,
+"document_id":"CELEX:32024R2847",
+"sources":[
+{
+"title":"Regulation (EU) 2024/2847 (Official Journal)",
+"url":"https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ%3AL_202402847",
+"institution":"EUR-Lex",
+"type":"legislation",
+"published":"2024-11-20",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Cyber Resilience Act",
+"url":"https://digital-strategy.ec.europa.eu/en/policies/cyber-resilience-act",
+"institution":"European Commission",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"CRA reporting",
+"url":"https://digital-strategy.ec.europa.eu/en/policies/cra-reporting",
+"institution":"European Commission",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Procedure File 2022/0272(COD)",
+"url":"https://oeil.europarl.europa.eu/oeil/en/procedure-file?reference=2022%2F0272%28COD%29",
+"institution":"European Parliament",
+"type":"institutional",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"verified",
+"version":1
+},
+{
+"id":"clean-industrial-deal",
+"name":"Clean Industrial Deal",
+"short":"Clean Industrial Deal",
+"description":"The Clean Industrial Deal (COM(2025) 85) is the Commission's joint roadmap for competitiveness and decarbonisation, aiming to lower energy costs, support energy-intensive industries and clean-tech manufacturing, and create lead markets for EU-made clean products. It plans to mobilise over €100 billion and proposed an Industrial Decarbonisation Bank targeting €100 billion; follow-ups include the Industrial Accelerator Act (March 2026) and Innovation Fund heat auctions run as Bank pilots.",
+"objectives":[
+"Make decarbonisation a driver of industrial competitiveness",
+"Lower energy costs for industry and accelerate electrification",
+"Create lead markets for EU-made clean and low-carbon products",
+"Support energy-intensive industries and clean-tech manufacturing",
+"Increase circularity (circular material use rate from 11.8% to 24% by 2030)"
+],
+"institution":"European Commission",
+"category":"Communication",
+"sectors":[
+"Cleantech",
+"Energy",
+"Hardware",
+"Transportation"
+],
+"beneficiaries":[
+"Startups",
+"SMEs",
+"Scaleups",
+"Large companies",
+"Investors"
+],
+"geography":"EU27",
+"announced":"2025-02-26",
+"published":"2025-02-26",
+"in_force":null,
+"status":"under-implementation",
+"status_note":"Being rolled out through follow-up acts and funding: the Industrial Accelerator Act was proposed on 4 Mar 2026 and awaits adoption, and the €100bn Industrial Decarbonisation Bank is being piloted through Innovation Fund heat auctions.",
+"key_dates":[
+{
+"date":"2025-02-26",
+"event":"Clean Industrial Deal communication COM(2025) 85 adopted"
+},
+{
+"date":"2025-07-02",
+"event":"'Delivering on the Clean Industrial Deal' follow-up published"
+},
+{
+"date":"2026-03-04",
+"event":"Commission proposes the Industrial Accelerator Act (Made in EU and low-carbon requirements, permitting)"
+},
+{
+"date":"2026-07-17",
+"event":"Electrification Action Plan and ETS review presented; Industrial Decarbonisation Bank (€100bn) part of the revised ETS investment focus"
+},
+{
+"date":"2026-09-24",
+"event":"Terms and conditions published for the €1bn IF26 industrial heat auction, a pilot for the Industrial Decarbonisation Bank"
+}
+],
+"latest_development":{
+"date":"2026-09-24",
+"text":"The Commission published final terms and conditions for the €1 billion IF26 Heat Auction (ETS revenues), the second Innovation Fund auction serving as a pilot for the Industrial Decarbonisation Bank; bidding is expected to open in early December 2026.",
+"source_url":"https://climate.ec.europa.eu/news-other-reads/news/commission-publishes-terms-and-conditions-eur1-billion-industrial-heat-decarbonisation-auction-2026-09-24_en"
+},
+"related_programmes":[
+"innovfund",
+"investeu-equity",
+"horizon-europe-cluster"
+],
+"funding":{
+"amount_eur":100000000000,
+"label":"Over €100bn to be mobilised for EU-made clean manufacturing; Industrial Decarbonisation Bank targeting €100bn",
+"source_url":"https://commission.europa.eu/topics/competitiveness/clean-industrial-deal_en"
+},
+"document_id":"COM(2025) 85",
+"sources":[
+{
+"title":"The Clean Industrial Deal: A joint roadmap for competitiveness and decarbonisation, COM(2025) 85 final",
+"url":"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52025DC0085",
+"institution":"EUR-Lex",
+"type":"official",
+"published":"2025-02-26",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Clean Industrial Deal",
+"url":"https://commission.europa.eu/topics/competitiveness/clean-industrial-deal_en",
+"institution":"European Commission",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Commission proposes new measures to boost EU industry and jobs",
+"url":"https://commission.europa.eu/news-and-media/news/commission-proposes-new-measures-boost-eu-industry-and-jobs-2026-03-04_en",
+"institution":"European Commission",
+"type":"official",
+"published":"2026-03-04",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Industrial Decarbonisation Bank (Net-Zero Navigator)",
+"url":"https://single-market-economy.ec.europa.eu/industry/sustainability/net-zero-industry-act/net-zero-navigator/list-instruments/industrial-decarbonisation-bank_en",
+"institution":"European Commission (DG GROW)",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Commission publishes terms and conditions for €1 billion industrial heat decarbonisation auction",
+"url":"https://climate.ec.europa.eu/news-other-reads/news/commission-publishes-terms-and-conditions-eur1-billion-industrial-heat-decarbonisation-auction-2026-09-24_en",
+"institution":"European Commission (DG CLIMA)",
+"type":"official",
+"published":"2026-09-24",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Commission boosts Europe's competitiveness, decarbonisation and independence with Electrification Action Plan and ETS review",
+"url":"https://malta.representation.ec.europa.eu/news/commission-boosts-europes-competitiveness-decarbonisation-and-independence-electrification-action-2026-07-17_en",
+"institution":"European Commission Representation in Malta",
+"type":"official",
+"published":"2026-07-17",
+"level":1,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"verified",
+"version":1
+},
+{
+"id":"green-deal",
+"name":"European Green Deal",
+"short":"Green Deal",
+"description":"The European Green Deal (COM(2019) 640) is the Commission's growth strategy to make the EU climate-neutral by 2050, with a legally binding framework set by the European Climate Law. It is implemented through sectoral legislation; in 2026 the Climate Law was amended to set a 90% net emissions reduction target for 2040.",
+"objectives":[
+"Make the EU climate-neutral by 2050 (legally binding under the European Climate Law)",
+"Cut net greenhouse gas emissions by at least 55% by 2030 compared with 1990",
+"Reach a 90% net emissions reduction by 2040 (85% domestic, up to 5% international credits)",
+"Decouple economic growth from resource use"
+],
+"institution":"European Commission",
+"category":"Strategy",
+"sectors":[
+"Cleantech",
+"Energy",
+"Transportation",
+"Agritech",
+"Foodtech"
+],
+"beneficiaries":[
+"Startups",
+"SMEs",
+"Scaleups",
+"Large companies",
+"Investors",
+"Research organisations",
+"Public authorities"
+],
+"geography":"EU27",
+"announced":"2019-12-11",
+"published":"2019-12-11",
+"in_force":null,
+"status":"under-implementation",
+"status_note":"A strategy being implemented through legislation: the European Climate Law makes 2050 neutrality binding, and its amendment setting the 2040 90% target (Regulation (EU) 2026/667) has been in force since 7 Apr 2026.",
+"key_dates":[
+{
+"date":"2019-12-11",
+"event":"European Green Deal communication COM(2019) 640 adopted"
+},
+{
+"date":"2025-07-02",
+"event":"Commission proposes 2040 climate target amendment to the European Climate Law"
+},
+{
+"date":"2026-03-05",
+"event":"Council final approval of the 2040 target"
+},
+{
+"date":"2026-03-18",
+"event":"Regulation (EU) 2026/667 amending the Climate Law published in the OJ"
+},
+{
+"date":"2026-04-07",
+"event":"2040 climate target amendment enters into force"
+},
+{
+"date":"2026-07-17",
+"event":"Commission presents ETS review and Electrification Action Plan"
+}
+],
+"latest_development":{
+"date":"2026-07-17",
+"text":"The Commission presented a review of the EU Emissions Trading System and an Electrification Action Plan, with an Industrial Decarbonisation Bank of €100bn as a key part of the revised ETS investment focus.",
+"source_url":"https://malta.representation.ec.europa.eu/news/commission-boosts-europes-competitiveness-decarbonisation-and-independence-electrification-action-2026-07-17_en"
+},
+"related_programmes":[
+"innovfund",
+"investeu-equity",
+"horizon-europe-cluster"
+],
+"funding":null,
+"document_id":"COM(2019) 640",
+"sources":[
+{
+"title":"The European Green Deal, COM(2019) 640 final",
+"url":"https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:52019DC0640&amp=&from=EN",
+"institution":"EUR-Lex",
+"type":"official",
+"published":"2019-12-11",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"The European Green Deal",
+"url":"https://commission.europa.eu/strategy-and-policy/priorities-2019-2024/european-green-deal_en",
+"institution":"European Commission",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"2040 climate target",
+"url":"https://climate.ec.europa.eu/areas-action/climate-strategies-targets/2040-climate-target_en",
+"institution":"European Commission (DG CLIMA)",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Legislative Train: Amendment of the EU Climate Law to introduce a 2040 climate target",
+"url":"https://www.europarl.europa.eu/legislative-train/theme-sustaining-our-quality-of-life-food-security-water-and-nature/file-2040-climate-target",
+"institution":"European Parliament",
+"type":"institutional",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Commission boosts Europe's competitiveness, decarbonisation and independence with Electrification Action Plan and ETS review",
+"url":"https://malta.representation.ec.europa.eu/news/commission-boosts-europes-competitiveness-decarbonisation-and-independence-electrification-action-2026-07-17_en",
+"institution":"European Commission Representation in Malta",
+"type":"official",
+"published":"2026-07-17",
+"level":1,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[
+"funding"
+],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"partial",
+"version":1
+},
+{
+"id":"digital-europe-programme",
+"name":"Digital Europe Programme",
+"short":"DIGITAL",
+"description":"The Digital Europe Programme, established by Regulation (EU) 2021/694, funds the deployment of digital technologies and capacities across the EU in 2021-2027, complementing research funding under Horizon Europe. Its specific objectives cover high-performance computing, AI, cybersecurity and trust, advanced digital skills, deployment and interoperability, and semiconductors.",
+"objectives":[
+"High-performance computing",
+"Artificial intelligence",
+"Cybersecurity and trust",
+"Advanced digital skills",
+"Deployment and best use of digital capacities and interoperability",
+"Semiconductors (added in 2023)"
+],
+"institution":"European Commission (DG CNECT)",
+"category":"Funding programme",
+"sectors":[
+"AI",
+"Cybersecurity",
+"Semiconductors",
+"Cloud",
+"Software",
+"Edtech",
+"Healthtech"
+],
+"beneficiaries":[
+"Startups",
+"SMEs",
+"Research organisations",
+"Public authorities",
+"Large companies"
+],
+"geography":"EU27 + Digital Europe associated countries (EEA EFTA, Ukraine, Western Balkans, Türkiye, Moldova)",
+"announced":"2018-06-06",
+"published":"2021-05-11",
+"in_force":"2021-05-12",
+"status":"under-implementation",
+"status_note":"Runs from 1 Jan 2021 to 31 Dec 2027 and is implemented through the 2025-2027 work programme, amended in October 2025 and March 2026.",
+"key_dates":[
+{
+"date":"2018-06-06",
+"event":"Commission proposal COM(2018) 434"
+},
+{
+"date":"2021-01-01",
+"event":"Programme period starts"
+},
+{
+"date":"2021-04-29",
+"event":"Regulation (EU) 2021/694 adopted"
+},
+{
+"date":"2021-05-11",
+"event":"Published in the Official Journal"
+},
+{
+"date":"2021-05-12",
+"event":"Entry into force"
+},
+{
+"date":"2026-03-19",
+"event":"Second amendment of the Work Programme 2025-2027 announced (schools' digital infrastructure, online safety app, AI TEFs, health)"
+},
+{
+"date":"2027-12-31",
+"event":"Programme period ends"
+}
+],
+"latest_development":{
+"date":"2026-03-19",
+"text":"The Commission amended the Digital Europe Work Programme 2025-2027, adding actions such as digital infrastructure for schools and an online safety application, a new Safer Internet Centres call, and changes supporting AI Testing and Experimentation Facilities and digital health.",
+"source_url":"https://digital-strategy.ec.europa.eu/en/news/digital-europe-programme-amended-continue-deployment-innovative-digital-capacities-across-eu"
+},
+"related_programmes":[
+"digital-europe",
+"chips-ju",
+"eif-esu"
+],
+"funding":{
+"amount_eur":8100000000,
+"label":"Over €8.1bn budget 2021-2027",
+"source_url":"https://digital-strategy.ec.europa.eu/en/activities/digital-programme"
+},
+"document_id":"CELEX:32021R0694",
+"sources":[
+{
+"title":"Regulation (EU) 2021/694 (ELI)",
+"url":"https://eur-lex.europa.eu/eli/reg/2021/694/oj/eng",
+"institution":"EUR-Lex",
+"type":"legislation",
+"published":"2021-05-11",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"The Digital Europe Programme",
+"url":"https://digital-strategy.ec.europa.eu/en/activities/digital-programme",
+"institution":"European Commission",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"DIGITAL Europe Programme factpage",
+"url":"https://digital-strategy.ec.europa.eu/en/factpages/digital-europe-programme",
+"institution":"European Commission",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Questions and Answers: Digital Europe Programme",
+"url":"https://digital-strategy.ec.europa.eu/en/faqs/questions-and-answers-digital-europe-programme",
+"institution":"European Commission",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Digital Europe programme (EUR-Lex summary)",
+"url":"https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=LEGISSUM:digital_europe_programme",
+"institution":"EUR-Lex",
+"type":"official",
+"published":null,
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Digital Europe Programme amended to continue the deployment of innovative digital capacities across the EU",
+"url":"https://digital-strategy.ec.europa.eu/en/news/digital-europe-programme-amended-continue-deployment-innovative-digital-capacities-across-eu",
+"institution":"European Commission",
+"type":"official",
+"published":"2026-03-19",
+"level":1,
+"retrieved":"2026-11-09"
+},
+{
+"title":"Proposal COM(2018) 434 final",
+"url":"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:52018PC0434",
+"institution":"EUR-Lex",
+"type":"legislation",
+"published":"2018-06-06",
+"level":1,
+"retrieved":"2026-11-09"
+}
+],
+"unverified_fields":[],
+"retrieved":"2026-11-09",
+"last_verified":"2026-11-09",
+"record_updated":"2026-11-09T23:30:00Z",
+"verification":"verified",
+"version":1
+}
+]
+}

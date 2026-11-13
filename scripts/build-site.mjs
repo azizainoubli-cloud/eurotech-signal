@@ -307,7 +307,7 @@ for (const [file, page, fn] of pages) writeFileSync(join(site, file), render(fil
 const lastmod = new Date().toISOString().slice(0, 10);
 writeFileSync(
   join(site, 'sitemap.xml'),
-  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${[...pages.map((p) => p[0]), 'dashboard.html']
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${[...pages.map((p) => p[0]), 'dashboard.html', 'policy.html']
     .map((f) => `  <url><loc>${config.baseUrl}${f === 'index.html' ? '' : f}</loc><lastmod>${lastmod}</lastmod></url>`)
     .join('\n')}\n</urlset>\n`,
 );
