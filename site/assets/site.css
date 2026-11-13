@@ -133,6 +133,13 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .page-hero .eyebrow { margin: 0; }
 .page-hero h1 { max-width: 17ch; }
 .page-hero.with-figure h1 { max-width: none; }
+.founder-card { justify-self: end; width: min(100%, 360px); }
+.founder-card img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 16px; border: 1px solid var(--line); }
+.founder-card figcaption { display: grid; gap: 2px; margin-top: 14px; font-size: 15px; color: var(--muted); }
+.founder-card figcaption b { font-size: 18px; color: var(--fg); font-weight: 700; }
+.founder-card figcaption a { margin-top: 6px; color: var(--label); font-weight: 600; text-decoration: none; }
+.founder-card figcaption a:hover { text-decoration: underline; }
+@media (max-width: 860px) { .founder-card { justify-self: start; width: min(100%, 320px); } }
 .roundtable svg { display: block; width: 100%; height: auto; max-height: 420px; }
 .roundtable .table { fill: var(--panel); stroke: var(--line); stroke-width: 1.5; }
 .roundtable .link { stroke: var(--purple); stroke-width: 1.4; opacity: .85; }

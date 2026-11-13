@@ -233,7 +233,20 @@ ${c.closing(e.closing)}`;
 function aboutPage() {
   const a = content.about;
   const f = a.founder;
-  return `${c.pageHero(a.hero)}
+  const fd = config.founder, li_ = config.contact.linkedinFounder;
+  const portrait = fd.photo
+    ? `<figure class="founder-card"><img src="${esc(fd.photo)}" width="720" height="900" alt="${esc(fd.name)}, ${esc(fd.role)}" loading="eager"><figcaption><b>${esc(fd.name)}</b><span>${esc(fd.role)}</span>${li_ ? `<a href="${esc(li_)}" target="_blank" rel="noopener">LinkedIn profile</a>` : ''}</figcaption></figure>`
+    : '';
+  return `<section class="page-hero with-figure">
+  <div class="wrap hero-in">
+    <div class="hero-text">
+      <p class="eyebrow">${esc(a.hero.eyebrow)}</p>
+      <h1>${esc(a.hero.headline)}</h1>
+      <p class="lead">${esc(a.hero.text)}</p>
+    </div>
+    ${portrait}
+  </div>
+</section>
 ${c.split(a.why)}
 <section class="section tinted">
   <div class="wrap">

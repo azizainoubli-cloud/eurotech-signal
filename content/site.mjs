@@ -16,13 +16,16 @@ export const config = {
     beehiivFormId: 'e144240e-0ef7-48e0-849a-57f2a25f4973',
     // TODO: paste the full LinkedIn URLs. While empty, the site shows "link to be added".
     linkedinCompany: '',
-    linkedinFounder: '',
+    linkedinFounder: 'https://www.linkedin.com/in/aziza-inoubli/',
   },
   // Weekly Roundup newsletter, used as the early-access sign-up.
   newsletterUrl: 'https://azizas-newsletter-11fef7.beehiiv.com/',
   founder: {
     // Optional. Leave empty to refer to "the founder" without a name.
-    name: '',
+    name: 'Aziza INOUBLI',
+    role: 'Founder of TechCap Intelligence',
+    // Portrait shown on the About page, in site/assets/.
+    photo: 'assets/founder-aziza.jpg',
   },
 };
 
