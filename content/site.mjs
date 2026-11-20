@@ -105,7 +105,7 @@ export const audiences = [
     name: 'Corporates',
     who: 'Innovation, strategy, venture and technology scouting teams.',
     need: 'Track emerging technologies and startups, and meet the right innovation stakeholders.',
-    link: { href: 'dashboard.html#tab=deals', label: 'Track the latest deals' },
+    link: { href: 'dashboard.html#tab=corporates', label: 'See which corporates invest and buy' },
   },
   {
     name: 'Institutions',

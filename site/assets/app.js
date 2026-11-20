@@ -19,7 +19,7 @@
   const yearCache = new Map();
   let meta = null, cube = null, ann = [];
   const state = { cmp: [], cmpMetric: 'amount', from: '', to: '', evo: 'amount', year: null, country: '', sector: '', min: 0, stage: '', q: '', sort: 'date', dir: -1, shown: 10, tab: 'overview', prof: '', annShown: 10 };
-  const TABS = ['overview', 'markets', 'investors', 'deals'];
+  const TABS = ['overview', 'markets', 'investors', 'corporates', 'deals'];
   const readHash = () => { const h = new URLSearchParams(location.hash.slice(1)); return { tab: TABS.includes(h.get('tab')) ? h.get('tab') : '', prof: h.get('company') ? 'c:' + h.get('company') : h.get('investor') ? 'i:' + h.get('investor') : '', cmp: (h.get('cmp') || '').split(',').filter(Boolean), year: h.get('year'), from: h.get('from') || '', to: h.get('to') || '', country: h.get('country') || '', sector: h.get('sector') || '' }; };
   const writeHash = () => { const p = new URLSearchParams(); p.set('year', state.year); if (state.year === 'custom') { p.set('from', state.from); p.set('to', state.to); } if (state.cmp.length) p.set('cmp', state.cmp.join(',')); if (state.country) p.set('country', state.country); if (state.sector) p.set('sector', state.sector); if (state.tab && state.tab !== 'overview') p.set('tab', state.tab); if (state.prof) p.set(state.prof[0] === 'c' ? 'company' : 'investor', state.prof.slice(2)); history.replaceState(null, '', '#' + p.toString()); };
 
@@ -614,7 +614,7 @@
   function investorKind(name) {
     const t = invTypes && invTypes[name.toLowerCase()];
     if (PUBLIC_RX.test(name) || t === 'Government / public' || t === 'Bank') return KINDS[2];
-    if (t === 'Corporate' || t === 'Corporate VC' || CORP_RX.test(name)) return KINDS[1];
+    if (t === 'Corporate' || t === 'Corporate VC' || CORP_RX.test(name) || isCorporate(name)) return KINDS[1];
     if (t === 'Venture capital' || t === 'Investment firm' || t === 'Private equity' || t === 'Accelerator') return KINDS[0];
     if (t === 'Angel' || t === 'Crowdfunding') return KINDS[3];
     return /ventures?|capital|partners|\bvc\b|fund|invest|holding|equity/i.test(name) ? KINDS[0] : KINDS[3];
@@ -1040,6 +1040,7 @@
     renderWeek().catch((e) => console.error('week', e));
     await buildActive(); renderActive();
     await Promise.all([loadExits(), loadCompanies()]); renderAnalysis(rows, prevSel, yearRows, prevRows); renderExits(); renderCompare();
+    renderCorporates(rows, prevSel).catch((e) => console.error('corporates', e));
     try { await renderOutlook(rows, prevSel, yearRows, prevRows); } catch (e) { console.error('outlook', e); }
   }
   // ---------- companies, unicorns, exits ----------
@@ -1433,6 +1434,102 @@
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => render());
 
 
+  // ---------- corporates: corporate venture and company buyers ----------
+  // Curated list of corporates and their venture arms (companies whose main business is not investing).
+  // Banks are left out unless the name is a dedicated venture arm; funds backed by corporates but run independently are left out.
+  const CORP_LIST = /\b(Tencent|Alibaba|Baidu|ByteDance|Samsung|Sony|Hitachi|Toshiba|Panasonic|Fujitsu|NEC|Mitsubishi|Mitsui|Sumitomo|Itochu|Marubeni|Toyota|Honda|Hyundai|Kia|LG|SK|Tata|Reliance|Aramco|Google|GV|CapitalG|Gradient Ventures|Microsoft|M12|Amazon|Apple|Meta|IBM|Intel Capital|Intel|Qualcomm|Nvidia|NVentures|AMD|Cisco|Oracle|Salesforce|ServiceNow|SAP|Adobe|Dell|HP Inc|HP Tech Ventures|Coinbase Ventures|Coinbase|Kraken Ventures|Kraken|Animoca Brands|Protocol Labs|Tether|PayPal|Visa|Mastercard|American Express|Amex Ventures|Stripe|Klarna|Revolut|Adyen|Prosus|Naspers|Bertelsmann|Axel Springer|ProSiebenSat\.?1|SevenVentures|Seven Ventures|Hearst|Burda|Bonnier|Schibsted|Müller Medien|Tengelmann|Vorwerk|Haniel|Bosch|Siemens|ZF|Continental|Schaeffler|Mahle|Trumpf|Festo|Würth|Miele|Zeiss|ZEISS|BASF|Bayer|Evonik|Henkel|Merck|M Ventures|Boehringer Ingelheim|Novartis|Roche|Sanofi|Pfizer|AstraZeneca|GSK|Novo Nordisk|Johnson & Johnson|JJDC|Eli Lilly|Takeda|Astellas|Fresenius|Philips|Siemens Healthineers|L['’]Or[ée]al|Unilever|Nestl[ée]|Danone|Carrefour|Ahold|Inditex|IKEA|Ingka|H&M|Zalando|Delivery Hero|HelloFresh|Spotify|Ubisoft|Airbus|Thales|Safran|Dassault|Rheinmetall|Saab|Leonardo|BAE Systems|KNDS|Hensoldt|Kongsberg|Lockheed|Raytheon|Northrop|MBDA|Indra|Naval Group|Babcock|QinetiQ|Patria|Nammo|Diehl|John Cockerill|Renk|Ericsson|Nokia|Orange|Deutsche Telekom|T\.Capital|Telekom|Vodafone|Telef[óo]nica|Wayra|Swisscom|KPN|Proximus|BT Group|Telia|Telenor|Shell|BP|TotalEnergies|Equinor|Repsol|Eni|Enel|Iberdrola|EDP|EDF|Engie|E\.ON|Future Energy Ventures|EnBW|RWE|Uniper|Vattenfall|Statkraft|Eneco|Fortum|Ørsted|Orsted|Schneider Electric|ABB|Wärtsilä|Kone|Volkswagen|BMW|Mercedes|Daimler|Porsche|Stellantis|Renault|Michelin|Volvo|Scania|Maersk|Deutsche Bahn|vent\.io|Lufthansa|Air France|Allianz|AXA|Generali|Munich Re|Swiss Re|MS&AD|SIX Fin[Tt]ech|Citi Ventures|CommerzVentures|ABN AMRO Ventures|ING Ventures|Santander InnoVentures|Elevator Ventures|Saint-Gobain|Holcim|Heidelberg Materials|Vinci|Bouygues|Accenture|Capgemini|Atos|Opera Tech Ventures|InMotion Ventures|Swiss Post|La Poste|Deutsche Post|DHL)\b/;
+  const isCorporate = (name) => CORP_LIST.test(name) || CORP_RX.test(name);
+  const PE_RX = /\b(capital|partners|equity|private equity|investments?|fund|asset management|ventures|KKR|EQT|Cinven|Ardian|Bridgepoint|Verdane|Inflexion|Permira|Apax|Carlyle|Blackstone|Warburg|General Atlantic|TA Associates|Vista|Thoma Bravo|Silver Lake|PAI|Eurazeo|Wendel|Tikehau|Keensight|Five Arrows|Montagu|Triton|IK Partners|Summa|Altor|Axcel|Adelis|Hg|HgCapital|Monterro|Main Capital|Nordic Capital|Investcorp|Advent|Bain Capital|Hellman|CVC|3i|Partners Group|Astorg|Sofina|Exor|Kinnevik|Investor AB)\b/i;
+  const buyerKind = (e) => /ipo|spac|listing/i.test(e.type) ? 'listing' : !e.acquirers ? 'unknown' : (/buyout|lbo|mbo/i.test(e.type) || PE_RX.test(e.acquirers)) ? 'financial' : 'company';
+  let cvcRows = [], cvcShown = 10;
+  async function renderCorporates(rows, prevSel) {
+    const P = period();
+    const where = [state.country, state.sector].filter(Boolean).join(' · ');
+    const corpOf = (r) => cleanInv(r).filter(isCorporate);
+    const named = (rs) => rs.filter((r) => cleanInv(r).length);
+    const withC = rows.filter((r) => corpOf(r).length), prevC = prevSel.filter((r) => corpOf(r).length);
+    const nNamed = named(rows).length, nPrevNamed = named(prevSel).length;
+    const share = nNamed ? withC.length / nNamed : null, prevShare = nPrevNamed ? prevC.length / nPrevNamed : null;
+    $('cvcNote').textContent = `${where || 'Europe'} · ${P.label}${P.inPeriod}. A round counts when at least one named investor is a company or its venture arm (for example Tencent, Salesforce Ventures, BMW i Ventures). Shares are of rounds that name their investors. Corporates are identified from a curated list, so smaller corporates may be missed.`;
+    const corpSet = new Map();
+    withC.forEach((r) => corpOf(r).forEach((n) => { const k = nameKey(n); const o = corpSet.get(k) || { name: n, deals: [], companies: new Set() }; o.deals.push(r); o.companies.add(r.company_id); corpSet.set(k, o); }));
+    const pricedC = withC.filter((r) => r.amount), pricedO = rows.filter((r) => r.amount && !corpOf(r).length && cleanInv(r).length);
+    const medC = pricedC.length ? d3.median(pricedC, (r) => r.amount) : null, medO = pricedO.length ? d3.median(pricedO, (r) => r.amount) : null;
+    $('cvcTiles').replaceChildren(
+      tile('Rounds with a corporate investor', int(withC.length), prevC.length ? withC.length / prevC.length - 1 : null, P.noPrev ? '' : P.prevLabel),
+      tile('Share of rounds', share == null ? '—' : pct(share), null, ''),
+      tile('Corporate investors active', int(corpSet.size), null, ''),
+      tile('Typical corporate-backed round', eur(medC), null, '')
+    );
+    { const t = $('cvcTiles').children[1].querySelector('.chg'); if (t && prevShare != null && share != null) { const d = share - prevShare; t.textContent = `${pp1(d)} vs ${P.prevLabel}`; t.classList.add(d > 0.0005 ? 'up' : d < -0.0005 ? 'down' : 'x'); } }
+    { const t = $('cvcTiles').children[3].querySelector('.chg'); if (t && medO) t.textContent = `vs ${eur(medO)} for rounds without one`; }
+    takeaway('cvcTake', withC.length ? [B(pct0(share)), ` of rounds with named investors had a corporate on board`, prevShare != null && !P.noPrev ? `, against ${pct0(prevShare)} in the ${P.prevLabel}` : '', '.', medC && medO ? [' Corporate-backed rounds are typically ', B(medC >= medO ? `${(medC / medO).toFixed(1)}× larger` : `${(medO / medC).toFixed(1)}× smaller`), ' than the rest.'] : ''].flat(2) : null);
+    // trend by year (country and sector filters, every year)
+    const allRows = filt(await loadPeriod(`${firstYear}-01-01`, todayISO()));
+    const byY = d3.rollups(allRows.filter((r) => cleanInv(r).length), (v) => ({ n: v.length, c: v.filter((r) => corpOf(r).length).length }), (r) => r.date.slice(0, 4)).sort((a, b) => a[0].localeCompare(b[0]));
+    const thisY = todayISO().slice(0, 4);
+    vbars($('cvcTrend'), byY.map(([y, o]) => ({ k: y, label: y === thisY ? `${y} so far` : y, vals: [o.n ? o.c / o.n : 0], bold: y === thisY, tip: [y, `Rounds with a corporate investor: ${int(o.c)}`, `Rounds naming investors: ${int(o.n)}`, `Share: ${pct(o.n ? o.c / o.n : null)}`] })), ['Share'], { label: 'Share of rounds with a corporate investor by year', fmt: pct0 });
+    // sectors
+    const sec = d3.rollups(rows.filter((r) => cleanInv(r).length).flatMap((r) => r.sectors.map((sx) => [sx, corpOf(r).length > 0])), (v) => ({ n: v.length, c: v.filter((z) => z[1]).length }), (z) => z[0]).filter(([, o]) => o.c > 0).sort((a, b) => b[1].c - a[1].c).slice(0, 10);
+    rank($('cvcSectors'), sec.map(([k, o]) => ({ label: k, value: o.c, valueText: `${int(o.c)} rounds`, sub: pct0(o.c / o.n), tip: [k, `Corporate-backed rounds: ${int(o.c)}`, `Share of the sector’s rounds: ${pct(o.c / o.n)}`, 'Click to filter'], onClick: () => setState({ sector: k }) })), css('--c4'));
+    // table of corporate investors
+    cvcRows = [...corpSet.values()].map((o) => {
+      const pr = o.deals.filter((r) => r.amount); const last = o.deals.slice().sort((a, b) => b.date.localeCompare(a.date))[0];
+      const top = (f) => d3.rollups(o.deals.flatMap(f), (v) => v.length, (x) => x).sort((a, b) => b[1] - a[1]).slice(0, 3).map((x) => x[0]);
+      return { name: o.name, deals: o.deals.length, companies: o.companies.size, median: pr.length ? d3.median(pr, (r) => r.amount) : null, sectors: top((r) => r.sectors), countries: top((r) => [r.country]), stages: top((r) => (r.stage === 'Other' ? [] : [stageLabel(r.stage)])), last };
+    }).sort((a, b) => b.deals - a.deals || b.companies - a.companies);
+    cvcShown = 10; drawCvcTable();
+    await renderBuyers();
+  }
+  function drawCvcTable() {
+    const t = $('cvcTable'); t.replaceChildren();
+    const cols = [['Corporate investor'], ['Deals', 'num'], ['Companies', 'num hide-sm'], ['Typical round', 'num'], ['Stages', 'hide-sm'], ['Sectors', 'hide-sm'], ['Countries', 'hide-sm'], ['Latest deal']];
+    const hr = t.createTHead().insertRow(); cols.forEach(([l, c]) => { const th = document.createElement('th'); if (c) th.className = c; th.append(el('span', 'thl', l)); hr.append(th); });
+    const tb = t.createTBody(); const fmtD = d3.utcFormat('%b %Y');
+    if (!cvcRows.length) { const c = tb.insertRow().insertCell(); c.colSpan = cols.length; c.className = 'dim'; c.textContent = 'No corporate investors in this selection.'; }
+    cvcRows.slice(0, cvcShown).forEach((o) => {
+      const tr = tb.insertRow(); const td = (x, cl) => { const q = tr.insertCell(); if (cl) q.className = cl; q.textContent = x; return q; };
+      const n = tr.insertCell(); const b = el('button', 'linkish', o.name); b.type = 'button'; b.onclick = () => openInvestor(o.name); n.append(b);
+      td(int(o.deals), 'num'); td(int(o.companies), 'num hide-sm'); td(o.median ? eur(o.median) : '—', 'num'); td(o.stages.join(', ') || '—', 'focus hide-sm'); td(o.sectors.join(', ') || '—', 'focus hide-sm'); td(o.countries.join(', '), 'focus hide-sm');
+      const l = tr.insertCell(); const lb = el('button', 'linkish', o.last.company); lb.type = 'button'; lb.onclick = () => openProfile(o.last.company_id); l.append(lb, el('div', 'dim', `${fmtD(new Date(o.last.date + 'T00:00:00Z'))}${o.last.amount ? ' · ' + eur(o.last.amount) : ''}`));
+    });
+    $('cvcMore').hidden = cvcRows.length <= cvcShown;
+  }
+  $('cvcMore').addEventListener('click', () => { cvcShown += 25; drawCvcTable(); });
+  async function renderBuyers() {
+    const all = await loadExits(); await loadCompanies();
+    const P = period();
+    const secOf = (e) => ((compById.get(e.company_id) || {}).sectors || []);
+    const inSel = (e) => (!state.country || e.country === state.country) && (!state.sector || secOf(e).includes(state.sector));
+    const sel = all.filter((e) => inSel(e));
+    const rows = sel.filter((e) => e.date >= P.from && e.date <= P.to);
+    const prev = P.noPrev ? [] : sel.filter((e) => e.date >= P.prevFrom && e.date <= P.prevTo);
+    const comp = rows.filter((e) => buyerKind(e) === 'company'), fin = rows.filter((e) => buyerKind(e) === 'financial');
+    const prevComp = prev.filter((e) => buyerKind(e) === 'company');
+    const known = comp.filter((e) => e.acq_country), foreign = known.filter((e) => !EUROPE.has(e.acq_country));
+    $('buyNote').textContent = `${state.country || 'Europe'}${state.sector ? ' · ' + state.sector : ''} · ${P.label}${P.inPeriod}. Exits from Tech.eu’s exits data. A buyer counts as financial when the deal is a buyout or the buyer’s name is a known private-equity or investment firm; every other named buyer counts as a company (this includes scale-ups buying smaller startups). Most deal values are not disclosed.`;
+    $('buyTiles').replaceChildren(
+      tile('Bought by a company', int(comp.length), prevComp.length ? comp.length / prevComp.length - 1 : null, P.noPrev ? '' : P.prevLabel),
+      tile('Bought by a financial buyer', int(fin.length), null, ''),
+      tile('Company buyers from outside Europe', known.length ? pct0(foreign.length / known.length) : '—', null, ''),
+      tile('Company deals with a disclosed value', int(comp.filter((e) => e.value).length), null, '')
+    );
+    { const t = $('buyTiles').children[2].querySelector('.chg'); if (t) t.textContent = `${int(foreign.length)} of ${int(known.length)} with a known buyer HQ`; }
+    const topHq = d3.rollups(known, (v) => v.length, (e) => e.acq_country).sort((a, b) => b[1] - a[1])[0];
+    takeaway('buyTake', rows.length ? [[B(pct0((comp.length) / rows.length)), ' of exits in this selection had a company, not an investment firm, as the named buyer', topHq ? [', most often by buyers based in ', B(topHq[0])] : '', '.']].flat(2) : null);
+    const cs = colors();
+    legend('buyLeg', [['Company buyers', cs[0]], ['Financial buyers', cs[1]]]);
+    const thisY = todayISO().slice(0, 4);
+    const byY = d3.rollups(sel, (v) => ({ c: v.filter((e) => buyerKind(e) === 'company').length, f: v.filter((e) => buyerKind(e) === 'financial').length }), (e) => e.date.slice(0, 4)).filter(([y]) => y >= firstYear).sort((a, b) => a[0].localeCompare(b[0]));
+    vbars($('buyTrend'), byY.map(([y, o]) => ({ k: y, label: y === thisY ? `${y} so far` : y, bold: y === thisY, vals: [o.c, o.f], tip: [y, `Bought by companies: ${int(o.c)}`, `Bought by financial buyers: ${int(o.f)}`] })), ['Company', 'Financial'], { label: 'Acquisitions of European startups by year and buyer type', fmt: int });
+    const withSec = comp.filter((e) => secOf(e).length);
+    const sec = d3.rollups(withSec.flatMap((e) => secOf(e)), (v) => v.length, (x) => x).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    rank($('buySectors'), sec.map(([k, n]) => ({ label: k, value: n, valueText: int(n), sub: pct0(withSec.length ? n / withSec.length : null) })), css('--c2'));
+    $('buySecNote').textContent = `Acquisitions by company buyers, by the startup’s sector. Sector is known for ${int(withSec.length)} of ${int(comp.length)} (startups with a funding round in the data); percentages are of those.`;
+    const top = d3.rollups(comp, (v) => ({ n: v.length, hq: v[0].acq_country, names: v.map((e) => e.company) }), (e) => e.acquirers).sort((a, b) => b[1].n - a[1].n).slice(0, 10);
+    rank($('buyTop'), top.map(([k, o]) => ({ label: k, value: o.n, valueText: `${int(o.n)} deal${o.n > 1 ? 's' : ''}`, sub: o.hq || '', tip: [k + (o.hq ? ` (${o.hq})` : ''), `Bought: ${o.names.slice(0, 6).join(', ')}${o.names.length > 6 ? '…' : ''}`] })), css('--c3'));
+  }
+
   // ---------- tabs ----------
   const tabBtns = [...document.querySelectorAll('.dtabs [role="tab"]')];
   const stickyH = () => { const h = document.querySelector('.sh-head'); const sh = h && getComputedStyle(h).position === 'sticky' ? h.offsetHeight : 0; return sh + $('dashSticky').offsetHeight; };
@@ -1441,6 +1538,7 @@
     if (!TABS.includes(name)) name = 'overview';
     state.tab = name;
     tabBtns.forEach((b) => { const on = b.dataset.tab === name; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; if (on && focus) b.focus(); });
+    { const sel = tabBtns.find((b) => b.dataset.tab === name), box = sel && sel.parentElement; if (box && (sel.offsetLeft < box.scrollLeft || sel.offsetLeft + sel.offsetWidth > box.scrollLeft + box.clientWidth)) box.scrollLeft = sel.offsetLeft - 8; }
     document.querySelectorAll('.panel').forEach((p) => { const on = p.dataset.panel === name; p.classList.toggle('off', !on); p.inert = !on; p.setAttribute('aria-hidden', String(!on)); });
     writeHash();
     if (scroll) { const top = $('dashSticky').offsetTop - (stickyH() - $('dashSticky').offsetHeight); if (scrollY > top) scrollTo({ top, behavior: 'auto' }); }

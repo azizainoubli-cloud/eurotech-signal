@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/shell.css?v=1">
-<link rel="stylesheet" href="assets/style.css?v=20261121">
+<link rel="stylesheet" href="assets/style.css?v=20261121b">
 </head>
 <body class="dash">
 <!-- shared-header -->
@@ -78,6 +78,7 @@
       <button role="tab" type="button" id="tab-overview" aria-controls="panel-overview" data-tab="overview" aria-selected="true">Overview</button>
       <button role="tab" type="button" id="tab-markets" aria-controls="panel-markets" data-tab="markets" aria-selected="false" tabindex="-1">Markets</button>
       <button role="tab" type="button" id="tab-investors" aria-controls="panel-investors" data-tab="investors" aria-selected="false" tabindex="-1">Investors</button>
+      <button role="tab" type="button" id="tab-corporates" aria-controls="panel-corporates" data-tab="corporates" aria-selected="false" tabindex="-1">Corporates</button>
       <button role="tab" type="button" id="tab-deals" aria-controls="panel-deals" data-tab="deals" aria-selected="false" tabindex="-1">Deals</button>
     </div>
     <a class="dtabs-link" href="policy.html">Policy &amp; Capital <span aria-hidden="true">→</span></a>
@@ -206,6 +207,43 @@
     <button class="btn more" id="aMore" type="button" hidden>Show more funds</button>
   </section>
   </section>
+  <section class="panel off" id="panel-corporates" role="tabpanel" aria-labelledby="tab-corporates" data-panel="corporates" aria-hidden="true" inert>
+  <section class="card" id="cvcCard">
+    <div class="card-head"><h2>Corporate venture: which companies back startups</h2><p class="note" id="cvcNote"></p></div>
+    <div class="tiles mini" id="cvcTiles"></div>
+    <p class="takeaway" id="cvcTake" hidden></p>
+    <div class="grid">
+      <div><div class="ch-head"><h3 class="sub">Share of rounds with a corporate investor, by year</h3><button class="btn xs" type="button" data-png="cvcTrend">Save PNG</button></div><div class="chart" id="cvcTrend"></div></div>
+      <div><h3 class="sub">Where corporates invest</h3><p class="note">Sectors with the most corporate-backed rounds. The percentage is the share of that sector’s rounds with a corporate investor.</p><div class="rank" id="cvcSectors"></div></div>
+    </div>
+    <h3 class="sub ol-tab-h">Most active corporate investors</h3>
+    <div class="tbox"><table id="cvcTable"></table></div>
+    <button class="btn more" id="cvcMore" type="button" hidden>Show more corporate investors</button>
+  </section>
+  <section class="card" id="buyCard">
+    <div class="card-head"><h2>Who buys European startups</h2><p class="note" id="buyNote"></p></div>
+    <div class="tiles mini" id="buyTiles"></div>
+    <p class="takeaway" id="buyTake" hidden></p>
+    <div class="grid">
+      <div><div class="ch-head"><div class="legend" id="buyLeg"></div><button class="btn xs" type="button" data-png="buyTrend">Save PNG</button></div><div class="chart" id="buyTrend"></div></div>
+      <div><h3 class="sub">Sectors companies buy into</h3><p class="note" id="buySecNote">Acquisitions by company buyers, by the startup’s sector.</p><div class="rank" id="buySectors"></div></div>
+    </div>
+    <h3 class="sub ol-tab-h">Most active company buyers</h3>
+    <div class="rank" id="buyTop"></div>
+  </section>
+  <section class="card" id="exitsCard" hidden>
+    <div class="card-head"><h2>All exits</h2><p class="note" id="exitsNote"></p></div>
+    <div class="tiles mini" id="exitTiles"></div>
+    <p class="takeaway" id="exitTake" hidden></p>
+    <div class="grid three">
+      <div><h3 class="sub">By type</h3><div class="rank" id="exitTypes"></div></div>
+      <div><h3 class="sub">Most active acquirers</h3><div class="rank" id="exitBuyers"></div></div>
+      <div><h3 class="sub">Where the buyers are based</h3><div class="rank" id="exitHq"></div></div>
+    </div>
+    <div class="tbox tall"><table id="exitTable"></table></div>
+    <button class="btn more" id="exMore" type="button" hidden>Show more exits</button>
+  </section>
+  </section>
   <section class="panel off" id="panel-deals" role="tabpanel" aria-labelledby="tab-deals" data-panel="deals" aria-hidden="true" inert>
   <section class="card">
     <div class="card-head"><h2 id="roundsTitle">Funding rounds</h2><p class="note" id="roundsNote"></p></div>
@@ -222,18 +260,6 @@
   <section class="card" id="annCard" hidden>
     <div class="card-head"><h2>Latest announcements</h2><p class="note">Rounds spotted in the monthly scan of funding news, founders' and VCs' announcements, newest first, cross-checked across sources. Rounds confirmed by two or more sources are also added to the totals.</p></div>
     <div class="tbox"><table id="annTable"></table></div>
-  </section>
-  <section class="card" id="exitsCard" hidden>
-    <div class="card-head"><h2>European exits</h2><p class="note" id="exitsNote"></p></div>
-    <div class="tiles mini" id="exitTiles"></div>
-    <p class="takeaway" id="exitTake" hidden></p>
-    <div class="grid three">
-      <div><h3 class="sub">By type</h3><div class="rank" id="exitTypes"></div></div>
-      <div><h3 class="sub">Most active acquirers</h3><div class="rank" id="exitBuyers"></div></div>
-      <div><h3 class="sub">Where the buyers are based</h3><div class="rank" id="exitHq"></div></div>
-    </div>
-    <div class="tbox tall"><table id="exitTable"></table></div>
-    <button class="btn more" id="exMore" type="button" hidden>Show more exits</button>
   </section>
   </section>
 
@@ -282,6 +308,6 @@
 <script src="assets/vendor/d3.min.js?v=7.8.5"></script>
 <script src="assets/europe-map.js?v=20261121"></script>
 <script src="assets/shell.js?v=1" defer></script>
-<script src="assets/app.js?v=20261121"></script>
+<script src="assets/app.js?v=20261121b"></script>
 </body>
 </html>

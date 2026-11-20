@@ -324,3 +324,4 @@ body.dash .wrap, body.policy .wrap { position: relative; padding-top: 18px; }
   #tiles .chg, #weekTiles .chg { font-size: 11.5px; }
   .bar.open .bar-fields > .btn { min-height: 44px; align-self: end; }
 }
+.dash-sticky, .dtabs, .dtabs-in { min-width: 0; }
