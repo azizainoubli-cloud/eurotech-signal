@@ -282,7 +282,7 @@ export function terminal(data, policySample) {
     <div class="tile"><h3>Disclosed funding, ${t.year} to date</h3><p class="big">${eur(t.total)}</p><p class="chg">${int(t.rounds)} announced rounds</p></div>
     <div class="tile"><h3>Equity</h3><p class="big">${eur(t.equity)}</p><p class="chg">${Math.round((t.equity / t.total) * 100)}% of disclosed funding</p></div>
     <div class="tile"><h3>Debt and grants</h3><p class="big">${eur(t.debt + t.grant)}</p><p class="chg">Debt ${eur(t.debt)}, grants ${eur(t.grant)}</p></div>
-    <div class="tile"><h3>Rounds tracked since 2021</h3><p class="big">${int(data.totalRounds)}</p><p class="chg">Updated monthly</p></div>
+    <div class="tile"><h3>Rounds tracked since 2021</h3><p class="big">${int(data.totalRounds)}</p><p class="chg">Updated twice a day</p></div>
   </div>
   <div class="term-grid">
     <section class="panel wide"><h3>Funding by year and instrument</h3><p class="legend"><span class="k-equity">Equity</span><span class="k-debt">Debt</span><span class="k-grant">Grants</span></p>${yearChart(data)}</section>

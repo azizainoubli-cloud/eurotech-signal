@@ -54,7 +54,7 @@ export const pillars = [
     line: 'Live data on European startup funding, investors and EU policy.',
     text: 'A lightweight intelligence terminal for European startup funding, investor activity, capital flows and the EU policy that shapes them.',
     // What you get. Shown as a short list on the home page.
-    offers: ['Funding dashboard: every announced round since 2021, updated monthly', 'Policy & Capital: EU policies scored against the funding data', 'Weekly Roundup of the signals that matter'],
+    offers: ['Funding dashboard: every announced round since 2021, updated twice a day', 'Policy & Capital: EU policies scored against the funding data', 'Weekly Roundup of the signals that matter'],
     href: 'platform.html',
     cta: 'Explore the platform',
   },

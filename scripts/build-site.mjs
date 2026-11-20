@@ -138,7 +138,7 @@ function homePage(ctx) {
     <dl class="facts">
       <div><dt>${c.int(d.totalRounds)}</dt><dd>funding rounds tracked since 2021</dd></div>
       <div><dt>${d.countryCount}</dt><dd>countries: the EU27, the UK, Switzerland, Norway and Iceland</dd></div>
-      <div><dt>Monthly</dt><dd>the dataset is refreshed, most recently on ${esc(d.updatedLabel)}</dd></div>
+      <div><dt>2&times; a day</dt><dd>the dataset is refreshed, most recently on ${esc(d.updatedLabel)}</dd></div>
     </dl>
     <ul class="tags big">${h.tracking.items.map((i) => `<li>${esc(i.title)}</li>`).join('')}</ul>
     <p class="after"><a class="btn btn-outline" href="dashboard.html">Open the live funding dashboard</a></p>
