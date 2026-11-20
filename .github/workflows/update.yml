@@ -2,8 +2,7 @@ name: Update data and publish
 
 on:
   schedule:
-    - cron: "0 5 * * *"   # 06:00 Paris (winter)
-    - cron: "0 19 * * *"  # 20:00 Paris (winter), after the evening news scan
+    - cron: "0 5 1 * *"   # 1st of each month, 06:00 Paris (winter). Pushes to main (monthly scan, backfill, policy desk) also rebuild.
   workflow_dispatch:
     inputs:
       full:

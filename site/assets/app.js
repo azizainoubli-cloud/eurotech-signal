@@ -490,7 +490,7 @@
     let rows = curRows.filter((r) => (!state.min || (r.amount || 0) >= state.min) && (!state.stage || r.stage === state.stage) && (!q || r.company.toLowerCase().includes(q) || r.investors.join(' ').toLowerCase().includes(q)));
     const k = state.sort, d = state.dir;
     rows = rows.slice().sort((a, b) => k === 'amount' ? d * ((a.amount || 0) - (b.amount || 0)) : d * String(a[k] ?? '').localeCompare(String(b[k] ?? '')));
-    $('roundsNote').textContent = `${int(rows.length)} rounds in this selection, newest first. Click a company for its profile. Rounds marked “Other sources” were found by the daily multi-source scan and confirmed by at least two sources; Tech.eu does not list them.`;
+    $('roundsNote').textContent = `${int(rows.length)} rounds in this selection, newest first. Click a company for its profile. Rounds marked “Other sources” were found by the monthly multi-source scan and confirmed by at least two sources; Tech.eu does not list them.`;
     const t = $('roundsTable'); t.replaceChildren();
     const cols = [['date', 'Date'], ['company', 'Company'], ['country', 'Country'], ['sectors', 'Sector', 'hide-sm'], ['stage', 'Stage'], ['amount', 'Amount', 'num'], ['investors', 'Investors', 'hide-sm'], ['source', 'Source', 'hide-sm']];
     const hr = t.createTHead().insertRow();
@@ -973,7 +973,7 @@
     $('olSignals').querySelectorAll('.tile').forEach((t) => lines2.push(`- ${t.querySelector('h3').innerText.replace(/\n/g, ': ')} — ${t.querySelector('.val').innerText}. ${t.querySelector('.why').innerText}`));
     [['WHERE THE OPPORTUNITY IS', 'olWhere'], ['HOW TO APPROACH IT', 'olHow'], ['WHAT TO WATCH', 'olWatch']].forEach(([h, id]) => { lines2.push('', h); $(id).querySelectorAll('li').forEach((l) => lines2.push('- ' + l.innerText)); });
     lines2.push('', 'CHART NOTES'); ['olMomTake', 'olShareTake', 'olSizeTake', 'olTicketTake', 'olInvTake', 'olSegTake'].forEach((id) => { const n = $(id); if (n && !n.hidden) lines2.push('- ' + n.innerText.replace(/^Insight\s*/i, '')); });
-    lines2.push('', `Source: TechCap Intelligence, ${location.href.split('#')[0]}#${location.hash.slice(1)} · data: Tech.eu Funding Explorer (CC BY 4.0) and the daily multi-source scan. Not investment advice.`);
+    lines2.push('', `Source: TechCap Intelligence, ${location.href.split('#')[0]}#${location.hash.slice(1)} · data: Tech.eu Funding Explorer (CC BY 4.0) and the monthly multi-source scan. Not investment advice.`);
     const out = lines2.join('\n');
     try { await navigator.clipboard.writeText(out); $('olCopy').textContent = 'Copied ✓'; } catch { dl(new Blob([out], { type: 'text/plain' }), `techcap-outlook_${slug()}.txt`); $('olCopy').textContent = 'Saved as text'; }
     setTimeout(() => { $('olCopy').textContent = 'Copy summary'; }, 1800);
@@ -1186,7 +1186,7 @@
     else { const ul = el('ul', 'inv-list'); [...invCount.values()].sort((a, b) => b.n - a.n || String(a.first).localeCompare(String(b.first))).forEach((o) => { const li = el('li'); const b = el('button', 'linkish', o.name); b.type = 'button'; b.onclick = () => openInvestor(o.name); li.append(b, el('span', null, ` ${o.n > 1 ? o.n + ' rounds' : '1 round'}${o.first ? ' · since ' + o.first.slice(0, 4) : ''}`)); ul.append(li); }); box.append(ul); }
     if (api && Array.isArray(api.founders) && api.founders.length) { box.append(el('h3', 'p-sec', 'Founders')); box.append(el('p', null, api.founders.map((f) => (typeof f === 'string' ? f : f.name)).filter(Boolean).join(', '))); }
     const src = el('p', 'note p-src');
-    src.append(`Sources: ${api ? 'Tech.eu Funding Explorer (CC BY 4.0)' : 'TechCap Intelligence data'}${rounds.some((r) => r.origin === 'scan') ? ', daily multi-source scan' : ''}${uni ? ', valuation from Wikipedia’s list of unicorn companies' : ''}.${!api && c.origin !== 'scan' ? ' The live company profile could not be loaded just now, so this shows rounds from 2021 onwards only.' : ''}`);
+    src.append(`Sources: ${api ? 'Tech.eu Funding Explorer (CC BY 4.0)' : 'TechCap Intelligence data'}${rounds.some((r) => r.origin === 'scan') ? ', monthly multi-source scan' : ''}${uni ? ', valuation from Wikipedia’s list of unicorn companies' : ''}.${!api && c.origin !== 'scan' ? ' The live company profile could not be loaded just now, so this shows rounds from 2021 onwards only.' : ''}`);
     box.append(src);
   }
 
@@ -1484,25 +1484,25 @@
   async function renderWeek() {
     const card = $('weekCard');
     if (!meta || !meta.updated) { card.hidden = true; return; }
-    const end = new Date(meta.updated).toISOString().slice(0, 10), a0 = dayShift(end, -6), b0 = dayShift(end, -13);
+    const end = new Date(meta.updated).toISOString().slice(0, 10), a0 = dayShift(end, -29), b0 = dayShift(end, -59);
     const rows = filt(await loadPeriod(b0, end));
     const cur = rows.filter((r) => r.date >= a0), prev = rows.filter((r) => r.date < a0);
     const sc = sum(cur), sp = sum(prev);
     const ch = (a, b) => (b ? a / b - 1 : null);
     const fmt = d3.utcFormat('%-d %b');
     const where = [state.country || 'Europe', state.sector].filter(Boolean).join(' · ');
-    $('weekNote').textContent = `${where} · ${fmt(new Date(a0 + 'T00:00:00Z'))} – ${fmt(new Date(end + 'T00:00:00Z'))}, compared with the 7 days before. Follows the country and sector filters, not the period.`;
+    $('weekNote').textContent = `${where} · ${fmt(new Date(a0 + 'T00:00:00Z'))} – ${fmt(new Date(end + 'T00:00:00Z'))}, compared with the 30 days before. Follows the country and sector filters, not the period.`;
     const fresh = ann.filter((r) => r.date && r.date >= a0 && r.country !== 'Israel' && (!state.country || r.country === state.country) && (!state.sector || String(r.sector || '').split(', ').includes(state.sector)));
     $('weekTiles').replaceChildren(
-      tile('Raised this week', eur(sc.total), ch(sc.total, sp.total), 'previous 7 days'),
-      tile('Funding rounds', int(sc.rounds), ch(sc.rounds, sp.rounds), 'previous 7 days'),
-      tile('Companies funded', int(sc.companies), ch(sc.companies, sp.companies), 'previous 7 days'),
+      tile('Raised', eur(sc.total), ch(sc.total, sp.total), 'previous 30 days'),
+      tile('Funding rounds', int(sc.rounds), ch(sc.rounds, sp.rounds), 'previous 30 days'),
+      tile('Companies funded', int(sc.companies), ch(sc.companies, sp.companies), 'previous 30 days'),
       tile('Spotted by our news scan', int(fresh.length), null, '')
     );
     if (!fresh.length) { const last = ann.map((r) => r.date).filter(Boolean).sort().pop(); const t = $('weekTiles').lastElementChild.querySelector('.chg'); if (t && last) t.textContent = `Latest: ${fmt(new Date(last + 'T00:00:00Z'))}`; }
     const top = $('weekTop'); top.replaceChildren();
     const big = cur.filter((r) => r.amount).sort((a, b) => b.amount - a.amount).slice(0, 5);
-    if (!big.length) top.append(el('li', 'dim', 'No disclosed rounds in this selection this week.'));
+    if (!big.length) top.append(el('li', 'dim', 'No disclosed rounds in this selection in the last 30 days.'));
     big.forEach((r) => {
       const li = el('li'); const b = el('button', 'linkish', r.company); b.type = 'button'; b.onclick = () => openProfile(r.company_id);
       li.append(b, el('span', 'amt', eur(r.amount)), el('span', 'dim', ` ${stageLabel(r.stage)} · ${r.country}${r.investors.length ? ' · ' + r.investors.slice(0, 2).join(', ') : ''}`));

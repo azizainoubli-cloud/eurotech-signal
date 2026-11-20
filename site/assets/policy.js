@@ -472,7 +472,7 @@ function method(anchor) {
    <li><b>Small numbers.</b> Narrow sectors and single countries give few rounds, and confidence reflects this.</li></ul>
 
    <h3 id="m-reproduce">13. Check it yourself</h3>
-   <p>The scorecard is recalculated every time the funding data updates (twice a day). The settings above (periods, comparison countries, thresholds, indicators) are stored in one file, and the calculation is open source:</p>
+   <p>The scorecard is recalculated every time the funding data updates (monthly). The settings above (periods, comparison countries, thresholds, indicators) are stored in one file, and the calculation is open source:</p>
    <ul><li>Settings and indicators: <a href="https://github.com/azizainoubli-cloud/eurotech-signal/blob/main/site/data/policy/scorecard.json" target="_blank" rel="noopener">scorecard.json</a></li>
    <li>Calculation: <a href="https://github.com/azizainoubli-cloud/eurotech-signal/blob/main/site/assets/policy-analytics.js" target="_blank" rel="noopener">policy-analytics.js</a> (functions <code>scorecard</code>, <code>placebo</code>, <code>followOn</code>)</li>
    <li>Latest results: <a href="data/policy/analytics.json" target="_blank" rel="noopener">analytics.json</a> (field <code>scorecard</code>)</li></ul>

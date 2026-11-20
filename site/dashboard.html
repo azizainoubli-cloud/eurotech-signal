@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Funding dashboard · TechCap Intelligence</title>
 <link rel="canonical" href="https://www.techcapintelligence.com/dashboard.html">
-<meta name="description" content="Live intelligence on European startup funding: every disclosed round since 2021 by country, sector, stage and investor, updated twice a day.">
+<meta name="description" content="Live intelligence on European startup funding: every disclosed round since 2021 by country, sector, stage and investor, updated monthly.">
 <meta property="og:title" content="Funding dashboard · TechCap Intelligence">
-<meta property="og:description" content="Turning market signals into strategic intelligence. Live European startup funding data, updated twice a day.">
+<meta property="og:description" content="Turning market signals into strategic intelligence. Live European startup funding data, updated monthly.">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/favicon-64.png" sizes="64x64" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -36,7 +36,7 @@
   <div class="page-title">
     <div class="pt-text">
       <h1>European startup funding</h1>
-      <p class="updated" id="updated">Live dashboard · updated twice a day</p>
+      <p class="updated" id="updated">Funding dashboard · updated monthly</p>
     </div>
     <div class="co-search" role="search">
       <label class="sr-only" for="coSearch">Search a startup or investor</label>
@@ -90,12 +90,12 @@
   <section class="tiles" id="tiles" aria-label="Headline figures"></section>
   <section class="card week" id="weekCard" hidden>
     <div class="card-head row">
-      <div><h2>What changed this week</h2><p class="note" id="weekNote"></p></div>
+      <div><h2>What changed in the last 30 days</h2><p class="note" id="weekNote"></p></div>
       <button class="btn sm" type="button" data-goto="deals">See all deals →</button>
     </div>
     <div class="week-grid">
       <div class="tiles mini" id="weekTiles"></div>
-      <div><h3 class="sub">Biggest rounds of the week</h3><ol class="week-top" id="weekTop"></ol></div>
+      <div><h3 class="sub">Biggest rounds</h3><ol class="week-top" id="weekTop"></ol></div>
     </div>
   </section>
   <section class="card analysis collapsed" id="signalsCard">
@@ -220,7 +220,7 @@
     <button class="btn more" id="more" type="button" hidden>Show more rounds</button>
   </section>
   <section class="card" id="annCard" hidden>
-    <div class="card-head"><h2>Latest announcements</h2><p class="note">Rounds spotted in the daily scan of funding news, founders' and VCs' announcements, newest first, cross-checked across sources. Rounds confirmed by two or more sources are also added to the totals.</p></div>
+    <div class="card-head"><h2>Latest announcements</h2><p class="note">Rounds spotted in the monthly scan of funding news, founders' and VCs' announcements, newest first, cross-checked across sources. Rounds confirmed by two or more sources are also added to the totals.</p></div>
     <div class="tbox"><table id="annTable"></table></div>
   </section>
   <section class="card" id="exitsCard" hidden>
@@ -252,7 +252,7 @@
 
 
   <footer class="foot">
-    <p><b>Data:</b> <a href="https://funding.tech.eu" target="_blank" rel="noopener">Tech.eu Funding Explorer</a> (licensed <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>), combined with a daily scan of national tech media in 10+ countries, startup and investor announcements and press wires. A scanned round joins the totals only when at least two independent sources confirm it and Tech.eu does not already list it, so nothing is counted twice. Publicly announced rounds of startups based in Europe since 2021; amounts converted to euros at the ECB rate on each round's date; undisclosed amounts are left out of totals, not estimated. Israel is excluded. Country views cover the EU27, the UK, Switzerland, Norway and Iceland.</p>
+    <p><b>Data:</b> <a href="https://funding.tech.eu" target="_blank" rel="noopener">Tech.eu Funding Explorer</a> (licensed <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>), combined with a monthly scan of national tech media in 10+ countries, startup and investor announcements and press wires. A scanned round joins the totals only when at least two independent sources confirm it and Tech.eu does not already list it, so nothing is counted twice. Publicly announced rounds of startups based in Europe since 2021; amounts converted to euros at the ECB rate on each round's date; undisclosed amounts are left out of totals, not estimated. Israel is excluded. Country views cover the EU27, the UK, Switzerland, Norway and Iceland.</p>
     <p>Exits come from Tech.eu's exits feed; unicorn valuations from <a href="https://en.wikipedia.org/wiki/List_of_unicorn_startup_companies" target="_blank" rel="noopener">Wikipedia's list of unicorn companies</a> (CC BY-SA). Not covered: founder gender, business model and ownership percentages (cap tables of private companies are not public). Coverage is announced rounds only, so databases that also count unannounced rounds report more deals.</p>
     <p>© TechCap Intelligence. No cookies, no tracking. <a href="index.html">Home</a> · <a href="platform.html">European Tech Intelligence Platform</a> · <a href="research.html">Research &amp; Insights</a> · <a href="engagement.html">Ecosystem Engagement</a> · <a href="contact.html">Contact</a></p>
   </footer>
