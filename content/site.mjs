@@ -14,10 +14,13 @@ export const config = {
     // When it does: put it in `email`. It then appears on the contact page and in the footer.
     email: '',
     beehiivFormId: 'e144240e-0ef7-48e0-849a-57f2a25f4973',
-    // TODO: paste the full LinkedIn URLs. While empty, the site shows "link to be added".
+    // Full LinkedIn URLs. While a link is empty, it is simply not shown.
     linkedinCompany: '',
     linkedinFounder: 'https://www.linkedin.com/in/aziza-inoubli/',
   },
+  // Cookieless visitor counts. Create a free account at https://www.goatcounter.com, then put its code here
+  // (the part before .goatcounter.com, e.g. 'techcap'). Empty = no analytics at all.
+  analytics: { goatcounter: '' },
   // Weekly Roundup newsletter, used as the early-access sign-up.
   newsletterUrl: 'https://azizas-newsletter-11fef7.beehiiv.com/',
   founder: {
@@ -29,6 +32,8 @@ export const config = {
   },
 };
 
+// Main menu. `short` is what the header shows; `label` is the full name used in the footer.
+// The live dashboard is always the first, highlighted item in the header (see scripts/site/components.mjs).
 export const nav = [
   { href: 'platform.html', label: 'European Tech Intelligence Platform', short: 'Platform' },
   { href: 'research.html', label: 'Research & Insights', short: 'Research' },
@@ -88,26 +93,31 @@ export const audiences = [
     name: 'Investors',
     who: 'VC funds, corporate venture teams, business angels and investment institutions.',
     need: 'See where capital is moving, which sectors are emerging and who else is investing.',
+    link: { href: 'dashboard.html#tab=markets', label: 'See where capital is moving' },
   },
   {
     name: 'Founders',
     who: 'Early-stage and growth-stage startups raising in Europe.',
     need: 'Read fundraising trends, find relevant investors and navigate European funding instruments.',
+    link: { href: 'dashboard.html#tab=investors', label: 'Find who is investing now' },
   },
   {
     name: 'Corporates',
     who: 'Innovation, strategy, venture and technology scouting teams.',
     need: 'Track emerging technologies and startups, and meet the right innovation stakeholders.',
+    link: { href: 'dashboard.html#tab=deals', label: 'Track the latest deals' },
   },
   {
     name: 'Institutions',
     who: 'Public institutions, European programmes, innovation agencies and development finance institutions.',
     need: 'Ground programmes and policy in market evidence, ecosystem maps and investment research.',
+    link: { href: 'policy.html', label: 'See the EU policy scorecard' },
   },
   {
     name: 'Ecosystem builders',
     who: 'Startup support organisations, research organisations and event organisers.',
     need: 'Understand their ecosystem, position it and bring its stakeholders together.',
+    link: { href: 'dashboard.html#tab=markets&cmp=France,Germany,UK', label: 'Compare ecosystems' },
   },
 ];
 
@@ -119,8 +129,10 @@ export const home = {
     eyebrow: 'TechCap Intelligence',
     headline: config.tagline,
     text: 'We track European startup funding and EU policy, research what it means, and bring the right people together.',
-    primary: { href: 'platform.html', label: 'Explore the platform' },
-    secondary: { href: 'contact.html', label: 'Work With Us' },
+    primary: { href: 'dashboard.html', label: 'Open the live dashboard' },
+    secondary: { href: 'contact.html', label: 'Work with us' },
+    // Search box under the buttons: finds a startup or investor and opens its profile on the dashboard.
+    search: 'Search a startup or investor',
   },
   proposition: {
     eyebrow: 'The proposition',

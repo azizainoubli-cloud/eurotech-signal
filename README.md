@@ -24,7 +24,11 @@ The site has six pages plus the dashboard, all static files in `site/`:
 
 - **Copy and settings:** `content/site.mjs`. Edit text, the contact email, LinkedIn links and the founder name there.
 - **Components:** `scripts/site/components.mjs` (header, footer, cards, charts).
-- **Styles and behaviour:** `site/assets/site.css` and `site/assets/site.js`. The dashboard keeps `style.css` and `app.js`.
+- **Styles and behaviour:** `site/assets/site.css` and `site/assets/site.js` (including the home page search). The dashboard and Policy & Capital use `style.css`; the dashboard logic is `app.js`.
+- **Shared header:** `site/assets/shell.css` and `shell.js`, on every page. The six built pages get it from `scripts/site/components.mjs`; the build also writes it into `dashboard.html` and `policy.html` between the `<!-- shared-header -->` markers, so the menu is edited in one place (`nav` in `content/site.mjs`).
+- **Dashboard sections:** four tabs (Overview, Markets, Investors, Deals). The tab, the filters and any open company or investor profile are kept in the address, e.g. `dashboard.html#tab=investors`, `dashboard.html#company=<id>` or `dashboard.html#investor=Seedcamp`, so every view can be bookmarked or shared.
+- **Charts library:** d3 7.8.5 is served from `site/assets/vendor/` (no third-party CDN).
+- **Visitor counts (optional):** cookieless GoatCounter. Off until `config.analytics.goatcounter` is set in `content/site.mjs`.
 - **Build:** `node scripts/build-site.mjs` regenerates the six pages, `sitemap.xml` and `robots.txt`. No dependencies. The workflow runs it after every data update, so the figures on the home and platform pages stay current.
 - **Before launch:** set `contact.email` (and `emailIsPlaceholder: false`), the LinkedIn URLs and, with a custom domain, `baseUrl`.
 

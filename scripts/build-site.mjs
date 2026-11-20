@@ -116,6 +116,12 @@ function homePage(ctx) {
       <h1>${esc(h.hero.headline)}</h1>
       <p class="lead">${esc(h.hero.text)}</p>
       <div class="cta-row">${c.button(h.hero.primary, 'solid')}${c.button(h.hero.secondary, 'outline')}</div>
+      <div class="hero-search" role="search">
+        <label class="sr-only" for="heroSearch">Search a startup or investor</label>
+        <input id="heroSearch" type="search" placeholder="${esc(h.hero.search)}" autocomplete="off" aria-controls="heroHits" aria-autocomplete="list">
+        <ul id="heroHits" role="listbox" hidden></ul>
+        <p class="hero-search-note">${c.int(d.totalRounds)} rounds since 2021 · updated ${esc(d.updatedLabel)}</p>
+      </div>
     </div>
     ${c.heroMap(d)}
   </div>
@@ -141,7 +147,7 @@ function homePage(ctx) {
 <section class="section" id="audiences">
   <div class="wrap">
     ${c.sectionHead(h.audiences)}
-    <ul class="audiences">${audiences.map((a) => `<li><h3>${esc(a.name)}</h3><p>${esc(a.need)}</p></li>`).join('')}</ul>
+    <ul class="audiences">${audiences.map((a) => `<li><h3>${esc(a.name)}</h3><p>${esc(a.need)}</p>${a.link ? `<p class="aud-link">${c.button(a.link, 'text')}</p>` : ''}</li>`).join('')}</ul>
   </div>
 </section>
 ${c.closing(h.closing)}`;
@@ -265,7 +271,7 @@ ${c.closing(a.closing)}`;
 
 function contactPage() {
   const k = content.contact, ct = config.contact;
-  const link = (url, label) => (url ? `<li><a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)}</a></li>` : `<li class="todo">${esc(label)} <span>link to be added</span></li>`);
+  const link = (url, label) => (url ? `<li><a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)}</a></li>` : '');
   return `${c.pageHero(k.hero)}
 <section class="section tight">
   <div class="wrap contact">
@@ -279,8 +285,8 @@ function contactPage() {
       <h2>What we can help with</h2>
       <dl class="helps">${k.types.map((t) => `<div id="${t.id}"><dt>${esc(t.label)}</dt><dd>${esc(t.text)}</dd></div>`).join('')}</dl>
       ${ct.email ? `<h2>Email</h2><p class="email-row"><span class="email" id="email">${esc(ct.email)}</span><button class="btn btn-outline sm" type="button" id="copy-email">Copy</button></p>` : ''}
-      <h2>LinkedIn</h2>
-      <ul class="links">${link(ct.linkedinCompany, 'TechCap Intelligence on LinkedIn')}${link(ct.linkedinFounder, 'Founder on LinkedIn')}</ul>
+      ${ct.linkedinCompany || ct.linkedinFounder ? `<h2>LinkedIn</h2>
+      <ul class="links">${link(ct.linkedinCompany, 'TechCap Intelligence on LinkedIn')}${link(ct.linkedinFounder, 'Founder on LinkedIn')}</ul>` : ''}
     </aside>
   </div>
 </section>`;
@@ -309,6 +315,18 @@ const render = (file, page, fn, artifact) => {
 };
 
 for (const [file, page, fn] of pages) writeFileSync(join(site, file), render(file, page, fn, false));
+
+// The dashboard and Policy & Capital are hand-written pages: give them the same header as the rest of the site.
+const HEAD_RX = /<!-- shared-header -->[\s\S]*?<!-- \/shared-header -->/;
+for (const file of ['dashboard.html', 'policy.html']) {
+  const path = join(site, file);
+  let html = readFileSync(path, 'utf8');
+  if (!HEAD_RX.test(html)) { console.warn(`${file}: no shared-header marker, header not updated`); continue; }
+  html = html.replace(HEAD_RX, `<!-- shared-header -->\n${c.header({ nav, file }).trim()}\n<!-- /shared-header -->`);
+  const gc = config.analytics && config.analytics.goatcounter;
+  html = html.replace(/<html lang="en"[^>]*>/, `<html lang="en"${gc ? ` data-goatcounter="${esc(gc)}"` : ''}>`);
+  writeFileSync(path, html);
+}
 
 const lastmod = new Date().toISOString().slice(0, 10);
 writeFileSync(

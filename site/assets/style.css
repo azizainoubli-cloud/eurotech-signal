@@ -238,3 +238,89 @@ td.pos { color: var(--good); } td.neg { color: var(--bad); }
 .join-alt { margin: 10px 0 0; }
 #joinForm { min-height: 380px; }
 .legend span.dash::before { height: 0; width: 16px; border-top: 2px dashed var(--sw); border-radius: 0; background: none; vertical-align: 3px; }
+
+/* ---------- dashboard layout (shared header, title row, sticky filters + tabs, panels) ---------- */
+:root { --sh-h: 68px; }
+@media (max-width: 1060px) { :root { --sh-h: 60px; } }
+body.dash .wrap, body.policy .wrap { position: relative; padding-top: 18px; }
+.page-title { display: flex; align-items: center; gap: 14px 20px; flex-wrap: wrap; }
+.page-title .pt-text { flex: 1 1 260px; min-width: 0; }
+.page-title h1 { margin: 0; font-size: 28px; line-height: 1.15; }
+.page-title .updated { margin-top: 4px; }
+.page-title .co-search { margin-left: 0; flex: 1 1 300px; }
+.pt-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.dash-sticky { position: sticky; top: var(--sh-h); z-index: 20; background: var(--bg); margin-inline: -4px; padding-inline: 4px; }
+.dash-sticky .bar { position: static; border-bottom: 0; padding-bottom: 6px; }
+.bar-fields { display: contents; }
+.f-toggle, .f-done { display: none; }
+.dtabs { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--line); }
+.dtabs-in { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; flex: 1; }
+.dtabs-in::-webkit-scrollbar { display: none; }
+.dtabs [role="tab"] { font: inherit; font-weight: 600; font-size: 15px; color: var(--muted); background: none; border: 0; border-bottom: 3px solid transparent; padding: 12px 14px 10px; cursor: pointer; white-space: nowrap; min-height: 44px; }
+.dtabs [role="tab"]:hover { color: var(--fg); }
+.dtabs [role="tab"][aria-selected="true"] { color: var(--fg); border-bottom-color: #FD0A71; }
+.dtabs [role="tab"]:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; border-radius: 6px; }
+.dtabs-link { font-weight: 600; font-size: 14px; color: var(--muted); text-decoration: none; white-space: nowrap; padding: 8px 0; }
+.dtabs-link:hover { color: var(--fg); }
+.panel { display: grid; gap: 18px; min-width: 0; }
+.panel.off { position: absolute; top: 0; left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); height: 0; overflow: hidden; visibility: hidden; pointer-events: none; }
+/* "What the data says": first three points, the rest behind a button */
+.analysis.collapsed .an-body > :nth-child(n+4), .analysis.collapsed .audience { display: none; }
+.an-more { justify-self: start; margin-top: 4px; }
+/* loading placeholders while the data arrives */
+.chart:empty, .rank:empty, .map:empty, .tiles:empty { min-height: 120px; border-radius: 10px; background: linear-gradient(90deg, var(--soft) 0%, var(--panel) 50%, var(--soft) 100%); background-size: 200% 100%; animation: shimmer 1.4s linear infinite; }
+#tiles:empty { min-height: 104px; }
+.map:empty { min-height: 320px; }
+@keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .chart:empty, .rank:empty, .map:empty, .tiles:empty { animation: none; } }
+.load-error { background: #FDECEC; color: #7A1C1C; border: 1px solid #F5C2C2; border-radius: 12px; padding: 14px 16px; }
+.load-error a { color: inherit; font-weight: 700; }
+/* what changed this week */
+.week-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+.week-grid .tiles.mini { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.week-top { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 8px; }
+.week-top li { line-height: 1.4; }
+.week-top .amt { font-weight: 700; margin-left: 6px; }
+.week-top .dim { color: var(--muted); font-size: 13px; }
+@media (max-width: 860px) { .week-grid { grid-template-columns: 1fr; } }
+.join-list { margin: 8px 0 12px; padding-left: 20px; display: grid; gap: 4px; }
+.p-grid { margin-top: 6px; }
+.p-links .linkish { font-size: 14px; }
+.p-links { display: flex; flex-wrap: wrap; gap: 14px; }
+.btn.more { justify-self: center; }
+
+/* phones: compact title, one Filters button, the shared header scrolls away so the filters + tabs can stay */
+@media (max-width: 760px) {
+  body.dash .sh-head { position: static; }
+  .dash-sticky { top: 0; padding-top: 6px; }
+  .page-title h1 { font-size: 23px; }
+  .pt-actions { width: 100%; }
+  .pt-actions .btn { flex: 1; justify-content: center; }
+  .f-toggle { display: inline-flex; align-items: center; gap: 8px; width: 100%; justify-content: flex-start; min-height: 44px; }
+  .f-ico { width: 16px; height: 12px; border-top: 2px solid currentColor; border-bottom: 2px solid currentColor; position: relative; flex: none; }
+  .f-ico::after { content: ""; position: absolute; left: 3px; right: 3px; top: 3px; border-top: 2px solid currentColor; }
+  .f-sum { margin-left: auto; color: var(--muted); font-weight: 500; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+  .bar { padding: 6px 0; }
+  .bar-fields { display: none; }
+  .bar.open .bar-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; padding: 8px 0 4px; }
+  .bar.open .bar-fields label, .bar.open .bar-fields .range { min-width: 0; }
+  .bar.open .bar-fields select, .bar.open .bar-fields input { width: 100%; }
+  .bar.open .bar-fields .range { grid-column: 1 / -1; }
+  .bar.open .f-done { display: inline-flex; grid-column: 1 / -1; justify-content: center; }
+  .dtabs-link { display: none; }
+  .dtabs [role="tab"] { padding: 10px 12px 8px; font-size: 15px; }
+}
+.crumbs { margin: 0 0 4px; font-size: 13px; color: var(--muted); }
+.crumbs a { color: inherit; }
+@media (max-width: 760px) {
+  .lg-only { display: none; }
+  .page-title .co-search { order: 2; flex-basis: 100%; }
+  .pt-actions { order: 3; }
+  .pt-actions .btn { min-height: 40px; }
+  #tiles, #weekTiles, .week-grid .tiles.mini { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  #tiles .tile, #weekTiles .tile { padding: 12px; }
+  #tiles .big, #weekTiles .big { font-size: 24px; }
+  #tiles .tile h3, #weekTiles .tile h3 { font-size: 12.5px; }
+  #tiles .chg, #weekTiles .chg { font-size: 11.5px; }
+  .bar.open .bar-fields > .btn { min-height: 44px; align-self: end; }
+}

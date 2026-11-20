@@ -19,17 +19,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/site.css?v=20261121">
+<link rel="stylesheet" href="assets/shell.css">
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-<header class="site-head">
-  <div class="wrap head-in">
-    <a class="home-link" href="index.html" aria-label="TechCap Intelligence, home"><span class="logo " role="img" aria-label="TechCap Intelligence"><span class="w"></span><span class="m"></span></span></a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span><span class="sr-only">Menu</span></button>
-    <nav class="site-nav" id="site-nav" aria-label="Main">
-      <ul><li><a href="platform.html">European Tech Intelligence Platform</a></li><li><a href="research.html" aria-current="page">Research &amp; Insights</a></li><li><a href="engagement.html">Ecosystem Engagement</a></li><li><a href="about.html">About</a></li></ul>
-      <a class="btn btn-solid" href="contact.html">Work with us</a>
+<a class="sh-skip" href="#main">Skip to content</a>
+<header class="sh-head">
+  <div class="sh-in">
+    <a class="sh-home" href="index.html" aria-label="TechCap Intelligence, home"><span class="sh-logo" role="img" aria-label="TechCap Intelligence logo"><span class="w"></span><span class="m"></span></span></a>
+    <div class="sh-right"><a class="sh-dash" href="dashboard.html"><span class="sh-dot" aria-hidden="true"></span><span><span class="sh-long">Live </span>dashboard</span></a><button class="sh-toggle" type="button" aria-expanded="false" aria-controls="sh-nav"><span class="sh-bars" aria-hidden="true"></span><span class="sr-only">Menu</span></button></div>
+    <nav class="sh-nav" id="sh-nav" aria-label="Main">
+      <a class="sh-dash" href="dashboard.html"><span class="sh-dot" aria-hidden="true"></span><span><span class="sh-long">Live </span>dashboard</span></a>
+      <ul><li><a href="platform.html">Platform</a></li><li><a href="research.html" aria-current="page">Research</a></li><li><a href="engagement.html">Engagement</a></li><li><a href="about.html">About</a></li></ul>
+      <a class="sh-cta" href="contact.html">Work with us</a>
     </nav>
   </div>
 </header>
@@ -96,11 +98,12 @@
     <nav aria-label="Footer">
       <h2>Explore</h2>
       <ul>
+        <li><a href="dashboard.html">Live funding dashboard</a></li>
+        <li><a href="policy.html">Policy &amp; Capital</a></li>
         <li><a href="platform.html">European Tech Intelligence Platform</a></li>
         <li><a href="research.html">Research &amp; Insights</a></li>
         <li><a href="engagement.html">Ecosystem Engagement</a></li>
         <li><a href="about.html">About</a></li>
-        <li><a href="dashboard.html">Funding dashboard</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
     </nav>
@@ -109,7 +112,7 @@
       <ul>
         <li><a href="contact.html">Contact form</a></li>
         
-        <li class="todo">LinkedIn <span>link to be added</span></li>
+        
         <li><a href="https://azizas-newsletter-11fef7.beehiiv.com/" target="_blank" rel="noopener">Weekly Roundup newsletter</a></li>
       </ul>
     </div>
@@ -119,6 +122,7 @@
     <p>© 2026 TechCap Intelligence. No cookies, no tracking.</p>
   </div>
 </footer>
-<script src="assets/site.js" defer></script>
+<script src="assets/shell.js" defer></script>
+<script src="assets/site.js?v=20261121" defer></script>
 </body>
 </html>

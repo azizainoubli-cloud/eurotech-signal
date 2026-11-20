@@ -40,13 +40,14 @@ export function head({ page, config, file, artifact }) {
   const links = `<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="assets/site.css">`;
+<link rel="stylesheet" href="assets/site.css?v=20261121">
+<link rel="stylesheet" href="assets/shell.css">`;
   if (artifact) {
     // Artifact preview: the host wraps the page, so only the title, the gutter promise and the styles go here.
     return `<title>${esc(config.name)}</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n${links}\n`;
   }
   return `<!doctype html>
-<html lang="en">
+<html lang="en"${config.analytics && config.analytics.goatcounter ? ` data-goatcounter="${esc(config.analytics.goatcounter)}"` : ''}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -69,28 +70,27 @@ ${links}
 `;
 }
 
+// Shared header: the same markup on every page, including the dashboard and Policy & Capital (injected by build-site.mjs).
 export function header({ nav, file }) {
-  const items = nav
-    .map((n) => `<li><a href="${n.href}"${n.href === file ? ' aria-current="page"' : ''}>${esc(n.label)}</a></li>`)
-    .join('');
-  return `<a class="skip" href="#main">Skip to content</a>
-<header class="site-head">
-  <div class="wrap head-in">
-    <a class="home-link" href="index.html" aria-label="TechCap Intelligence, home">${logo()}</a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span><span class="sr-only">Menu</span></button>
-    <nav class="site-nav" id="site-nav" aria-label="Main">
+  const cur = (href) => (href === file ? ' aria-current="page"' : '');
+  const dash = (cls) => `<a class="sh-dash${cls}" href="dashboard.html"${cur('dashboard.html')}><span class="sh-dot" aria-hidden="true"></span><span><span class="sh-long">Live </span>dashboard</span></a>`;
+  const items = nav.map((n) => `<li><a href="${n.href}"${cur(n.href)}>${esc(n.short || n.label)}</a></li>`).join('');
+  return `<a class="sh-skip" href="#main">Skip to content</a>
+<header class="sh-head">
+  <div class="sh-in">
+    <a class="sh-home" href="index.html" aria-label="TechCap Intelligence, home"><span class="sh-logo" role="img" aria-label="TechCap Intelligence logo"><span class="w"></span><span class="m"></span></span></a>
+    <div class="sh-right">${dash('')}<button class="sh-toggle" type="button" aria-expanded="false" aria-controls="sh-nav"><span class="sh-bars" aria-hidden="true"></span><span class="sr-only">Menu</span></button></div>
+    <nav class="sh-nav" id="sh-nav" aria-label="Main">
+      ${dash('')}
       <ul>${items}</ul>
-      <a class="btn btn-solid" href="contact.html"${file === 'contact.html' ? ' aria-current="page"' : ''}>Work with us</a>
+      <a class="sh-cta" href="contact.html"${cur('contact.html')}>Work with us</a>
     </nav>
   </div>
 </header>
 `;
 }
-
 export function footer({ nav, config, data }) {
   const c = config.contact;
-  const li = (url, label) =>
-    url ? `<li><a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)}</a></li>` : `<li class="todo">${esc(label)} <span>link to be added</span></li>`;
   return `<footer class="site-foot">
   <div class="wrap foot-in">
     <div class="foot-brand">
@@ -100,8 +100,9 @@ export function footer({ nav, config, data }) {
     <nav aria-label="Footer">
       <h2>Explore</h2>
       <ul>
+        <li><a href="dashboard.html">Live funding dashboard</a></li>
+        <li><a href="policy.html">Policy &amp; Capital</a></li>
         ${nav.map((n) => `<li><a href="${n.href}">${esc(n.label)}</a></li>`).join('\n        ')}
-        <li><a href="dashboard.html">Funding dashboard</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
     </nav>
@@ -110,7 +111,7 @@ export function footer({ nav, config, data }) {
       <ul>
         <li><a href="contact.html">Contact form</a></li>
         ${c.email ? `<li><span class="email">${esc(c.email)}</span></li>` : ''}
-        ${li(c.linkedinCompany, 'LinkedIn')}
+        ${c.linkedinCompany ? `<li><a href="${esc(c.linkedinCompany)}" target="_blank" rel="noopener">LinkedIn</a></li>` : ''}
         <li><a href="${esc(config.newsletterUrl)}" target="_blank" rel="noopener">Weekly Roundup newsletter</a></li>
       </ul>
     </div>
@@ -120,7 +121,8 @@ export function footer({ nav, config, data }) {
     <p>© ${data.year} TechCap Intelligence. No cookies, no tracking.</p>
   </div>
 </footer>
-<script src="assets/site.js" defer></script>
+<script src="assets/shell.js" defer></script>
+<script src="assets/site.js?v=20261121" defer></script>
 `;
 }
 

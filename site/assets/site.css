@@ -383,3 +383,18 @@ textarea { resize: vertical; line-height: 1.5; }
 .audiences li { gap: 6px; }
 .audiences h3 { font-size: 17px; }
 .panel.sample dd a { font-weight: 700; }
+
+/* ---------- home: search in the hero, audience shortcuts ---------- */
+.hero-search { position: relative; width: min(100%, 460px); margin-top: 2px; }
+.hero-search input { width: 100%; font: inherit; font-size: 16px; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 999px; min-height: 48px; padding: 0 18px 0 44px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%235B6577' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: 16px 50%; }
+.hero-search input:focus { outline: 2px solid var(--focus); outline-offset: 1px; }
+.hero-search-note { margin: 8px 0 0 18px; font-size: 13px; color: var(--muted); }
+#heroHits { position: absolute; z-index: 20; left: 0; right: 0; top: 54px; margin: 0; padding: 6px; list-style: none; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 32px rgba(16, 24, 39, .12); }
+#heroHits li { padding: 9px 12px; border-radius: 8px; cursor: pointer; font-size: 15px; }
+#heroHits li span { color: var(--muted); font-size: 13px; }
+#heroHits li:hover, #heroHits li.on { background: var(--soft); }
+#heroHits li.none { cursor: default; color: var(--muted); }
+.audiences .aud-link { margin-top: 2px; }
+.audiences .aud-link .btn-text { font-size: 14.5px; min-height: 36px; text-align: left; }
+.audiences .aud-link .btn-text { justify-content: flex-start; gap: 6px; }

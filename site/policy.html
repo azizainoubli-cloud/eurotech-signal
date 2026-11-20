@@ -11,22 +11,32 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=1794046128">
+<link rel="stylesheet" href="assets/shell.css?v=1">
+<link rel="stylesheet" href="assets/style.css?v=20261121">
 <link rel="stylesheet" href="assets/policy.css?v=2">
 </head>
 <body class="policy">
-<div class="wrap">
-  <header class="top">
-    <h1 class="sr-only">TechCap Intelligence: Policy & Capital Intelligence</h1>
-    <a class="lockup" href="index.html" aria-label="TechCap Intelligence home">
-      <div class="logo" role="img" aria-label="TechCap Intelligence logo"><span class="w"></span><span class="m"></span></div>
-      <p class="slogan">Turning market signals into strategic intelligence</p>
-    </a>
-    <div class="top-links">
-      <a class="btn" href="dashboard.html">Funding dashboard</a>
-      <span class="btn btn-accent is-here" aria-current="page">Policy &amp; Capital</span>
+<!-- shared-header -->
+<a class="sh-skip" href="#main">Skip to content</a>
+<header class="sh-head">
+  <div class="sh-in">
+    <a class="sh-home" href="index.html" aria-label="TechCap Intelligence, home"><span class="sh-logo" role="img" aria-label="TechCap Intelligence logo"><span class="w"></span><span class="m"></span></span></a>
+    <div class="sh-right"><a class="sh-dash" href="dashboard.html"><span class="sh-dot" aria-hidden="true"></span><span><span class="sh-long">Live </span>dashboard</span></a><button class="sh-toggle" type="button" aria-expanded="false" aria-controls="sh-nav"><span class="sh-bars" aria-hidden="true"></span><span class="sr-only">Menu</span></button></div>
+    <nav class="sh-nav" id="sh-nav" aria-label="Main">
+      <a class="sh-dash" href="dashboard.html"><span class="sh-dot" aria-hidden="true"></span><span><span class="sh-long">Live </span>dashboard</span></a>
+      <ul><li><a href="platform.html">Platform</a></li><li><a href="research.html">Research</a></li><li><a href="engagement.html">Engagement</a></li><li><a href="about.html">About</a></li></ul>
+      <a class="sh-cta" href="contact.html">Work with us</a>
+    </nav>
+  </div>
+</header>
+<!-- /shared-header -->
+<div class="wrap" id="main">
+  <div class="page-title">
+    <div class="pt-text">
+      <p class="crumbs"><a href="dashboard.html">Funding dashboard</a> <span aria-hidden="true">/</span> Policy &amp; Capital</p>
+      <h1>Policy &amp; Capital Intelligence</h1>
     </div>
-  </header>
+  </div>
 
   <div class="intro">
     <p id="lead">Are EU policies moving startup investment? We match each policy’s goal with what investors actually do, and compare the EU with countries outside EU rules.</p>
@@ -56,7 +66,7 @@
     <p class="fnote" id="pFilterNote" hidden></p>
   </div>
 
-  <main id="view" aria-live="polite"><p class="empty">Loading…</p></main>
+  <div id="view" aria-live="polite"><p class="empty">Loading…</p></div>
 
   <footer class="foot">
     <p><b>Sources:</b> official EU legislation and institutional documents (EUR-Lex, European Commission, Council, Parliament), official EU funding databases (EU Funding &amp; Tenders Portal, EIC), public financial institutions (EIF, EIB, national agencies), then industry research and news, in that order of precedence. Every record shows its source, publication date, retrieval date and last verification. Startup funding rounds come from the TechCap Intelligence funding dataset (<a href="https://funding.tech.eu" target="_blank" rel="noopener">Tech.eu Funding Explorer</a>, CC BY 4.0, plus confirmed multi-source rounds).</p>
@@ -65,6 +75,7 @@
   </footer>
 </div>
 <div class="tip" id="tip" hidden></div>
+<script src="assets/shell.js?v=1" defer></script>
 <script type="module" src="assets/policy.js?v=2"></script>
 </body>
 </html>

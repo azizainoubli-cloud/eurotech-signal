@@ -1,5 +1,6 @@
 /* TechCap Intelligence — public site logic. Reads the daily snapshot in /data and draws everything client-side. */
 (() => {
+  if (!window.d3) { const e = document.getElementById('loadError'); if (e) e.hidden = false; return; }
   const SCOPE = ['Austria','Belgium','Bulgaria','Croatia','Cyprus','Czech Republic','Denmark','Estonia','Finland','France','Germany','Greece','Hungary','Iceland','Ireland','Italy','Latvia','Lithuania','Luxembourg','Malta','Netherlands','Norway','Poland','Portugal','Romania','Slovakia','Slovenia','Spain','Sweden','Switzerland','UK'];
   const STAGES = ['Pre-Seed','Seed','Early VC','Series A','Series B','Series C','Series D+','Growth/Late','Debt','Grant','Crowdfunding','ICO','Other'];
   const $ = (id) => document.getElementById(id);
@@ -17,9 +18,10 @@
   // ---------- state ----------
   const yearCache = new Map();
   let meta = null, cube = null, ann = [];
-  const state = { cmp: [], cmpMetric: 'amount', from: '', to: '', evo: 'amount', year: null, country: '', sector: '', min: 0, stage: '', q: '', sort: 'date', dir: -1, shown: 150 };
-  const readHash = () => { const h = new URLSearchParams(location.hash.slice(1)); return { cmp: (h.get('cmp') || '').split(',').filter(Boolean), year: h.get('year'), from: h.get('from') || '', to: h.get('to') || '', country: h.get('country') || '', sector: h.get('sector') || '' }; };
-  const writeHash = () => { const p = new URLSearchParams(); p.set('year', state.year); if (state.year === 'custom') { p.set('from', state.from); p.set('to', state.to); } if (state.cmp.length) p.set('cmp', state.cmp.join(',')); if (state.country) p.set('country', state.country); if (state.sector) p.set('sector', state.sector); history.replaceState(null, '', '#' + p.toString()); };
+  const state = { cmp: [], cmpMetric: 'amount', from: '', to: '', evo: 'amount', year: null, country: '', sector: '', min: 0, stage: '', q: '', sort: 'date', dir: -1, shown: 10, tab: 'overview', prof: '', annShown: 10 };
+  const TABS = ['overview', 'markets', 'investors', 'deals'];
+  const readHash = () => { const h = new URLSearchParams(location.hash.slice(1)); return { tab: TABS.includes(h.get('tab')) ? h.get('tab') : '', prof: h.get('company') ? 'c:' + h.get('company') : h.get('investor') ? 'i:' + h.get('investor') : '', cmp: (h.get('cmp') || '').split(',').filter(Boolean), year: h.get('year'), from: h.get('from') || '', to: h.get('to') || '', country: h.get('country') || '', sector: h.get('sector') || '' }; };
+  const writeHash = () => { const p = new URLSearchParams(); p.set('year', state.year); if (state.year === 'custom') { p.set('from', state.from); p.set('to', state.to); } if (state.cmp.length) p.set('cmp', state.cmp.join(',')); if (state.country) p.set('country', state.country); if (state.sector) p.set('sector', state.sector); if (state.tab && state.tab !== 'overview') p.set('tab', state.tab); if (state.prof) p.set(state.prof[0] === 'c' ? 'company' : 'investor', state.prof.slice(2)); history.replaceState(null, '', '#' + p.toString()); };
 
   const loadJSON = (f) => fetch(`data/${f}`, { cache: 'no-cache' }).then((r) => { if (!r.ok) throw new Error(f); return r.json(); });
   async function loadYear(y) {
@@ -453,7 +455,7 @@
     // investors
     const inv = d3.rollups(rows.flatMap((r) => r.investors.filter((x) => x && !/^(undisclosed|existing (investors|shareholders)|angels?|new investors|business angels)$/i.test(x.trim())).map((x) => [x.trim(), r.amount || 0])),
       (v) => ({ n: v.length, e: d3.sum(v, (z) => z[1]) }), (z) => z[0]).sort((a, b) => b[1].n - a[1].n || b[1].e - a[1].e).slice(0, 12);
-    rank($('investors'), inv.map(([i, o]) => ({ label: i, value: o.n, valueText: `${int(o.n)} deals`, sub: eur(o.e), tip: [i, `Rounds: ${int(o.n)}`, `Combined round size: ${eur(o.e)}`, 'Click to see their deals'], onClick: () => { state.q = i; $('fQ').value = i; renderRounds(); $('roundsTable').scrollIntoView({ behavior: 'smooth', block: 'start' }); } })), css('--c3'));
+    rank($('investors'), inv.map(([i, o]) => ({ label: i, value: o.n, valueText: `${int(o.n)} deals`, sub: eur(o.e), tip: [i, `Rounds: ${int(o.n)}`, `Combined round size: ${eur(o.e)}`, 'Click for their profile'], onClick: () => openInvestor(i) })), css('--c3'));
   }
 
   function renderEvolution(rows) {
@@ -505,6 +507,7 @@
       const sc = td('', 'hide-sm'); if (r.origin === 'scan') { sc.append(el('span', 'pill hot', 'Other sources'), document.createTextNode(' ' + (r.source || ''))); } else sc.textContent = r.source || '—';
     });
     $('more').hidden = rows.length <= state.shown;
+    $('more').textContent = `Show more rounds (${int(Math.max(0, rows.length - state.shown))} more)`;
   }
 
   function renderAnnouncements() {
@@ -515,18 +518,21 @@
     [['Announced'], ['Company'], ['Country'], ['Sector', 'hide-sm'], ['Stage'], ['Amount', 'num'], ['Sources', 'num'], ['Main source']].forEach(([l, c]) => { const th = document.createElement('th'); if (c) th.className = c; th.append(el('button', null, l)); hr.append(th); });
     const tb = t.createTBody(); const fmtD = d3.utcFormat('%-d %b %Y');
     if (!rows.length) { const tr = tb.insertRow(); const c = tr.insertCell(); c.colSpan = 8; c.className = 'dim'; c.textContent = 'No announcements for this selection in the last 60 days.'; }
-    rows.slice(0, 60).forEach((r) => {
+    rows.slice(0, state.annShown).forEach((r) => {
       const tr = tb.insertRow(); const td = (text, cls) => { const c = tr.insertCell(); if (cls) c.className = cls; c.textContent = text; return c; };
       td(r.date ? fmtD(new Date(r.date + 'T00:00:00Z')) : ''); td(r.company || ''); td(r.country || ''); td(r.sector || '', 'hide-sm'); td(r.stage || 'Not specified');
       td(Number(r.amount_eur) > 0 ? eur(Number(r.amount_eur)) : (r.currency_amount || 'Undisclosed'), 'num'); td(String(Number(r.n_sources) || 1), 'num');
       const c = tr.insertCell(); if (r.source_url && /^https:\/\//.test(r.source_url)) { const a = el('a', null, r.source || 'Source'); a.href = r.source_url; a.target = '_blank'; a.rel = 'noopener'; c.append(a); } else c.textContent = r.source || '';
     });
+    let mb = $('annMore');
+    if (!mb) { mb = el('button', 'btn more'); mb.id = 'annMore'; mb.type = 'button'; mb.addEventListener('click', () => { state.annShown += 20; renderAnnouncements(); }); $('annTable').closest('.tbox').after(mb); }
+    mb.hidden = rows.length <= state.annShown; mb.textContent = `Show more announcements (${int(Math.max(0, rows.length - state.annShown))} more)`;
   }
 
   // ---------- funds currently investing ----------
   let invTypes = null; // { name -> type } from Tech.eu's investor directory
   const GENERIC = /^(undisclosed|existing (investors|shareholders)|angels?|business angels|new investors|private investors|family offices?|others?|various)$/i;
-  const astate = { type: '', stage: '', win: 365, q: '', sort: 'deals', dir: -1, shown: 100 };
+  const astate = { type: '', stage: '', win: 365, q: '', sort: 'deals', dir: -1, shown: 10 };
   let activeAll = [];
   async function buildActive() {
     const thisY = new Date().getUTCFullYear();
@@ -584,7 +590,7 @@
     if (!rows.length) { const tr = tb.insertRow(); const c = tr.insertCell(); c.colSpan = cols.length; c.className = 'dim'; c.textContent = 'No investors match these filters.'; }
     rows.slice(0, astate.shown).forEach((o) => {
       const tr = tb.insertRow(); const td = (text, cls) => { const c = tr.insertCell(); if (cls) c.className = cls; c.textContent = text; return c; };
-      const n = tr.insertCell(); n.append(o.name); if (o.recent >= 2) { n.append(' '); n.append(el('span', 'pill hot', 'Hot')); }
+      const n = tr.insertCell(); { const b = el('button', 'linkish', o.name); b.type = 'button'; b.onclick = () => openInvestor(o.name); n.append(b); } if (o.recent >= 2) { n.append(' '); n.append(el('span', 'pill hot', 'Hot')); }
       td(o.type, 'hide-sm'); td(int(o.deals), 'num'); td(int(o.companies), 'num hide-sm'); td(eur(o.median), 'num');
       td(o.stages.join(', ') || '—', 'focus hide-sm'); td(o.sectors.join(', ') || '—', 'focus hide-sm'); td(o.countries.join(', '), 'focus hide-sm');
       const l = tr.insertCell(); const r = o.last;
@@ -593,11 +599,11 @@
     });
     $('aMore').hidden = rows.length <= astate.shown;
   }
-  $('aType').addEventListener('change', (e) => { astate.type = e.target.value; astate.shown = 100; renderActive(); });
-  $('aStage').addEventListener('change', (e) => { astate.stage = e.target.value; astate.shown = 100; renderActive(); });
-  $('aWin').addEventListener('change', async (e) => { astate.win = Number(e.target.value); astate.shown = 100; await buildActive(); renderActive(); });
-  $('aQ').addEventListener('input', (e) => { astate.q = e.target.value; astate.shown = 100; renderActive(); });
-  $('aMore').addEventListener('click', () => { astate.shown += 200; renderActive(); });
+  $('aType').addEventListener('change', (e) => { astate.type = e.target.value; astate.shown = 10; renderActive(); });
+  $('aStage').addEventListener('change', (e) => { astate.stage = e.target.value; astate.shown = 10; renderActive(); });
+  $('aWin').addEventListener('change', async (e) => { astate.win = Number(e.target.value); astate.shown = 10; await buildActive(); renderActive(); });
+  $('aQ').addEventListener('input', (e) => { astate.q = e.target.value; astate.shown = 10; renderActive(); });
+  $('aMore').addEventListener('click', () => { astate.shown += 25; renderActive(); });
 
   // ---------- market outlook: an investor-grade reading of the selection ----------
   const SIZE_BANDS = [[0, 1e6, '< €1M'], [1e6, 5e6, '€1–5M'], [5e6, 20e6, '€5–20M'], [20e6, 50e6, '€20–50M'], [50e6, 100e6, '€50–100M'], [100e6, Infinity, '€100M+']];
@@ -1006,7 +1012,7 @@
     sel.value = cur || '';
   }
   async function render() {
-    writeHash();
+    writeHash(); filterSummary();
     $('fYear').value = state.year;
     $('rangeBox').hidden = state.year !== 'custom';
     if (state.year === 'custom') { $('fFrom').value = state.from; $('fTo').value = state.to; }
@@ -1029,8 +1035,9 @@
     drawMap(yearRows);
     renderTrend();
     renderBreakdowns(rows, yearRows);
-    state.shown = 150; renderRounds();
+    state.shown = 10; state.annShown = 10; renderRounds();
     renderAnnouncements();
+    renderWeek().catch((e) => console.error('week', e));
     await buildActive(); renderActive();
     await Promise.all([loadExits(), loadCompanies()]); renderAnalysis(rows, prevSel, yearRows, prevRows); renderExits(); renderCompare();
     try { await renderOutlook(rows, prevSel, yearRows, prevRows); } catch (e) { console.error('outlook', e); }
@@ -1038,7 +1045,7 @@
   // ---------- companies, unicorns, exits ----------
   const API = 'https://funding.tech.eu/api/v1';
   const normName = (s) => String(s || '').toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/\b(gmbh|ltd|limited|sas|sa|ag|ab|bv|nv|srl|spa|inc|oy|as|aps|sl)\b/g, '').replace(/[^a-z0-9]/g, '');
-  let companies = null, unicorns = null, exits = null, compById = null;
+  let companies = null, unicorns = null, exits = null, compById = null, invNames = [];
   let compLoad = null;
   function loadCompanies() {
     if (!compLoad) compLoad = Promise.all([
@@ -1064,18 +1071,21 @@
     const q = normName(sIn.value);
     if (!q || q.length < 2 || !companies) { sList.hidden = true; return; }
     const starts = [], has = [];
-    for (const c of companies) { if (c.key.startsWith(q)) starts.push(c); else if (c.key.includes(q)) has.push(c); if (starts.length >= 8) break; }
-    sHits = [...starts, ...has].slice(0, 8);
-    if (!sHits.length) { sList.append(el('li', 'none', 'No startup by that name in the data.')); sList.hidden = false; return; }
-    sHits.forEach((c, i) => {
+    for (const c of companies) { if (c.key.startsWith(q)) starts.push(c); else if (c.key.includes(q)) has.push(c); if (starts.length >= 6) break; }
+    const inv = [];
+    for (const n of invNames) { const k = normName(n); if (k.startsWith(q) || (q.length >= 4 && k.includes(q))) inv.push(n); if (inv.length >= 3) break; }
+    sHits = [...[...starts, ...has].slice(0, inv.length ? 6 : 8).map((c) => ({ kind: 'c', c })), ...inv.map((n) => ({ kind: 'i', n }))];
+    if (!sHits.length) { sList.append(el('li', 'none', 'No startup or investor by that name in the data.')); sList.hidden = false; return; }
+    sHits.forEach((h, i) => {
       const li = el('li'); li.setAttribute('role', 'option'); li.id = 'co-opt-' + i;
-      li.append(el('b', null, c.name), el('span', null, ` ${c.country}${c.total ? ' · ' + eur(c.total) + ' raised' : ''}${unicornOf(c.name) ? ' · Unicorn' : ''}`));
-      li.addEventListener('mousedown', (e) => { e.preventDefault(); pick(c); });
+      if (h.kind === 'c') { const c = h.c; li.append(el('b', null, c.name), el('span', null, ` ${c.country}${c.total ? ' · ' + eur(c.total) + ' raised' : ''}${unicornOf(c.name) ? ' · Unicorn' : ''}`)); }
+      else li.append(el('b', null, h.n), el('span', null, ` Investor${invTypes && invTypes[h.n.toLowerCase()] ? ' · ' + invTypes[h.n.toLowerCase()] : ''}`));
+      li.addEventListener('mousedown', (e) => { e.preventDefault(); pick(h); });
       sList.append(li);
     });
     sList.hidden = false;
   }
-  function pick(c) { sList.hidden = true; sIn.value = c.name; openProfile(c.id); }
+  function pick(h) { sList.hidden = true; if (h.kind === 'i') { sIn.value = h.n; openInvestor(h.n); } else { sIn.value = h.c.name; openProfile(h.c.id); } }
   sIn.addEventListener('focus', () => { loadCompanies().then(showHits); });
   sIn.addEventListener('input', () => { loadCompanies().then(showHits); });
   sIn.addEventListener('blur', () => setTimeout(() => { sList.hidden = true; }, 120));
@@ -1089,6 +1099,12 @@
   // profile dialog
   const pDlg = $('profile');
   $('profileClose').addEventListener('click', () => pDlg.close());
+  pDlg.addEventListener('close', () => { state.prof = ''; writeHash(); });
+  function copyLinkBtn() {
+    const b = el('button', 'linkish', 'Copy link'); b.type = 'button';
+    b.onclick = async () => { try { await navigator.clipboard.writeText(location.href); b.textContent = 'Link copied'; } catch { b.textContent = location.href; } setTimeout(() => { b.textContent = 'Copy link'; }, 1800); };
+    return b;
+  }
   pDlg.addEventListener('click', (e) => { if (e.target === pDlg) pDlg.close(); });
   async function allRoundsOf(id) {
     const ys = meta && meta.years ? Object.keys(meta.years) : [];
@@ -1096,6 +1112,7 @@
     return sets.flat().filter((r) => r.company_id === id);
   }
   async function openProfile(id) {
+    state.prof = 'c:' + id; writeHash();
     await loadCompanies();
     const c = compById.get(id) || { id, name: '', country: '', sectors: [], total: 0, n: 0, origin: 'techeu' };
     const box = $('profileBody'); box.replaceChildren(el('p', 'note', 'Loading…'));
@@ -1134,7 +1151,8 @@
     if (api && /^https?:\/\//.test(api.website || '')) { const a = el('a', null, 'Website'); a.href = api.website; a.target = '_blank'; a.rel = 'noopener'; links.append(a); }
     const tUrl = (api && (api.canonicalUrl || api.url)) || (c.origin !== 'scan' ? `https://funding.tech.eu/companies/${id}` : '');
     if (tUrl) { const a = el('a', null, 'Tech.eu profile'); a.href = tUrl.startsWith('http') ? tUrl : 'https://funding.tech.eu' + tUrl; a.target = '_blank'; a.rel = 'noopener'; links.append(a); }
-    if (links.childNodes.length) box.append(links);
+    links.append(copyLinkBtn());
+    box.append(links);
     // key figures
     const kf = el('div', 'tiles mini');
     const t = (h3, big, s) => { const d = el('div', 'tile'); d.append(el('h3', null, h3), el('div', 'big', big)); if (s) d.append(el('div', 'chg', s)); kf.append(d); };
@@ -1165,7 +1183,7 @@
     box.append(el('h3', 'p-sec', 'Investors on record'));
     box.append(el('p', 'note', 'Shareholdings (who owns what percentage) are not public for private companies, so a full cap table isn’t available. These are the investors named in its disclosed rounds, most frequent first.'));
     if (!invCount.size) box.append(el('p', 'note', 'No investors named.'));
-    else { const ul = el('ul', 'inv-list'); [...invCount.values()].sort((a, b) => b.n - a.n || String(a.first).localeCompare(String(b.first))).forEach((o) => { const li = el('li'); li.append(el('b', null, o.name), el('span', null, ` ${o.n > 1 ? o.n + ' rounds' : '1 round'}${o.first ? ' · since ' + o.first.slice(0, 4) : ''}`)); ul.append(li); }); box.append(ul); }
+    else { const ul = el('ul', 'inv-list'); [...invCount.values()].sort((a, b) => b.n - a.n || String(a.first).localeCompare(String(b.first))).forEach((o) => { const li = el('li'); const b = el('button', 'linkish', o.name); b.type = 'button'; b.onclick = () => openInvestor(o.name); li.append(b, el('span', null, ` ${o.n > 1 ? o.n + ' rounds' : '1 round'}${o.first ? ' · since ' + o.first.slice(0, 4) : ''}`)); ul.append(li); }); box.append(ul); }
     if (api && Array.isArray(api.founders) && api.founders.length) { box.append(el('h3', 'p-sec', 'Founders')); box.append(el('p', null, api.founders.map((f) => (typeof f === 'string' ? f : f.name)).filter(Boolean).join(', '))); }
     const src = el('p', 'note p-src');
     src.append(`Sources: ${api ? 'Tech.eu Funding Explorer (CC BY 4.0)' : 'TechCap Intelligence data'}${rounds.some((r) => r.origin === 'scan') ? ', daily multi-source scan' : ''}${uni ? ', valuation from Wikipedia’s list of unicorn companies' : ''}.${!api && c.origin !== 'scan' ? ' The live company profile could not be loaded just now, so this shows rounds from 2021 onwards only.' : ''}`);
@@ -1211,15 +1229,15 @@
     const t = $('exitTable'); t.replaceChildren();
     const hr = t.createTHead().insertRow(); [['Date'], ['Company'], ['Country'], ['Type'], ['Acquirer'], ['Acquirer HQ', 'hide-sm'], ['Value', 'num']].forEach(([l, cl]) => { const th = document.createElement('th'); if (cl) th.className = cl; th.append(el('span', 'thl', l)); hr.append(th); });
     const tb = t.createTBody();
-    rows.slice().sort((a, b) => b.date.localeCompare(a.date)).slice(0, state.exShown || 100).forEach((e) => {
+    rows.slice().sort((a, b) => b.date.localeCompare(a.date)).slice(0, state.exShown || 10).forEach((e) => {
       const tr = tb.insertRow(); const td = (x, cl) => { const q = tr.insertCell(); if (cl) q.className = cl; q.textContent = x; return q; };
       td(d3.utcFormat('%-d %b %Y')(new Date(e.date + 'T00:00:00Z')));
       const c = tr.insertCell(); const b = el('button', 'linkish', e.company); b.type = 'button'; b.onclick = () => openProfile(e.company_id); c.append(b);
       td(e.country); td(typeLabel(e.type)); td(e.acquirers || (/ipo/i.test(e.type) ? 'Public listing' : 'Not disclosed'), 'dim'); td(e.acq_country || '—', 'hide-sm'); td(e.value ? eur(e.value) : 'Undisclosed', 'num');
     });
-    $('exMore').hidden = rows.length <= (state.exShown || 100);
+    $('exMore').hidden = rows.length <= (state.exShown || 10);
   }
-  $('exMore').addEventListener('click', () => { state.exShown = (state.exShown || 100) + 200; renderExits(); });
+  $('exMore').addEventListener('click', () => { state.exShown = (state.exShown || 10) + 25; renderExits(); });
 
   // ---------- compare countries ----------
   const CMP_MAX = 6;
@@ -1372,7 +1390,8 @@
   }
   $('goCmp').addEventListener('click', () => {
     if (!state.cmp.length && state.country) { state.cmp = [state.country]; writeHash(); renderCompare(); }
-    const top = $('cmpCard').getBoundingClientRect().top + scrollY - ($('cmpCard').closest('.wrap') ? document.querySelector('.bar').offsetHeight + 12 : 0);
+    closeFilters(); showTab('markets', { scroll: false });
+    const top = $('cmpCard').getBoundingClientRect().top + scrollY - stickyH() - 12;
     scrollTo({ top, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     setTimeout(() => $('cmpAdd').focus({ preventScroll: true }), 400);
   });
@@ -1406,12 +1425,146 @@
   $('fCountry').addEventListener('change', (e) => setState({ country: e.target.value }));
   $('fSector').addEventListener('change', (e) => setState({ sector: e.target.value }));
   $('reset').addEventListener('click', () => { state.q = ''; $('fQ').value = ''; state.min = 0; $('fMin').value = '0'; state.from = ''; state.to = ''; setState({ country: '', sector: '', year: String(new Date().getUTCFullYear() - (new Date().getUTCMonth() < 2 ? 1 : 0)) }); });
-  $('fMin').addEventListener('change', (e) => { state.min = Number(e.target.value); state.shown = 150; renderRounds(); });
-  $('fStage').addEventListener('change', (e) => { state.stage = e.target.value; state.shown = 150; renderRounds(); });
-  $('fQ').addEventListener('input', (e) => { state.q = e.target.value; state.shown = 150; renderRounds(); });
-  $('more').addEventListener('click', () => { state.shown += 300; renderRounds(); });
+  $('fMin').addEventListener('change', (e) => { state.min = Number(e.target.value); state.shown = 10; renderRounds(); });
+  $('fStage').addEventListener('change', (e) => { state.stage = e.target.value; state.shown = 10; renderRounds(); });
+  $('fQ').addEventListener('input', (e) => { state.q = e.target.value; state.shown = 10; renderRounds(); });
+  $('more').addEventListener('click', () => { state.shown += 25; renderRounds(); });
   let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { mapPaths = null; $('map').replaceChildren(); render(); }, 250); });
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => render());
+
+
+  // ---------- tabs ----------
+  const tabBtns = [...document.querySelectorAll('.dtabs [role="tab"]')];
+  const stickyH = () => { const h = document.querySelector('.sh-head'); const sh = h && getComputedStyle(h).position === 'sticky' ? h.offsetHeight : 0; return sh + $('dashSticky').offsetHeight; };
+  // Inactive panels stay laid out off-screen (class "off"), so their charts keep the right width and switching is instant.
+  function showTab(name, { focus = false, scroll = true } = {}) {
+    if (!TABS.includes(name)) name = 'overview';
+    state.tab = name;
+    tabBtns.forEach((b) => { const on = b.dataset.tab === name; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; if (on && focus) b.focus(); });
+    document.querySelectorAll('.panel').forEach((p) => { const on = p.dataset.panel === name; p.classList.toggle('off', !on); p.inert = !on; p.setAttribute('aria-hidden', String(!on)); });
+    writeHash();
+    if (scroll) { const top = $('dashSticky').offsetTop - (stickyH() - $('dashSticky').offsetHeight); if (scrollY > top) scrollTo({ top, behavior: 'auto' }); }
+  }
+  tabBtns.forEach((b, i) => {
+    b.addEventListener('click', () => showTab(b.dataset.tab));
+    b.addEventListener('keydown', (e) => {
+      const k = { ArrowRight: 1, ArrowLeft: -1, Home: -99, End: 99 }[e.key]; if (!k) return; e.preventDefault();
+      const n = k === -99 ? 0 : k === 99 ? tabBtns.length - 1 : (i + k + tabBtns.length) % tabBtns.length; showTab(tabBtns[n].dataset.tab, { focus: true });
+    });
+  });
+  document.addEventListener('click', (e) => { const g = e.target.closest('[data-goto]'); if (g) showTab(g.dataset.goto); });
+
+  // ---------- "What the data says": three points, then the rest on demand ----------
+  $('anMore').addEventListener('click', () => {
+    const c = $('signalsCard'), open = c.classList.toggle('collapsed') === false;
+    $('anMore').setAttribute('aria-expanded', String(open)); $('anMore').textContent = open ? 'Show less' : 'Read the full analysis';
+  });
+
+  // ---------- filters on phones: one button with a summary, the fields in a panel ----------
+  const bar = document.querySelector('.bar');
+  function filterSummary() {
+    const y = state.year === 'custom' ? period().label : (state.year === String(new Date().getUTCFullYear()) ? `${state.year} so far` : state.year);
+    const parts = [y, state.country || 'Europe', state.sector].filter(Boolean);
+    $('fSum').textContent = parts.join(' · ');
+  }
+  function closeFilters() { bar.classList.remove('open'); $('fToggle').setAttribute('aria-expanded', 'false'); }
+  $('fToggle').addEventListener('click', () => { const o = bar.classList.toggle('open'); $('fToggle').setAttribute('aria-expanded', String(o)); });
+  $('fDone').addEventListener('click', closeFilters);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && bar.classList.contains('open')) { closeFilters(); $('fToggle').focus(); } });
+
+  // ---------- share this view ----------
+  $('shareView').addEventListener('click', async () => {
+    const b = $('shareView'); const html = b.dataset.html || (b.dataset.html = b.innerHTML);
+    try { await navigator.clipboard.writeText(location.href); b.textContent = 'Link copied'; } catch { prompt('Copy this link', location.href); }
+    setTimeout(() => { b.innerHTML = html; }, 1800);
+  });
+
+  // ---------- what changed this week ----------
+  const dayShift = (iso, k) => { const t = new Date(iso + 'T00:00:00Z'); t.setUTCDate(t.getUTCDate() + k); return t.toISOString().slice(0, 10); };
+  async function renderWeek() {
+    const card = $('weekCard');
+    if (!meta || !meta.updated) { card.hidden = true; return; }
+    const end = new Date(meta.updated).toISOString().slice(0, 10), a0 = dayShift(end, -6), b0 = dayShift(end, -13);
+    const rows = filt(await loadPeriod(b0, end));
+    const cur = rows.filter((r) => r.date >= a0), prev = rows.filter((r) => r.date < a0);
+    const sc = sum(cur), sp = sum(prev);
+    const ch = (a, b) => (b ? a / b - 1 : null);
+    const fmt = d3.utcFormat('%-d %b');
+    const where = [state.country || 'Europe', state.sector].filter(Boolean).join(' · ');
+    $('weekNote').textContent = `${where} · ${fmt(new Date(a0 + 'T00:00:00Z'))} – ${fmt(new Date(end + 'T00:00:00Z'))}, compared with the 7 days before. Follows the country and sector filters, not the period.`;
+    const fresh = ann.filter((r) => r.date && r.date >= a0 && r.country !== 'Israel' && (!state.country || r.country === state.country) && (!state.sector || String(r.sector || '').split(', ').includes(state.sector)));
+    $('weekTiles').replaceChildren(
+      tile('Raised this week', eur(sc.total), ch(sc.total, sp.total), 'previous 7 days'),
+      tile('Funding rounds', int(sc.rounds), ch(sc.rounds, sp.rounds), 'previous 7 days'),
+      tile('Companies funded', int(sc.companies), ch(sc.companies, sp.companies), 'previous 7 days'),
+      tile('Spotted by our news scan', int(fresh.length), null, '')
+    );
+    if (!fresh.length) { const last = ann.map((r) => r.date).filter(Boolean).sort().pop(); const t = $('weekTiles').lastElementChild.querySelector('.chg'); if (t && last) t.textContent = `Latest: ${fmt(new Date(last + 'T00:00:00Z'))}`; }
+    const top = $('weekTop'); top.replaceChildren();
+    const big = cur.filter((r) => r.amount).sort((a, b) => b.amount - a.amount).slice(0, 5);
+    if (!big.length) top.append(el('li', 'dim', 'No disclosed rounds in this selection this week.'));
+    big.forEach((r) => {
+      const li = el('li'); const b = el('button', 'linkish', r.company); b.type = 'button'; b.onclick = () => openProfile(r.company_id);
+      li.append(b, el('span', 'amt', eur(r.amount)), el('span', 'dim', ` ${stageLabel(r.stage)} · ${r.country}${r.investors.length ? ' · ' + r.investors.slice(0, 2).join(', ') : ''}`));
+      top.append(li);
+    });
+    card.hidden = false;
+  }
+
+  // ---------- investor profile ----------
+  const GENERIC_INV = /^(undisclosed|existing (investors|shareholders)|angels?|business angels|new investors|private investors|family offices?|others?|various)$/i;
+  async function openInvestor(name) {
+    name = String(name).trim(); const key = name.toLowerCase();
+    state.prof = 'i:' + name; writeHash();
+    const box = $('profileBody'); box.replaceChildren(el('p', 'note', 'Loading…'));
+    if (!pDlg.open) pDlg.showModal();
+    const ys = meta && meta.years ? Object.keys(meta.years) : [];
+    const all = (await Promise.all(ys.map((y) => loadYear(y)))).flat();
+    const deals = all.filter((r) => r.investors.some((x) => x.trim().toLowerCase() === key)).sort((a, b) => b.date.localeCompare(a.date));
+    box.replaceChildren();
+    const head = el('div', 'p-head');
+    const h = el('h2', null, name); h.id = 'profileTitle'; head.append(h);
+    const type = invTypes && invTypes[key];
+    head.append(el('p', 'p-meta', `Investor${type ? ' · ' + type : ''} · ${int(deals.length)} disclosed deal${deals.length === 1 ? '' : 's'} since ${ys.length ? ys.slice().sort()[0] : '2021'}`));
+    box.append(head);
+    const links = el('p', 'p-links');
+    const fb = el('button', 'linkish', 'Show these deals in the rounds table'); fb.type = 'button';
+    fb.onclick = () => { pDlg.close(); state.q = name; $('fQ').value = name; state.shown = 10; showTab('deals'); renderRounds(); };
+    links.append(fb, copyLinkBtn()); box.append(links);
+    if (!deals.length) { box.append(el('p', 'note', 'No disclosed rounds name this investor.')); return; }
+    const priced = deals.filter((r) => r.amount);
+    const yearAgo = dayShift(todayISO(), -365);
+    const kf = el('div', 'tiles mini');
+    const t = (h3, big, sub) => { const d = el('div', 'tile'); d.append(el('h3', null, h3), el('div', 'big', big)); if (sub) d.append(el('div', 'chg', sub)); kf.append(d); };
+    t('Deals', int(deals.length), `${int(deals.filter((r) => r.date >= yearAgo).length)} in the last 12 months`);
+    t('Companies backed', int(new Set(deals.map((r) => r.company_id)).size), '');
+    t('Typical round', priced.length ? eur(d3.median(priced, (r) => r.amount)) : '—', 'median size of the rounds it joined');
+    t('Latest deal', d3.utcFormat('%b %Y')(new Date(deals[0].date + 'T00:00:00Z')), deals[0].company);
+    box.append(kf);
+    const grid = el('div', 'grid three p-grid');
+    const block = (title, pairs, color) => { const d = el('div'); d.append(el('h3', 'p-sec', title)); const r = el('div', 'rank'); d.append(r); rank(r, pairs.map(([k, n]) => ({ label: k, value: n, valueText: `${int(n)}`, sub: pct0(n / deals.length) })), color); grid.append(d); };
+    const count = (f) => d3.rollups(deals.flatMap(f), (v) => v.length, (x) => x).sort((a, b) => b[1] - a[1]).slice(0, 6);
+    block('Stage focus', count((r) => [stageLabel(r.stage)]), css('--c2'));
+    block('Top sectors', count((r) => (r.sectors.length ? r.sectors : [])), css('--c1'));
+    block('Top countries', count((r) => [r.country]), css('--c3'));
+    box.append(grid);
+    const co = d3.rollups(deals.flatMap((r) => r.investors.map((x) => x.trim()).filter((x) => x && x.toLowerCase() !== key && !GENERIC_INV.test(x))), (v) => v.length, (x) => x).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    if (co.length) {
+      box.append(el('h3', 'p-sec', 'Invests most often alongside'));
+      const ul = el('ul', 'inv-list'); co.forEach(([n, k]) => { const li = el('li'); const b = el('button', 'linkish', n); b.type = 'button'; b.onclick = () => openInvestor(n); li.append(b, el('span', null, ` ${k} shared deal${k > 1 ? 's' : ''}`)); ul.append(li); }); box.append(ul);
+    }
+    box.append(el('h3', 'p-sec', 'Recent deals'));
+    const tb = el('div', 'tbox'); const tbl = document.createElement('table'); tb.append(tbl);
+    const hr = tbl.createTHead().insertRow(); [['Date'], ['Company'], ['Country', 'hide-sm'], ['Stage'], ['Round size', 'num'], ['Alongside', 'hide-sm']].forEach(([l, cl]) => { const th = document.createElement('th'); if (cl) th.className = cl; th.append(el('span', 'thl', l)); hr.append(th); });
+    const body = tbl.createTBody(); const fmtD = d3.utcFormat('%-d %b %Y');
+    const draw = (n) => { body.replaceChildren(); deals.slice(0, n).forEach((r) => {
+      const tr = body.insertRow(); const td = (x, cl) => { const q = tr.insertCell(); if (cl) q.className = cl; q.textContent = x; return q; };
+      td(fmtD(new Date(r.date + 'T00:00:00Z'))); const c = tr.insertCell(); const b = el('button', 'linkish', r.company); b.type = 'button'; b.onclick = () => openProfile(r.company_id); c.append(b);
+      td(r.country, 'hide-sm'); td(stageLabel(r.stage)); td(r.amount ? eur(r.amount) : 'Undisclosed', 'num'); td(r.investors.filter((x) => x.trim().toLowerCase() !== key).slice(0, 3).join(', ') || '—', 'dim hide-sm'); }); };
+    draw(10); box.append(tb);
+    if (deals.length > 10) { const m = el('button', 'btn more', `Show all ${int(deals.length)} deals`); m.type = 'button'; m.onclick = () => { draw(deals.length); m.remove(); }; box.append(m); }
+    box.append(el('p', 'note p-src', 'Round size is the whole round, not this investor’s share: individual cheques are rarely disclosed. Source: Tech.eu Funding Explorer (CC BY 4.0) and the TechCap Intelligence multi-source scan.'));
+  }
 
   (async () => {
     try {
@@ -1422,7 +1575,11 @@
         const s = document.createElement('script'); s.async = true; s.src = 'https://subscribe-forms.beehiiv.com/v3/loader.js';
         s.setAttribute('data-beehiiv-form', 'e144240e-0ef7-48e0-849a-57f2a25f4973'); box.append(s);
       };
-      const openJoin = () => { joinDlg.showModal(); requestAnimationFrame(loadForm); };
+      const openJoin = () => {
+        const alt = $('joinAlt');
+        if (alt) { const u = new URL(alt.href); u.searchParams.set('utm_source', 'dashboard'); u.searchParams.set('utm_medium', 'roundup-button'); u.searchParams.set('utm_campaign', [state.country || 'europe', state.sector || 'all'].join('-').toLowerCase().replace(/[^a-z0-9-]+/g, '-')); alt.href = u.toString(); }
+        joinDlg.showModal(); requestAnimationFrame(loadForm);
+      };
       if (joinDlg && sub && joinDlg.showModal) {
         sub.addEventListener('click', openJoin);
         if (cls) cls.addEventListener('click', () => joinDlg.close());
@@ -1433,7 +1590,7 @@
     try { meta = await loadJSON('meta.json'); } catch { meta = null; }
     try { cube = (await loadJSON('cube.json')).rows; } catch { cube = null; }
     try { ann = (await loadJSON('announcements.json')).rows || []; } catch { ann = []; }
-    try { const it = await loadJSON('investors.json'); invTypes = Object.fromEntries((it.rows || []).map((r) => [String(r[0]).toLowerCase(), r[1]])); } catch { invTypes = null; }
+    try { const it = await loadJSON('investors.json'); invTypes = Object.fromEntries((it.rows || []).map((r) => [String(r[0]).toLowerCase(), r[1]])); invNames = (it.rows || []).map((r) => String(r[0])); } catch { invTypes = null; }
     const years = meta && meta.years ? Object.keys(meta.years).sort().reverse() : [String(new Date().getUTCFullYear())];
     const thisY = String(new Date().getUTCFullYear());
     fillSelect($('fYear'), [...years, 'custom'], null, null, (y) => y === 'custom' ? 'Custom range…' : y === thisY ? `${y} (year to date)` : y);
@@ -1447,7 +1604,10 @@
     state.sector = h.sector || '';
     state.cmp = h.cmp.filter((c) => SCOPE.includes(c)).slice(0, CMP_MAX);
     $('fYear').value = state.year;
+    showTab(h.tab || 'overview', { scroll: false });
+    if (!meta) $('loadError').hidden = false;
     if (meta && meta.updated) $('updated').textContent = `Data updated ${d3.timeFormat('%-d %B %Y, %H:%M')(new Date(meta.updated))} · ${int(d3.sum(Object.values(meta.years)))} rounds since ${years[years.length - 1]}${meta.scan_added && d3.sum(Object.values(meta.scan_added)) ? ` · ${int(d3.sum(Object.values(meta.scan_added)))} added from sources beyond Tech.eu` : ''}`;
     await render();
+    if (h.prof) { if (h.prof[0] === 'c') openProfile(h.prof.slice(2)); else openInvestor(h.prof.slice(2)); }
   })();
 })();

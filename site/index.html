@@ -19,17 +19,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/site.css?v=20261121">
+<link rel="stylesheet" href="assets/shell.css">
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-<header class="site-head">
-  <div class="wrap head-in">
-    <a class="home-link" href="index.html" aria-label="TechCap Intelligence, home"><span class="logo " role="img" aria-label="TechCap Intelligence"><span class="w"></span><span class="m"></span></span></a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span><span class="sr-only">Menu</span></button>
-    <nav class="site-nav" id="site-nav" aria-label="Main">
-      <ul><li><a href="platform.html">European Tech Intelligence Platform</a></li><li><a href="research.html">Research &amp; Insights</a></li><li><a href="engagement.html">Ecosystem Engagement</a></li><li><a href="about.html">About</a></li></ul>
-      <a class="btn btn-solid" href="contact.html">Work with us</a>
+<a class="sh-skip" href="#main">Skip to content</a>
+<header class="sh-head">
+  <div class="sh-in">
+    <a class="sh-home" href="index.html" aria-label="TechCap Intelligence, home"><span class="sh-logo" role="img" aria-label="TechCap Intelligence logo"><span class="w"></span><span class="m"></span></span></a>
+    <div class="sh-right"><a class="sh-dash" href="dashboard.html"><span class="sh-dot" aria-hidden="true"></span><span><span class="sh-long">Live </span>dashboard</span></a><button class="sh-toggle" type="button" aria-expanded="false" aria-controls="sh-nav"><span class="sh-bars" aria-hidden="true"></span><span class="sr-only">Menu</span></button></div>
+    <nav class="sh-nav" id="sh-nav" aria-label="Main">
+      <a class="sh-dash" href="dashboard.html"><span class="sh-dot" aria-hidden="true"></span><span><span class="sh-long">Live </span>dashboard</span></a>
+      <ul><li><a href="platform.html">Platform</a></li><li><a href="research.html">Research</a></li><li><a href="engagement.html">Engagement</a></li><li><a href="about.html">About</a></li></ul>
+      <a class="sh-cta" href="contact.html">Work with us</a>
     </nav>
   </div>
 </header>
@@ -42,7 +44,13 @@
       <p class="eyebrow">TechCap Intelligence</p>
       <h1>Turning market signals into strategic intelligence.</h1>
       <p class="lead">We track European startup funding and EU policy, research what it means, and bring the right people together.</p>
-      <div class="cta-row"><a class="btn btn-solid" href="platform.html">Explore the platform</a><a class="btn btn-outline" href="contact.html">Work With Us</a></div>
+      <div class="cta-row"><a class="btn btn-solid" href="dashboard.html">Open the live dashboard</a><a class="btn btn-outline" href="contact.html">Work with us</a></div>
+      <div class="hero-search" role="search">
+        <label class="sr-only" for="heroSearch">Search a startup or investor</label>
+        <input id="heroSearch" type="search" placeholder="Search a startup or investor" autocomplete="off" aria-controls="heroHits" aria-autocomplete="list">
+        <ul id="heroHits" role="listbox" hidden></ul>
+        <p class="hero-search-note">24,901 rounds since 2021 · updated 20 Nov 2026</p>
+      </div>
     </div>
     <figure class="hero-map">
   <svg viewBox="130 60 560 640" role="img" aria-label="Map of Europe. Circles show disclosed startup funding by country in 2026 to date. Largest: UK €39.6B, Germany €12.6B, France €11.5B, Sweden €5B, Netherlands €4.8B.">
@@ -98,7 +106,7 @@
 <section class="section" id="audiences">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">Who we work with</p><h2>Built for the people who allocate capital, build companies and shape policy.</h2><p class="lead">Investors, founders, corporates, institutions and ecosystem builders.</p></div>
-    <ul class="audiences"><li><h3>Investors</h3><p>See where capital is moving, which sectors are emerging and who else is investing.</p></li><li><h3>Founders</h3><p>Read fundraising trends, find relevant investors and navigate European funding instruments.</p></li><li><h3>Corporates</h3><p>Track emerging technologies and startups, and meet the right innovation stakeholders.</p></li><li><h3>Institutions</h3><p>Ground programmes and policy in market evidence, ecosystem maps and investment research.</p></li><li><h3>Ecosystem builders</h3><p>Understand their ecosystem, position it and bring its stakeholders together.</p></li></ul>
+    <ul class="audiences"><li><h3>Investors</h3><p>See where capital is moving, which sectors are emerging and who else is investing.</p><p class="aud-link"><a class="btn btn-text" href="dashboard.html#tab=markets">See where capital is moving<svg class="arr" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.500 3.500" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></li><li><h3>Founders</h3><p>Read fundraising trends, find relevant investors and navigate European funding instruments.</p><p class="aud-link"><a class="btn btn-text" href="dashboard.html#tab=investors">Find who is investing now<svg class="arr" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.500 3.500" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></li><li><h3>Corporates</h3><p>Track emerging technologies and startups, and meet the right innovation stakeholders.</p><p class="aud-link"><a class="btn btn-text" href="dashboard.html#tab=deals">Track the latest deals<svg class="arr" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.500 3.500" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></li><li><h3>Institutions</h3><p>Ground programmes and policy in market evidence, ecosystem maps and investment research.</p><p class="aud-link"><a class="btn btn-text" href="policy.html">See the EU policy scorecard<svg class="arr" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.500 3.500" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></li><li><h3>Ecosystem builders</h3><p>Understand their ecosystem, position it and bring its stakeholders together.</p><p class="aud-link"><a class="btn btn-text" href="dashboard.html#tab=markets&amp;cmp=France,Germany,UK">Compare ecosystems<svg class="arr" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.500 3.500" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></li></ul>
   </div>
 </section>
 <section class="closing">
@@ -117,11 +125,12 @@
     <nav aria-label="Footer">
       <h2>Explore</h2>
       <ul>
+        <li><a href="dashboard.html">Live funding dashboard</a></li>
+        <li><a href="policy.html">Policy &amp; Capital</a></li>
         <li><a href="platform.html">European Tech Intelligence Platform</a></li>
         <li><a href="research.html">Research &amp; Insights</a></li>
         <li><a href="engagement.html">Ecosystem Engagement</a></li>
         <li><a href="about.html">About</a></li>
-        <li><a href="dashboard.html">Funding dashboard</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
     </nav>
@@ -130,7 +139,7 @@
       <ul>
         <li><a href="contact.html">Contact form</a></li>
         
-        <li class="todo">LinkedIn <span>link to be added</span></li>
+        
         <li><a href="https://azizas-newsletter-11fef7.beehiiv.com/" target="_blank" rel="noopener">Weekly Roundup newsletter</a></li>
       </ul>
     </div>
@@ -140,6 +149,7 @@
     <p>© 2026 TechCap Intelligence. No cookies, no tracking.</p>
   </div>
 </footer>
-<script src="assets/site.js" defer></script>
+<script src="assets/shell.js" defer></script>
+<script src="assets/site.js?v=20261121" defer></script>
 </body>
 </html>
