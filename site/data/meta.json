@@ -1,12 +1,12 @@
 {
- "updated": "2026-11-24T05:49:58.765Z",
+ "updated": "2026-11-24T20:02:34.892Z",
  "years": {
   "2021": 4831,
   "2022": 4965,
   "2023": 4468,
   "2024": 3751,
   "2025": 3758,
-  "2026": 3128
+  "2026": 3149
  },
  "scan_added": {
   "2021": 0,
@@ -14,9 +14,9 @@
   "2023": 0,
   "2024": 0,
   "2025": 0,
-  "2026": 143
+  "2026": 142
  },
- "api_calls": 227,
+ "api_calls": 228,
  "source": "Tech.eu Funding Explorer (CC BY 4.0) plus the daily multi-source scan",
  "source_url": "https://funding.tech.eu",
  "excluded": [
